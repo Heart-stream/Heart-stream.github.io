@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Heart-Stream</title>
+    <meta
+      name="description"
+      content="Heart-Stream, plateforme locale avec lecteur Abyss, bandes-annonces, favoris, recherche et avis membres."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="cinema-glow" aria-hidden="true"></div>
+    <div class="film-grain" aria-hidden="true"></div>
+    <header class="stream-topbar">
+      <button class="brand" data-home aria-label="Accueil Heart-Stream">
+        <span class="brand-mark">H</span>
+        <span>Heart-Stream</span>
+      </button>
+      <nav class="tabs" aria-label="Navigation principale">
+        <button class="tab is-active" data-filter="Tous">Accueil</button>
+        <button class="tab" data-filter="Film">Films</button>
+        <button class="tab" data-filter="Serie">Series</button>
+        <button class="tab" data-filter="Anime">Animes</button>
+        <button class="tab" data-filter="Documentaire">Docs</button>
+      </nav>
+      <div class="top-actions">
+        <label class="search-box">
+          <span>Recherche</span>
+          <input id="searchInput" type="search" placeholder="Titre, genre, annee..." autocomplete="off" />
+        </label>
+        <button id="favoritesOnly" class="icon-button" aria-label="Afficher les favoris">Favoris</button>
+        <button id="openAdminPanel" class="icon-button admin-button">Admin</button>
+      </div>
+    </header>
+
+    <main class="stream-home">
+      <section class="billboard" id="hero">
+        <img id="heroImage" class="hero-image" alt="" />
+        <div class="billboard-overlay"></div>
+        <div class="billboard-content">
+          <div class="hero-meta">
+            <span class="live-dot"></span>
+            <span id="heroType">Selection</span>
+            <span id="heroYear"></span>
+            <span id="heroRating"></span>
+          </div>
+          <h1 id="heroTitle">Heart-Stream</h1>
+          <p id="heroDescription"></p>
+          <div class="hero-actions">
+            <button id="heroWatch" class="gold-button big">Regarder</button>
+            <button id="heroTrailer" class="glass-button big">Bande-annonce</button>
+            <button id="heroFavorite" class="glass-button big">Favori</button>
+          </div>
+        </div>
+        <div class="billboard-card">
+          <p class="eyebrow">A la une</p>
+          <strong>Experience cinema</strong>
+          <span><b id="statTitles">0</b> titres • <b id="statFavorites">0</b> favoris</span>
+        </div>
+      </section>
+
+      <section class="browse-panel" aria-label="Filtres et tri">
+        <div>
+          <p class="eyebrow">Explorer</p>
+          <h2 id="catalogTitle">A decouvrir</h2>
+        </div>
+        <div class="genre-strip" id="genreFilters"></div>
+        <select id="sortSelect" aria-label="Trier le catalogue">
+          <option value="featured">A decouvrir</option>
+          <option value="rating">Mieux notes</option>
+          <option value="recent">Plus recents</option>
+          <option value="title">Titre A-Z</option>
+        </select>
+      </section>
+
+      <section class="brand-lanes" aria-label="Ambiance plateforme">
+        <article>
+          <span>Netflix</span>
+          <strong>Rails rapides</strong>
+          <p>Des affiches visibles, un clic, la fiche s'ouvre.</p>
+        </article>
+        <article>
+          <span>HBO</span>
+          <strong>Hero premium</strong>
+          <p>Une selection sombre, immersive, tres cinema.</p>
+        </article>
+        <article>
+          <span>Canal+</span>
+          <strong>Edition claire</strong>
+          <p>Des blocs propres, lisibles, organises.</p>
+        </article>
+      </section>
+
+      <section class="content-row" id="continueSection">
+        <div class="rail-heading">
+          <div>
+            <p class="eyebrow">Reprendre</p>
+            <h2>Continuer a regarder</h2>
+          </div>
+          <span>Local</span>
+        </div>
+        <div class="continue-grid" id="continueGrid"></div>
+      </section>
+
+      <section class="content-row">
+        <div class="rail-heading">
+          <div>
+            <p class="eyebrow">Tendances</p>
+            <h2>Top Heart-Stream</h2>
+          </div>
+          <span id="countLabel"></span>
+        </div>
+        <div class="poster-rail" id="topRail"></div>
+      </section>
+
+      <section class="content-row catalog-row">
+        <div class="rail-heading">
+          <div>
+            <p class="eyebrow">Catalogue</p>
+            <h2 id="gridHeading">Tous les titres</h2>
+          </div>
+        </div>
+        <div class="grid" id="catalogGrid"></div>
+      </section>
+    </main>
+
+    <aside class="drawer" id="detailDrawer" aria-hidden="true">
+      <div class="drawer-backdrop" data-close></div>
+      <article class="drawer-panel">
+        <button class="close" data-close aria-label="Fermer">x</button>
+        <div class="detail-hero">
+          <img id="detailBackdrop" alt="" />
+          <div class="detail-gradient"></div>
+          <div class="detail-summary">
+            <img id="detailPoster" class="detail-poster" alt="" />
+            <div>
+              <div class="detail-kicker" id="detailMeta"></div>
+              <h2 id="detailTitle"></h2>
+              <p id="detailDescription"></p>
+              <div class="chips" id="detailGenres"></div>
+              <div class="rating-row">
+                <span id="detailRating"></span>
+                <button id="favoriteBtn" class="glass-button">Ajouter aux favoris</button>
+              </div>
+              <div class="watch-row">
+                <button id="watchBtn" class="gold-button">Regarder</button>
+                <button id="trailerBtn" class="glass-button">Bande-annonce</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-body">
+          <div class="player-card" id="playerCard">
+            <div class="player-header">
+              <strong id="playerTitle">Lecteur</strong>
+              <button id="closePlayer" class="glass-button">Fermer</button>
+            </div>
+            <div class="player-frame" id="playerFrame">
+              <p>Le lecteur apparait ici.</p>
+            </div>
+          </div>
+
+          <section class="reviews">
+            <div class="rail-heading compact">
+              <div>
+                <p class="eyebrow">Communaute</p>
+                <h3>Avis des membres</h3>
+              </div>
+              <span id="reviewCount"></span>
+            </div>
+            <form id="reviewForm" class="review-form">
+              <input id="memberName" type="text" placeholder="Ton pseudo" maxlength="32" required />
+              <select id="memberRating" aria-label="Note">
+                <option value="5">5/5 Excellent</option>
+                <option value="4">4/5 Tres bon</option>
+                <option value="3">3/5 Correct</option>
+                <option value="2">2/5 Moyen</option>
+                <option value="1">1/5 Faible</option>
+              </select>
+              <textarea id="memberComment" placeholder="Partage ton avis sur cette fiche..." required></textarea>
+              <button class="gold-button" type="submit">Publier l'avis</button>
+            </form>
+            <div id="reviewsList" class="reviews-list"></div>
+          </section>
+        </div>
+      </article>
+    </aside>
+
+    <aside class="add-panel" id="addPanel" aria-hidden="true">
+      <div class="drawer-backdrop" data-add-close></div>
+      <form class="add-card" id="addContentForm">
+        <button class="close" type="button" data-add-close aria-label="Fermer">x</button>
+        <p class="eyebrow">Studio Heart</p>
+        <h2 id="addPanelTitle">Ajouter un contenu</h2>
+        <div class="form-grid">
+          <label>
+            Titre
+            <input id="newTitle" type="text" required />
+          </label>
+          <label>
+            Type
+            <select id="newType">
+              <option>Film</option>
+              <option>Serie</option>
+              <option>Anime</option>
+              <option>Documentaire</option>
+            </select>
+          </label>
+          <label>
+            Genres
+            <input id="newGenres" type="text" placeholder="Action, Drame" />
+          </label>
+          <label>
+            Affiche / poster
+            <input id="newPoster" type="url" placeholder="https://..." />
+          </label>
+          <label>
+            Lien Abyss iframe
+            <input id="newPlayer" type="url" placeholder="https://..." />
+          </label>
+          <label>
+            Bande-annonce
+            <input id="newTrailer" type="url" placeholder="YouTube, Vimeo ou MP4" />
+          </label>
+        </div>
+        <label>
+          Description
+          <textarea id="newDescription" required></textarea>
+        </label>
+        <button class="gold-button big" type="submit">Ajouter au catalogue</button>
+      </form>
+    </aside>
+
+    <aside class="admin-panel" id="adminPanel" aria-hidden="true">
+      <div class="drawer-backdrop" data-admin-close></div>
+      <article class="admin-card">
+        <button class="close" type="button" data-admin-close aria-label="Fermer">x</button>
+        <div class="admin-hero">
+          <p class="eyebrow">Console privee</p>
+          <h2>Panel admin Heart-Stream</h2>
+          <p>Gere tout ton catalogue local : modifier, supprimer, mettre en avant, sauvegarder ou restaurer tes donnees.</p>
+        </div>
+
+        <div class="admin-stats">
+          <div><strong id="adminTotal">0</strong><span>contenus</span></div>
+          <div><strong id="adminFavorites">0</strong><span>favoris</span></div>
+          <div><strong id="adminReviews">0</strong><span>avis</span></div>
+        </div>
+
+        <div class="admin-toolbar">
+          <button class="gold-button" id="adminAddNew">Ajouter un titre</button>
+          <button class="glass-button" id="adminExport">Exporter JSON</button>
+          <button class="glass-button" id="adminImport">Importer JSON</button>
+          <button class="danger-button" id="adminReset">Reset catalogue</button>
+        </div>
+
+        <div class="admin-list" id="adminList"></div>
+
+        <label class="admin-json">
+          Sauvegarde / import JSON
+          <textarea id="adminJson" placeholder="Clique sur Exporter JSON pour copier ta base ici, ou colle une base puis clique sur Importer JSON."></textarea>
+        </label>
+      </article>
+    </aside>
+
+    <aside class="admin-gate" id="adminGate" aria-hidden="true">
+      <div class="drawer-backdrop" data-gate-close></div>
+      <form class="gate-card" id="adminGateForm">
+        <button class="close" type="button" data-gate-close aria-label="Fermer">x</button>
+        <p class="eyebrow">Acces protege</p>
+        <h2>Connexion admin</h2>
+        <p>Le panel admin est reserve a la gestion du catalogue.</p>
+        <label>
+          Code admin
+          <input id="adminPassword" type="password" placeholder="Entre le code admin" autocomplete="current-password" />
+        </label>
+        <p class="gate-error" id="gateError"></p>
+        <button class="gold-button big" type="submit">Ouvrir le panel</button>
+      </form>
+    </aside>
+
+    <template id="cardTemplate">
+      <article class="card">
+        <button class="poster-button">
+          <img class="poster" alt="" />
+          <span class="play-badge">Regarder</span>
+          <span class="score"></span>
+        </button>
+        <div class="card-body">
+          <div class="card-line">
+            <span class="type"></span>
+            <button class="heart" aria-label="Favori">♡</button>
+          </div>
+          <h3></h3>
+          <p></p>
+        </div>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
