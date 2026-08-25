@@ -27,6 +27,7 @@ html {
 body {
   min-height: 100vh;
   margin: 0;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at 20% -10%, rgba(190, 36, 68, 0.36), transparent 34rem),
     radial-gradient(circle at 82% 4%, rgba(217, 163, 58, 0.15), transparent 28rem),
@@ -71,6 +72,121 @@ body::before {
   mix-blend-mode: overlay;
 }
 
+.floating-decor {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.float-orbit,
+.float-card,
+.float-spark {
+  position: absolute;
+  opacity: 0.72;
+  will-change: transform;
+}
+
+.float-orbit {
+  width: 260px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 227, 145, 0.16);
+  border-radius: 50%;
+  box-shadow:
+    inset 0 0 38px rgba(217, 163, 58, 0.06),
+    0 0 80px rgba(190, 36, 68, 0.12);
+  animation: driftOrbit 18s ease-in-out infinite;
+}
+
+.float-orbit::before {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  top: 28px;
+  left: 44px;
+  background: var(--gold-soft);
+  border-radius: 99px;
+  box-shadow: 0 0 28px rgba(255, 227, 145, 0.9);
+}
+
+.float-orbit-one {
+  top: 14%;
+  right: -90px;
+}
+
+.float-orbit-two {
+  width: 180px;
+  left: -70px;
+  bottom: 18%;
+  animation-delay: -7s;
+}
+
+.float-card {
+  display: grid;
+  place-items: center;
+  min-width: 74px;
+  height: 42px;
+  padding: 0 16px;
+  color: rgba(255, 248, 235, 0.9);
+  background:
+    linear-gradient(135deg, rgba(229, 9, 20, 0.28), rgba(9, 9, 14, 0.72)),
+    radial-gradient(circle at 20% 0%, rgba(255, 227, 145, 0.24), transparent 7rem);
+  border: 1px solid rgba(255, 227, 145, 0.22);
+  border-radius: 8px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.48);
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: 0;
+  backdrop-filter: blur(12px);
+  animation: floatCard 12s ease-in-out infinite;
+}
+
+.float-card-one {
+  top: 22%;
+  left: 5%;
+  transform: rotate(-8deg);
+}
+
+.float-card-two {
+  top: 46%;
+  right: 6%;
+  animation-delay: -4s;
+}
+
+.float-card-three {
+  bottom: 20%;
+  left: 12%;
+  animation-delay: -8s;
+}
+
+.float-spark {
+  width: 5px;
+  height: 5px;
+  background: var(--gold-soft);
+  border-radius: 50%;
+  box-shadow: 0 0 24px rgba(255, 227, 145, 0.95);
+  animation: riseSpark 9s linear infinite;
+}
+
+.float-spark-one {
+  left: 28%;
+  bottom: -20px;
+}
+
+.float-spark-two {
+  left: 61%;
+  bottom: -40px;
+  animation-delay: -3s;
+}
+
+.float-spark-three {
+  left: 84%;
+  bottom: -10px;
+  animation-delay: -6s;
+}
+
 button,
 input,
 select,
@@ -80,6 +196,19 @@ textarea {
 
 button {
   cursor: pointer;
+}
+
+button,
+.card,
+.continue-card,
+.brand-lanes article,
+.billboard-card,
+.premiere-strip {
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
 .topbar {
@@ -1465,6 +1594,17 @@ h2 {
   backdrop-filter: blur(18px);
 }
 
+.stream-topbar::after {
+  content: "";
+  position: absolute;
+  left: 38px;
+  right: 38px;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 227, 145, 0.42), rgba(229, 9, 20, 0.5), transparent);
+  opacity: 0.8;
+}
+
 .stream-topbar .brand {
   font-size: 24px;
 }
@@ -1506,6 +1646,21 @@ h2 {
   border: 0;
   border-radius: 0;
   box-shadow: none;
+  isolation: isolate;
+}
+
+.billboard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(115deg, transparent 0 38%, rgba(255, 255, 255, 0.12) 45%, transparent 52%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 120px);
+  opacity: 0.2;
+  mix-blend-mode: screen;
+  animation: spotlightSweep 10s ease-in-out infinite;
 }
 
 .billboard .hero-image {
@@ -1515,6 +1670,7 @@ h2 {
   height: 100%;
   object-fit: cover;
   opacity: 0.72;
+  animation: heroBreath 18s ease-in-out infinite alternate;
 }
 
 .billboard-overlay {
@@ -1530,12 +1686,19 @@ h2 {
   z-index: 2;
   width: min(820px, 100%);
   padding: 170px 54px 90px;
+  animation: contentReveal 0.8s ease both;
 }
 
 .billboard-content h1 {
   margin: 16px 0;
   font-size: clamp(64px, 9vw, 138px);
   line-height: 0.88;
+  background: linear-gradient(90deg, #fff8eb, #ffe391 42%, #e50914 78%, #fff8eb);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: titleShine 7s ease-in-out infinite;
 }
 
 .billboard-content p {
@@ -1557,6 +1720,17 @@ h2 {
   border-radius: 6px;
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.62);
   backdrop-filter: blur(16px);
+  animation: glassFloat 7s ease-in-out infinite;
+}
+
+.billboard-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 227, 145, 0.34), transparent 38%, rgba(229, 9, 20, 0.28));
+  opacity: 0.66;
 }
 
 .billboard-card strong,
@@ -1606,6 +1780,23 @@ h2 {
     radial-gradient(circle at 100% 0%, rgba(201, 162, 74, 0.18), transparent 14rem);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-lanes article::after {
+  content: "";
+  position: absolute;
+  inset: auto -20% -70% 45%;
+  height: 150px;
+  background: radial-gradient(circle, rgba(255, 227, 145, 0.22), transparent 68%);
+  transform: rotate(-18deg);
+}
+
+.brand-lanes article:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 227, 145, 0.32);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.46), 0 0 40px rgba(229, 9, 20, 0.1);
 }
 
 .brand-lanes span {
@@ -1629,6 +1820,70 @@ h2 {
 .content-row {
   width: min(1500px, calc(100vw - 42px));
   margin: 0 auto 38px;
+}
+
+.premiere-strip {
+  position: relative;
+  width: min(1500px, calc(100vw - 42px));
+  display: grid;
+  grid-template-columns: minmax(280px, 0.82fr) 1.18fr;
+  gap: 18px;
+  align-items: center;
+  overflow: hidden;
+  margin: 0 auto 38px;
+  padding: 20px;
+  background:
+    linear-gradient(135deg, rgba(117, 17, 38, 0.64), rgba(7, 7, 11, 0.9)),
+    radial-gradient(circle at 82% 20%, rgba(255, 227, 145, 0.18), transparent 20rem);
+  border: 1px solid rgba(255, 227, 145, 0.18);
+  border-radius: 8px;
+  box-shadow: 0 24px 74px rgba(0, 0, 0, 0.48);
+}
+
+.premiere-strip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(255, 227, 145, 0.08) 0 2px, transparent 2px 80px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 18px);
+  opacity: 0.28;
+}
+
+.premiere-kicker {
+  display: inline-flex;
+  margin-bottom: 8px;
+  color: var(--gold-soft);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.premiere-strip strong {
+  position: relative;
+  display: block;
+  max-width: 620px;
+  font-size: clamp(22px, 2.2vw, 34px);
+  line-height: 1.08;
+}
+
+.premiere-marquee {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  min-width: 0;
+  animation: marqueeFloat 15s linear infinite;
+}
+
+.premiere-marquee span {
+  flex: 0 0 auto;
+  padding: 11px 16px;
+  color: #050203;
+  background: linear-gradient(145deg, #ffe99b, #d9a33a);
+  border-radius: 999px;
+  font-weight: 950;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.26);
 }
 
 .content-row .rail-heading {
@@ -1655,7 +1910,24 @@ h2 {
 
 .card:hover {
   transform: translateY(-8px) scale(1.035);
-  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.72);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.72), 0 0 0 1px rgba(255, 227, 145, 0.2);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(120deg, transparent 0 38%, rgba(255, 255, 255, 0.18) 50%, transparent 62%);
+  opacity: 0;
+  transform: translateX(-130%);
+  transition: opacity 0.2s ease, transform 0.45s ease;
+}
+
+.card:hover::before {
+  opacity: 1;
+  transform: translateX(130%);
 }
 
 .play-badge {
@@ -1673,6 +1945,7 @@ h2 {
   background: #fff;
   color: #050203;
   border: 0;
+  box-shadow: 0 12px 34px rgba(255, 255, 255, 0.12);
 }
 
 .glass-button,
@@ -1701,6 +1974,14 @@ h2 {
     bottom: auto;
     margin: -94px 22px 38px auto;
   }
+
+  .premiere-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .floating-decor {
+    opacity: 0.65;
+  }
 }
 
 @media (max-width: 720px) {
@@ -1723,7 +2004,124 @@ h2 {
 
   .browse-panel,
   .brand-lanes,
-  .content-row {
+  .content-row,
+  .premiere-strip {
     width: min(100vw - 20px, 1500px);
+  }
+
+  .float-card,
+  .float-orbit-two {
+    display: none;
+  }
+
+  .float-orbit-one {
+    right: -150px;
+    top: 20%;
+  }
+}
+
+@keyframes heroBreath {
+  from {
+    transform: scale(1.01) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.08) translate3d(-1.5%, -1%, 0);
+  }
+}
+
+@keyframes titleShine {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes contentReveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spotlightSweep {
+  0%,
+  100% {
+    transform: translateX(-12%);
+    opacity: 0.12;
+  }
+  50% {
+    transform: translateX(12%);
+    opacity: 0.25;
+  }
+}
+
+@keyframes glassFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes driftOrbit {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(-34px, 22px, 0) rotate(18deg);
+  }
+}
+
+@keyframes floatCard {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-6deg);
+  }
+  50% {
+    transform: translate3d(18px, -24px, 0) rotate(6deg);
+  }
+}
+
+@keyframes riseSpark {
+  from {
+    transform: translateY(0) scale(0.8);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.9;
+  }
+  to {
+    transform: translateY(-92vh) scale(1.25);
+    opacity: 0;
+  }
+}
+
+@keyframes marqueeFloat {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-220px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
   }
 }
