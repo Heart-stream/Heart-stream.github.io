@@ -1,6 +1,23 @@
 const fallbackPoster =
   "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=900&q=80";
 const adminCode = "heart2026";
+const defaultSettings = {
+  siteName: "Heart-Stream",
+  tagline: "Experience cinema",
+  wine: "#6f0618",
+  accent: "#e50922",
+  gold: "#e7b64b",
+  glow: 80,
+  modules: {
+    platforms: true,
+    premiere: true,
+    continue: true,
+    top: true,
+    catalog: true,
+    reviews: true,
+    decor: true,
+  },
+};
 
 const starterCatalog = [
   {
@@ -137,6 +154,13 @@ const store = {
   saveReviews(id, reviews) {
     localStorage.setItem(`heartStream.reviews.${id}`, JSON.stringify(reviews));
   },
+  get settings() {
+    const saved = JSON.parse(localStorage.getItem("heartStream.settings") || "null");
+    return mergeSettings(saved);
+  },
+  set settings(value) {
+    localStorage.setItem("heartStream.settings", JSON.stringify(mergeSettings(value)));
+  },
 };
 
 const els = {
@@ -204,8 +228,142 @@ const els = {
   adminExport: document.querySelector("#adminExport"),
   adminImport: document.querySelector("#adminImport"),
   adminReset: document.querySelector("#adminReset"),
+  settingSiteName: document.querySelector("#settingSiteName"),
+  settingTagline: document.querySelector("#settingTagline"),
+  settingWine: document.querySelector("#settingWine"),
+  settingAccent: document.querySelector("#settingAccent"),
+  settingGold: document.querySelector("#settingGold"),
+  settingGlow: document.querySelector("#settingGlow"),
+  modulePlatforms: document.querySelector("#modulePlatforms"),
+  modulePremiere: document.querySelector("#modulePremiere"),
+  moduleContinue: document.querySelector("#moduleContinue"),
+  moduleTop: document.querySelector("#moduleTop"),
+  moduleCatalog: document.querySelector("#moduleCatalog"),
+  moduleReviews: document.querySelector("#moduleReviews"),
+  moduleDecor: document.querySelector("#moduleDecor"),
+  adminSaveSettings: document.querySelector("#adminSaveSettings"),
+  adminResetSettings: document.querySelector("#adminResetSettings"),
+  adminExportSettings: document.querySelector("#adminExportSettings"),
+  adminImportSettings: document.querySelector("#adminImportSettings"),
+  settingsJson: document.querySelector("#settingsJson"),
   addForm: document.querySelector("#addContentForm"),
 };
+
+function mergeSettings(saved) {
+  return {
+    ...defaultSettings,
+    ...(saved || {}),
+    modules: {
+      ...defaultSettings.modules,
+      ...((saved && saved.modules) || {}),
+    },
+  };
+}
+
+function applySettings() {
+  const settings = store.settings;
+  const root = document.documentElement;
+  const glow = Number(settings.glow) || 0;
+
+  root.style.setProperty("--wine", settings.wine);
+  root.style.setProperty("--wine-hot", settings.accent);
+  root.style.setProperty("--gold", settings.gold);
+  root.style.setProperty("--gold-soft", lightenColor(settings.gold, 34));
+  root.style.setProperty("--admin-glow", `${Math.max(0, Math.min(glow, 100)) / 100}`);
+  document.title = settings.siteName;
+
+  document.querySelectorAll("[data-site-name]").forEach((node) => {
+    node.textContent = settings.siteName;
+  });
+  document.querySelector(".brand-mark").textContent = settings.siteName.trim().charAt(0).toUpperCase() || "H";
+  document.querySelector(".billboard-card strong").textContent = settings.tagline || defaultSettings.tagline;
+
+  Object.entries(settings.modules).forEach(([module, enabled]) => {
+    document.querySelectorAll(`[data-module="${module}"]`).forEach((node) => {
+      node.hidden = !enabled;
+    });
+  });
+
+  document.body.classList.toggle("decor-off", !settings.modules.decor);
+}
+
+function fillSettingsForm() {
+  const settings = store.settings;
+  els.settingSiteName.value = settings.siteName;
+  els.settingTagline.value = settings.tagline;
+  els.settingWine.value = settings.wine;
+  els.settingAccent.value = settings.accent;
+  els.settingGold.value = settings.gold;
+  els.settingGlow.value = settings.glow;
+  els.modulePlatforms.checked = settings.modules.platforms;
+  els.modulePremiere.checked = settings.modules.premiere;
+  els.moduleContinue.checked = settings.modules.continue;
+  els.moduleTop.checked = settings.modules.top;
+  els.moduleCatalog.checked = settings.modules.catalog;
+  els.moduleReviews.checked = settings.modules.reviews;
+  els.moduleDecor.checked = settings.modules.decor;
+}
+
+function readSettingsForm() {
+  return mergeSettings({
+    siteName: els.settingSiteName.value.trim() || defaultSettings.siteName,
+    tagline: els.settingTagline.value.trim() || defaultSettings.tagline,
+    wine: els.settingWine.value,
+    accent: els.settingAccent.value,
+    gold: els.settingGold.value,
+    glow: Number(els.settingGlow.value),
+    modules: {
+      platforms: els.modulePlatforms.checked,
+      premiere: els.modulePremiere.checked,
+      continue: els.moduleContinue.checked,
+      top: els.moduleTop.checked,
+      catalog: els.moduleCatalog.checked,
+      reviews: els.moduleReviews.checked,
+      decor: els.moduleDecor.checked,
+    },
+  });
+}
+
+function saveSettings() {
+  store.settings = readSettingsForm();
+  applySettings();
+  render();
+}
+
+function resetSettings() {
+  if (!confirm("Remettre le design et les modules par defaut ?")) return;
+  localStorage.removeItem("heartStream.settings");
+  fillSettingsForm();
+  applySettings();
+  render();
+}
+
+function exportSettings() {
+  els.settingsJson.value = JSON.stringify(store.settings, null, 2);
+  els.settingsJson.focus();
+  els.settingsJson.select();
+}
+
+function importSettings() {
+  try {
+    const imported = JSON.parse(els.settingsJson.value);
+    store.settings = imported;
+    fillSettingsForm();
+    applySettings();
+    render();
+  } catch (error) {
+    alert("Import impossible : colle une configuration JSON valide.");
+  }
+}
+
+function lightenColor(hex, amount) {
+  const clean = String(hex || defaultSettings.gold).replace("#", "");
+  const number = parseInt(clean.length === 3 ? clean.replace(/(.)/g, "$1$1") : clean, 16);
+  const r = Math.min(255, ((number >> 16) & 255) + amount);
+  const g = Math.min(255, ((number >> 8) & 255) + amount);
+  const b = Math.min(255, (number & 255) + amount);
+  return `#${[r, g, b].map((value) => value.toString(16).padStart(2, "0")).join("")}`;
+}
 
 function selectedItem() {
   return store.catalog.find((item) => item.id === state.selectedId) || store.catalog[0];
@@ -550,6 +708,7 @@ function unlockAdmin(event) {
 
 function renderAdminPanel() {
   const catalog = store.catalog;
+  fillSettingsForm();
   els.adminTotal.textContent = catalog.length;
   els.adminFavorites.textContent = store.favorites.length;
   els.adminReviews.textContent = catalog.reduce((total, item) => total + store.reviewsFor(item.id).length, 0);
@@ -702,6 +861,25 @@ els.adminAddNew.addEventListener("click", () => {
 els.adminExport.addEventListener("click", exportCatalog);
 els.adminImport.addEventListener("click", importCatalog);
 els.adminReset.addEventListener("click", resetCatalog);
+els.adminSaveSettings.addEventListener("click", saveSettings);
+els.adminResetSettings.addEventListener("click", resetSettings);
+els.adminExportSettings.addEventListener("click", exportSettings);
+els.adminImportSettings.addEventListener("click", importSettings);
+[
+  els.settingSiteName,
+  els.settingTagline,
+  els.settingWine,
+  els.settingAccent,
+  els.settingGold,
+  els.settingGlow,
+  els.modulePlatforms,
+  els.modulePremiere,
+  els.moduleContinue,
+  els.moduleTop,
+  els.moduleCatalog,
+  els.moduleReviews,
+  els.moduleDecor,
+].forEach((control) => control.addEventListener("input", saveSettings));
 els.adminList.addEventListener("click", (event) => {
   const viewId = event.target.dataset.adminView;
   const editId = event.target.dataset.adminEdit;
@@ -747,5 +925,7 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+applySettings();
+fillSettingsForm();
 setHero();
 render();

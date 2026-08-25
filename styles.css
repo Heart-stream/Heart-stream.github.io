@@ -15,6 +15,7 @@
   --line: rgba(255, 221, 117, 0.24);
   --line-strong: rgba(255, 221, 117, 0.58);
   --shadow: rgba(0, 0, 0, 0.58);
+  --admin-glow: 0.8;
 }
 
 * {
@@ -79,6 +80,10 @@ body::before {
   z-index: 12;
   pointer-events: none;
   overflow: hidden;
+}
+
+.decor-off .floating-decor {
+  display: none;
 }
 
 .float-orbit,
@@ -1176,6 +1181,91 @@ h2 {
   gap: 12px;
 }
 
+.admin-config {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  background:
+    linear-gradient(145deg, rgba(72, 4, 18, 0.44), rgba(7, 0, 2, 0.7)),
+    radial-gradient(circle at 100% 0%, rgba(231, 182, 75, calc(0.18 * var(--admin-glow))), transparent 18rem);
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  box-shadow:
+    inset 0 0 40px rgba(255, 240, 163, calc(0.04 * var(--admin-glow))),
+    0 22px 60px rgba(0, 0, 0, 0.32);
+}
+
+.admin-section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.admin-section-head h3 {
+  margin: 0;
+  font-size: clamp(24px, 2.4vw, 34px);
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.settings-grid label,
+.module-grid label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-weight: 850;
+}
+
+.settings-grid input {
+  width: 100%;
+  min-height: 46px;
+  color: var(--ink);
+  background: rgba(0, 0, 0, 0.34);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.settings-grid input[type="color"] {
+  padding: 5px;
+}
+
+.settings-grid input[type="range"] {
+  accent-color: var(--gold);
+}
+
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 10px;
+}
+
+.module-grid label {
+  grid-template-columns: 22px 1fr;
+  align-items: center;
+  min-height: 46px;
+  padding: 12px;
+  color: var(--ink);
+  background: rgba(0, 0, 0, 0.24);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.module-grid input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--gold);
+}
+
+.compact-json textarea {
+  min-height: 92px;
+}
+
 .admin-stats div {
   padding: 17px;
   background: rgba(255, 255, 255, 0.05);
@@ -1393,9 +1483,15 @@ h2 {
   .hero-stats,
   .help-corner,
   .admin-stats,
+  .settings-grid,
   .form-grid,
   .review-form {
     grid-template-columns: 1fr;
+  }
+
+  .admin-section-head {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .admin-card,
@@ -1691,7 +1787,7 @@ h2 {
 
 .stream-topbar .brand-mark {
   color: white;
-  background: linear-gradient(135deg, #ff1734, #6f0618 55%, #e7b64b);
+  background: linear-gradient(135deg, var(--wine-hot), var(--wine) 55%, var(--gold));
   border: 1px solid rgba(255, 221, 117, 0.55);
   box-shadow:
     0 0 16px rgba(229, 9, 34, 0.82),
@@ -1714,7 +1810,7 @@ h2 {
 
 .stream-topbar .tab.is-active {
   color: #fff8eb;
-  background: linear-gradient(135deg, #e50922, #7a0618);
+  background: linear-gradient(135deg, var(--wine-hot), var(--wine));
   box-shadow: 0 0 22px rgba(229, 9, 34, 0.34);
 }
 
@@ -1778,7 +1874,7 @@ h2 {
   margin: 16px 0;
   font-size: clamp(64px, 9vw, 138px);
   line-height: 0.88;
-  background: linear-gradient(90deg, #fff8eb, #fff0a3 38%, #ff1734 70%, #e7b64b);
+  background: linear-gradient(90deg, #fff8eb, var(--gold-soft) 38%, var(--wine-hot) 70%, var(--gold));
   background-size: 220% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -1889,7 +1985,7 @@ h2 {
 }
 
 .brand-lanes span {
-  color: #ff1734;
+  color: var(--wine-hot);
   text-shadow: 0 0 14px rgba(229, 9, 34, 0.46);
   font-weight: 950;
   text-transform: uppercase;
@@ -2024,19 +2120,19 @@ h2 {
 }
 
 .play-badge {
-  background: linear-gradient(135deg, #e50922, #7a0618);
+  background: linear-gradient(135deg, var(--wine-hot), var(--wine));
   color: #fff;
   box-shadow: 0 0 22px rgba(229, 9, 34, 0.36);
 }
 
 .score {
   color: #100103;
-  background: linear-gradient(135deg, #fff0a3, #e7b64b);
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold));
   border: 0;
 }
 
 .gold-button {
-  background: linear-gradient(135deg, #fff0a3, #e7b64b 54%, #ad741b);
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold) 54%, #ad741b);
   color: #140205;
   border: 0;
   box-shadow: 0 14px 34px rgba(231, 182, 75, 0.24), 0 0 28px rgba(229, 9, 34, 0.14);

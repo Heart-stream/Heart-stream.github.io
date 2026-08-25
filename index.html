@@ -31,7 +31,7 @@
     <header class="stream-topbar">
       <button class="brand" data-home aria-label="Accueil Heart-Stream">
         <span class="brand-mark">H</span>
-        <span>Heart-Stream</span>
+        <span data-site-name>Heart-Stream</span>
       </button>
       <nav class="tabs" aria-label="Navigation principale">
         <button class="tab is-active" data-filter="Tous">Accueil</button>
@@ -90,7 +90,7 @@
         </select>
       </section>
 
-      <section class="brand-lanes" aria-label="Ambiance plateforme">
+      <section class="brand-lanes" data-module="platforms" aria-label="Ambiance plateforme">
         <article>
           <span>Netflix</span>
           <strong>Rails rapides</strong>
@@ -108,7 +108,7 @@
         </article>
       </section>
 
-      <section class="premiere-strip" aria-label="Selections rapides">
+      <section class="premiere-strip" data-module="premiere" aria-label="Selections rapides">
         <div>
           <span class="premiere-kicker">Soiree cinema</span>
           <strong>Ambiance rouge vin, or, affiches mouvantes et lecteur integre.</strong>
@@ -123,7 +123,7 @@
         </div>
       </section>
 
-      <section class="content-row" id="continueSection">
+      <section class="content-row" id="continueSection" data-module="continue">
         <div class="rail-heading">
           <div>
             <p class="eyebrow">Reprendre</p>
@@ -134,18 +134,18 @@
         <div class="continue-grid" id="continueGrid"></div>
       </section>
 
-      <section class="content-row">
+      <section class="content-row" data-module="top">
         <div class="rail-heading">
           <div>
             <p class="eyebrow">Tendances</p>
-            <h2>Top Heart-Stream</h2>
+            <h2>Top <span data-site-name>Heart-Stream</span></h2>
           </div>
           <span id="countLabel"></span>
         </div>
         <div class="poster-rail" id="topRail"></div>
       </section>
 
-      <section class="content-row catalog-row">
+      <section class="content-row catalog-row" data-module="catalog">
         <div class="rail-heading">
           <div>
             <p class="eyebrow">Catalogue</p>
@@ -193,7 +193,7 @@
             </div>
           </div>
 
-          <section class="reviews">
+          <section class="reviews" data-module="reviews">
             <div class="rail-heading compact">
               <div>
                 <p class="eyebrow">Communaute</p>
@@ -270,8 +270,8 @@
         <button class="close" type="button" data-admin-close aria-label="Fermer">x</button>
         <div class="admin-hero">
           <p class="eyebrow">Console privee</p>
-          <h2>Panel admin Heart-Stream</h2>
-          <p>Gere tout ton catalogue local : modifier, supprimer, mettre en avant, sauvegarder ou restaurer tes donnees.</p>
+          <h2>Panel admin <span data-site-name>Heart-Stream</span></h2>
+          <p>Gere ton catalogue, l'apparence, les modules et les reglages globaux du site.</p>
         </div>
 
         <div class="admin-stats">
@@ -279,6 +279,64 @@
           <div><strong id="adminFavorites">0</strong><span>favoris</span></div>
           <div><strong id="adminReviews">0</strong><span>avis</span></div>
         </div>
+
+        <section class="admin-config">
+          <div class="admin-section-head">
+            <div>
+              <p class="eyebrow">Gestion globale</p>
+              <h3>Configurer le site complet</h3>
+            </div>
+            <button class="glass-button" id="adminResetSettings" type="button">Reset design</button>
+          </div>
+
+          <div class="settings-grid">
+            <label>
+              Nom du serveur
+              <input id="settingSiteName" type="text" maxlength="36" placeholder="Heart-Stream" />
+            </label>
+            <label>
+              Slogan accueil
+              <input id="settingTagline" type="text" maxlength="90" placeholder="Experience cinema premium" />
+            </label>
+            <label>
+              Rouge fonce
+              <input id="settingWine" type="color" value="#6f0618" />
+            </label>
+            <label>
+              Rouge fluo
+              <input id="settingAccent" type="color" value="#e50922" />
+            </label>
+            <label>
+              Dore
+              <input id="settingGold" type="color" value="#e7b64b" />
+            </label>
+            <label>
+              Intensite neon
+              <input id="settingGlow" type="range" min="0" max="100" value="80" />
+            </label>
+          </div>
+
+          <div class="module-grid" aria-label="Modules du site">
+            <label><input id="modulePlatforms" type="checkbox" /> Blocs Netflix / HBO / Canal+</label>
+            <label><input id="modulePremiere" type="checkbox" /> Bandeau soiree cinema</label>
+            <label><input id="moduleContinue" type="checkbox" /> Continuer a regarder</label>
+            <label><input id="moduleTop" type="checkbox" /> Top tendances</label>
+            <label><input id="moduleCatalog" type="checkbox" /> Catalogue public</label>
+            <label><input id="moduleReviews" type="checkbox" /> Avis membres</label>
+            <label><input id="moduleDecor" type="checkbox" /> Decors flottants</label>
+          </div>
+
+          <div class="admin-toolbar">
+            <button class="gold-button" id="adminSaveSettings" type="button">Sauvegarder configuration</button>
+            <button class="glass-button" id="adminExportSettings" type="button">Exporter config</button>
+            <button class="glass-button" id="adminImportSettings" type="button">Importer config</button>
+          </div>
+
+          <label class="admin-json compact-json">
+            Configuration JSON du site
+            <textarea id="settingsJson" placeholder="Exporte ou colle ici une configuration globale."></textarea>
+          </label>
+        </section>
 
         <div class="admin-toolbar">
           <button class="gold-button" id="adminAddNew">Ajouter un titre</button>
