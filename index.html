@@ -8,7 +8,7 @@
       name="description"
       content="Heart-Stream HS, portail cinema avec catalogue, lecteur Abyss, bandes-annonces, favoris, commentaires et panel admin."
     />
-    <link rel="stylesheet" href="styles.css?v=rebuild-1" />
+    <link rel="stylesheet" href="styles.css?v=movix-adapt-1" />
   </head>
   <body>
     <div class="ambient" aria-hidden="true">
@@ -69,6 +69,11 @@
           <strong id="heroTagline">Cinema prive premium</strong>
           <p><b id="statTitles">0</b> titres dans le catalogue</p>
         </aside>
+        <div class="hero-dock module" data-module="heroSlider">
+          <button class="hero-arrow" id="heroPrev" type="button" aria-label="Titre precedent">‹</button>
+          <div class="hero-dots" id="heroDots"></div>
+          <button class="hero-arrow" id="heroNext" type="button" aria-label="Titre suivant">›</button>
+        </div>
       </section>
 
       <section class="control-panel">
@@ -83,6 +88,16 @@
           <option value="recent">Plus recents</option>
           <option value="title">Titre A-Z</option>
         </select>
+      </section>
+
+      <section class="platform-strip module" data-module="platforms">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Ambiance plateformes</p>
+            <h2>Univers premium</h2>
+          </div>
+        </div>
+        <div class="platform-rail" id="platformRail"></div>
       </section>
 
       <section class="portal module" data-module="portal">
@@ -100,6 +115,16 @@
           <p class="eyebrow">Top rapide</p>
           <div id="quickTop" class="quick-top"></div>
         </aside>
+      </section>
+
+      <section class="genre-hub module" data-module="genreHub">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Genres</p>
+            <h2>Choisir une ambiance</h2>
+          </div>
+        </div>
+        <div class="genre-tiles" id="genreTiles"></div>
       </section>
 
       <section class="modules-grid">
@@ -133,7 +158,7 @@
       <section class="request-strip module" data-module="requests">
         <div>
           <p class="eyebrow">Demandes membres</p>
-          <h2>Un titre manque ?</h2>
+          <h2 id="requestTitle">Un titre manque ?</h2>
           <p>Les membres peuvent proposer un film ou une serie. Tu retrouves tout dans l'admin.</p>
         </div>
         <form id="requestForm" class="request-form">
@@ -161,6 +186,16 @@
           <span id="countLabel"></span>
         </div>
         <div class="poster-rail" id="topRail"></div>
+      </section>
+
+      <section class="ranked module" data-module="top10">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Classement</p>
+            <h2>Top 10 version cinema</h2>
+          </div>
+        </div>
+        <div class="ranked-rail" id="rankedRail"></div>
       </section>
 
       <section class="catalog module" data-module="catalog">
@@ -253,7 +288,7 @@
           <p class="eyebrow">Console privee</p>
           <h2>Panel admin <span data-site-name>Heart-Stream HS</span></h2>
           <p>Gestion globale du site, du catalogue, des modules et de l'apparence.</p>
-          <span class="version-pill">Rebuild 1</span>
+          <span class="version-pill">Movix style 1</span>
         </header>
 
         <section class="admin-stats">
@@ -278,6 +313,8 @@
             <label>Slogan accueil <input id="settingTagline" type="text" maxlength="90" /></label>
             <label>Titre tendances <input id="settingTopTitle" type="text" maxlength="60" /></label>
             <label>Titre catalogue <input id="settingCatalogTitle" type="text" maxlength="60" /></label>
+            <label>Texte plateformes <input id="settingPlatforms" type="text" maxlength="120" /></label>
+            <label>Titre demandes <input id="settingRequestTitle" type="text" maxlength="60" /></label>
             <label>Style flottants
               <select id="settingFloatStyle">
                 <option value="cinema">Cinema premium</option>
@@ -298,11 +335,14 @@
 
           <div class="module-switches">
             <label><input id="modulePortal" type="checkbox" /> Portail decouverte</label>
+            <label><input id="moduleHeroSlider" type="checkbox" /> Hero anime</label>
             <label><input id="modulePlatforms" type="checkbox" /> Blocs Netflix / HBO / Canal+</label>
+            <label><input id="moduleGenreHub" type="checkbox" /> Hub de genres</label>
             <label><input id="moduleSpotlight" type="checkbox" /> Spotlight cinema</label>
             <label><input id="moduleRequests" type="checkbox" /> Demandes membres</label>
             <label><input id="moduleContinue" type="checkbox" /> Continuer a regarder</label>
             <label><input id="moduleTop" type="checkbox" /> Top tendances</label>
+            <label><input id="moduleTop10" type="checkbox" /> Top 10 visuel</label>
             <label><input id="moduleCatalog" type="checkbox" /> Catalogue</label>
             <label><input id="moduleReviews" type="checkbox" /> Avis membres</label>
             <label><input id="moduleDecor" type="checkbox" /> Decors flottants</label>
@@ -363,6 +403,11 @@
       </article>
     </aside>
 
+    <button class="suggestion-float module" data-module="requests" id="suggestionButton" type="button">
+      <span>+</span>
+      Suggestion
+    </button>
+
     <template id="cardTemplate">
       <article class="poster-card">
         <button class="poster-button" type="button">
@@ -380,6 +425,6 @@
       </article>
     </template>
 
-    <script src="app.js?v=rebuild-1"></script>
+    <script src="app.js?v=movix-adapt-1"></script>
   </body>
 </html>

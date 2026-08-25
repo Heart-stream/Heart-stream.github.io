@@ -8,18 +8,23 @@ const defaultSettings = {
   tagline: "Cinema prive premium",
   topTitle: "Top Heart-Stream HS",
   catalogTitle: "Tous les titres",
+  platformsText: "Netflix, HBO, Canal+, Prime, Disney+, Apple TV, Anime, Docs",
+  requestTitle: "Un titre manque ?",
   wine: "#650619",
   red: "#ff1734",
   gold: "#e7b64b",
   glow: 85,
   floatStyle: "cinema",
   modules: {
+    heroSlider: true,
     portal: true,
     platforms: true,
+    genreHub: true,
     spotlight: true,
     requests: true,
     continue: true,
     top: true,
+    top10: true,
     catalog: true,
     reviews: true,
     decor: true,
@@ -125,6 +130,7 @@ const state = {
   query: "",
   favoritesOnly: false,
   selectedId: starterCatalog[0].id,
+  heroIndex: 0,
   editingId: null,
   adminUnlocked: false,
 };
@@ -186,10 +192,14 @@ const els = {
   heroWatch: $("#heroWatch"),
   heroTrailer: $("#heroTrailer"),
   heroFavorite: $("#heroFavorite"),
+  heroPrev: $("#heroPrev"),
+  heroNext: $("#heroNext"),
+  heroDots: $("#heroDots"),
   statTitles: $("#statTitles"),
   currentView: $("#currentView"),
   genreChips: $("#genreChips"),
   sortSelect: $("#sortSelect"),
+  platformRail: $("#platformRail"),
   portalTitle: $("#portalTitle"),
   portalText: $("#portalText"),
   portalMeta: $("#portalMeta"),
@@ -197,13 +207,17 @@ const els = {
   portalTrailer: $("#portalTrailer"),
   quickTop: $("#quickTop"),
   spotlightGrid: $("#spotlightGrid"),
+  genreTiles: $("#genreTiles"),
   requestForm: $("#requestForm"),
+  requestTitle: $("#requestTitle"),
   requestInput: $("#requestInput"),
+  suggestionButton: $("#suggestionButton"),
   continueSection: $("#continueSection"),
   continueGrid: $("#continueGrid"),
   topTitle: $("#topTitle"),
   countLabel: $("#countLabel"),
   topRail: $("#topRail"),
+  rankedRail: $("#rankedRail"),
   catalogTitle: $("#catalogTitle"),
   catalogGrid: $("#catalogGrid"),
   cardTemplate: $("#cardTemplate"),
@@ -241,17 +255,22 @@ const els = {
   settingTagline: $("#settingTagline"),
   settingTopTitle: $("#settingTopTitle"),
   settingCatalogTitle: $("#settingCatalogTitle"),
+  settingPlatforms: $("#settingPlatforms"),
+  settingRequestTitle: $("#settingRequestTitle"),
   settingFloatStyle: $("#settingFloatStyle"),
   settingWine: $("#settingWine"),
   settingRed: $("#settingRed"),
   settingGold: $("#settingGold"),
   settingGlow: $("#settingGlow"),
   modulePortal: $("#modulePortal"),
+  moduleHeroSlider: $("#moduleHeroSlider"),
   modulePlatforms: $("#modulePlatforms"),
+  moduleGenreHub: $("#moduleGenreHub"),
   moduleSpotlight: $("#moduleSpotlight"),
   moduleRequests: $("#moduleRequests"),
   moduleContinue: $("#moduleContinue"),
   moduleTop: $("#moduleTop"),
+  moduleTop10: $("#moduleTop10"),
   moduleCatalog: $("#moduleCatalog"),
   moduleReviews: $("#moduleReviews"),
   moduleDecor: $("#moduleDecor"),
@@ -325,6 +344,12 @@ function selectedItem() {
   return store.catalog.find((item) => item.id === state.selectedId) || store.catalog[0] || starterCatalog[0];
 }
 
+function heroItems() {
+  const catalog = store.catalog;
+  const featured = catalog.filter((item) => item.featured);
+  return (featured.length ? featured : catalog).slice(0, 6);
+}
+
 function featuredItem() {
   return store.catalog.find((item) => item.featured) || store.catalog[0] || starterCatalog[0];
 }
@@ -351,6 +376,7 @@ function applySettings() {
     node.textContent = settings.siteName;
   });
   els.heroTagline.textContent = settings.tagline;
+  els.requestTitle.textContent = settings.requestTitle;
   els.topTitle.textContent = settings.topTitle;
   $$(".module").forEach((node) => {
     const moduleName = node.dataset.module;
@@ -366,17 +392,22 @@ function fillSettingsForm() {
   els.settingTagline.value = settings.tagline;
   els.settingTopTitle.value = settings.topTitle;
   els.settingCatalogTitle.value = settings.catalogTitle;
+  els.settingPlatforms.value = settings.platformsText;
+  els.settingRequestTitle.value = settings.requestTitle;
   els.settingFloatStyle.value = settings.floatStyle;
   els.settingWine.value = settings.wine;
   els.settingRed.value = settings.red;
   els.settingGold.value = settings.gold;
   els.settingGlow.value = settings.glow;
+  els.moduleHeroSlider.checked = settings.modules.heroSlider;
   els.modulePortal.checked = settings.modules.portal;
   els.modulePlatforms.checked = settings.modules.platforms;
+  els.moduleGenreHub.checked = settings.modules.genreHub;
   els.moduleSpotlight.checked = settings.modules.spotlight;
   els.moduleRequests.checked = settings.modules.requests;
   els.moduleContinue.checked = settings.modules.continue;
   els.moduleTop.checked = settings.modules.top;
+  els.moduleTop10.checked = settings.modules.top10;
   els.moduleCatalog.checked = settings.modules.catalog;
   els.moduleReviews.checked = settings.modules.reviews;
   els.moduleDecor.checked = settings.modules.decor;
@@ -389,18 +420,23 @@ function readSettingsForm() {
     tagline: els.settingTagline.value.trim() || defaultSettings.tagline,
     topTitle: els.settingTopTitle.value.trim() || defaultSettings.topTitle,
     catalogTitle: els.settingCatalogTitle.value.trim() || defaultSettings.catalogTitle,
+    platformsText: els.settingPlatforms.value.trim() || defaultSettings.platformsText,
+    requestTitle: els.settingRequestTitle.value.trim() || defaultSettings.requestTitle,
     floatStyle: els.settingFloatStyle.value,
     wine: els.settingWine.value,
     red: els.settingRed.value,
     gold: els.settingGold.value,
     glow: Number(els.settingGlow.value),
     modules: {
+      heroSlider: els.moduleHeroSlider.checked,
       portal: els.modulePortal.checked,
       platforms: els.modulePlatforms.checked,
+      genreHub: els.moduleGenreHub.checked,
       spotlight: els.moduleSpotlight.checked,
       requests: els.moduleRequests.checked,
       continue: els.moduleContinue.checked,
       top: els.moduleTop.checked,
+      top10: els.moduleTop10.checked,
       catalog: els.moduleCatalog.checked,
       reviews: els.moduleReviews.checked,
       decor: els.moduleDecor.checked,
@@ -458,11 +494,50 @@ function renderHero(item = selectedItem()) {
     .map((value) => `<span>${escapeHtml(value)}</span>`)
     .join("");
   els.heroFavorite.textContent = store.favorites.includes(item.id) ? "Retirer favori" : "Ajouter favori";
+  renderHeroDots();
+}
+
+function renderHeroDots() {
+  const items = heroItems();
+  els.heroDots.innerHTML = items
+    .map(
+      (item, index) =>
+        `<button class="${item.id === state.selectedId ? "is-active" : ""}" data-hero="${index}" type="button" aria-label="${escapeHtml(item.title)}"></button>`
+    )
+    .join("");
+}
+
+function moveHero(direction) {
+  const items = heroItems();
+  if (!items.length) return;
+  state.heroIndex = (state.heroIndex + direction + items.length) % items.length;
+  state.selectedId = items[state.heroIndex].id;
+  render();
 }
 
 function renderGenreChips() {
   els.genreChips.innerHTML = allGenres()
     .map((genre) => `<button class="chip ${state.genre === genre ? "is-active" : ""}" data-genre="${escapeHtml(genre)}">${escapeHtml(genre)}</button>`)
+    .join("");
+}
+
+function renderPlatforms() {
+  const names = store.settings.platformsText
+    .split(",")
+    .map((name) => name.trim())
+    .filter(Boolean)
+    .slice(0, 10);
+  els.platformRail.innerHTML = names
+    .map((name, index) => {
+      const catalogItem = store.catalog[index % Math.max(store.catalog.length, 1)] || {};
+      return `
+        <button class="platform-card" data-open="${escapeHtml(catalogItem.id || state.selectedId)}" type="button">
+          <span>${escapeHtml(name.slice(0, 2).toUpperCase())}</span>
+          <strong>${escapeHtml(name)}</strong>
+          <em>${escapeHtml(catalogItem.title || "Collection")}</em>
+        </button>
+      `;
+    })
     .join("");
 }
 
@@ -528,6 +603,23 @@ function renderSpotlight() {
     .join("");
 }
 
+function renderGenreHub() {
+  const genres = allGenres().filter((genre) => genre !== "Tous").slice(0, 8);
+  els.genreTiles.innerHTML = genres
+    .map((genre) => {
+      const sample = store.catalog.find((item) => (item.genres || []).includes(genre)) || selectedItem();
+      const count = store.catalog.filter((item) => (item.genres || []).includes(genre)).length;
+      return `
+        <button class="genre-tile" data-genre-tile="${escapeHtml(genre)}" type="button">
+          <img src="${sample.poster || fallbackPoster}" alt="">
+          <span>${escapeHtml(count)} titre${count > 1 ? "s" : ""}</span>
+          <strong>${escapeHtml(genre)}</strong>
+        </button>
+      `;
+    })
+    .join("");
+}
+
 function renderRails(items) {
   els.topRail.innerHTML = "";
   [...store.catalog]
@@ -555,6 +647,19 @@ function renderRails(items) {
     .join("");
 
   els.countLabel.textContent = `${items.length} titre${items.length > 1 ? "s" : ""}`;
+  els.rankedRail.innerHTML = [...store.catalog]
+    .sort((a, b) => Number(computedRating(b)) - Number(computedRating(a)))
+    .slice(0, 10)
+    .map(
+      (item, index) => `
+        <button class="rank-card" data-open="${item.id}" type="button">
+          <span>${index + 1}</span>
+          <img src="${item.poster || fallbackPoster}" alt="">
+          <strong>${escapeHtml(item.title)}</strong>
+        </button>
+      `
+    )
+    .join("");
 }
 
 function renderCatalog(items) {
@@ -571,8 +676,10 @@ function render() {
   els.catalogTitle.textContent = state.query ? "Resultats de recherche" : settings.catalogTitle;
   els.statTitles.textContent = store.catalog.length;
   renderHero(selectedItem());
+  renderPlatforms();
   renderPortal();
   renderSpotlight();
+  renderGenreHub();
   renderRails(items);
   renderCatalog(items);
 }
@@ -847,6 +954,16 @@ function goHome() {
 }
 
 $("#homeButton").addEventListener("click", goHome);
+els.heroPrev.addEventListener("click", () => moveHero(-1));
+els.heroNext.addEventListener("click", () => moveHero(1));
+els.heroDots.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-hero]");
+  if (!button) return;
+  const items = heroItems();
+  state.heroIndex = Number(button.dataset.hero);
+  state.selectedId = items[state.heroIndex]?.id || state.selectedId;
+  render();
+});
 els.navItems.forEach((button) => {
   button.addEventListener("click", () => {
     els.navItems.forEach((item) => item.classList.remove("is-active"));
@@ -870,6 +987,22 @@ els.genreChips.addEventListener("click", (event) => {
   if (!button) return;
   state.genre = button.dataset.genre;
   render();
+});
+els.genreTiles.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-genre-tile]");
+  if (!button) return;
+  state.genre = button.dataset.genreTile;
+  state.favoritesOnly = false;
+  render();
+  document.querySelector(".catalog")?.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+els.platformRail.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-platform]");
+  if (!button) return;
+  state.query = button.dataset.platform;
+  els.searchInput.value = state.query;
+  render();
+  document.querySelector(".catalog")?.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 document.addEventListener("click", (event) => {
   const openId = event.target.closest("[data-open]")?.dataset.open;
@@ -913,6 +1046,10 @@ els.requestForm.addEventListener("submit", (event) => {
   els.requestForm.reset();
   alert("Demande envoyee.");
 });
+els.suggestionButton.addEventListener("click", () => {
+  document.querySelector(".request-strip")?.scrollIntoView({ behavior: "smooth", block: "center" });
+  setTimeout(() => els.requestInput?.focus(), 350);
+});
 els.adminButton.addEventListener("click", openAdmin);
 els.gateForm.addEventListener("submit", unlockAdmin);
 $$("[data-close]").forEach((button) => button.addEventListener("click", closeDetails));
@@ -924,17 +1061,22 @@ $$("[data-admin-close]").forEach((button) => button.addEventListener("click", ()
   els.settingTagline,
   els.settingTopTitle,
   els.settingCatalogTitle,
+  els.settingPlatforms,
+  els.settingRequestTitle,
   els.settingFloatStyle,
   els.settingWine,
   els.settingRed,
   els.settingGold,
   els.settingGlow,
+  els.moduleHeroSlider,
   els.modulePortal,
   els.modulePlatforms,
+  els.moduleGenreHub,
   els.moduleSpotlight,
   els.moduleRequests,
   els.moduleContinue,
   els.moduleTop,
+  els.moduleTop10,
   els.moduleCatalog,
   els.moduleReviews,
   els.moduleDecor,
@@ -975,3 +1117,8 @@ applySettings();
 fillSettingsForm();
 state.selectedId = featuredItem().id;
 render();
+
+setInterval(() => {
+  if (!store.settings.modules.heroSlider || document.hidden || els.details.classList.contains("is-open")) return;
+  moveHero(1);
+}, 8500);

@@ -298,9 +298,9 @@ body[data-float-style="embers"] .spark {
   font-size: 24px;
   font-weight: 950;
   text-shadow:
-    0 0 calc(8px * var(--glow)) var(--red),
-    0 0 calc(24px * var(--glow)) var(--red),
-    0 0 calc(34px * var(--glow)) var(--gold);
+    0 0 calc(10px * var(--glow)) var(--red),
+    0 0 calc(30px * var(--glow)) var(--red),
+    0 0 calc(42px * var(--glow)) var(--gold);
 }
 
 .brand-logo {
@@ -314,7 +314,8 @@ body[data-float-style="embers"] .spark {
   border: 1px solid var(--line-strong);
   border-radius: 10px;
   box-shadow:
-    0 0 calc(18px * var(--glow)) var(--red),
+    0 0 calc(22px * var(--glow)) var(--red),
+    0 0 calc(42px * var(--glow)) color-mix(in srgb, var(--gold) 44%, transparent),
     inset 0 0 14px rgba(255, 255, 255, 0.18);
 }
 
@@ -560,12 +561,64 @@ p {
   color: var(--muted);
 }
 
+.hero-dock {
+  position: absolute;
+  right: 42px;
+  bottom: 26px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: rgba(5, 0, 1, 0.66);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.54);
+}
+
+.hero-arrow {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  color: var(--gold-soft);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.hero-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.hero-dots button {
+  width: 34px;
+  height: 8px;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.24);
+  border: 0;
+  border-radius: 999px;
+}
+
+.hero-dots button.is-active {
+  width: 58px;
+  background: linear-gradient(90deg, var(--red), var(--gold));
+  box-shadow: 0 0 calc(20px * var(--glow)) color-mix(in srgb, var(--red) 54%, transparent);
+}
+
 .control-panel,
+.platform-strip,
 .portal,
 .modules-grid,
+.genre-hub,
 .spotlight,
 .request-strip,
 .rail,
+.ranked,
 .catalog {
   width: min(1500px, calc(100vw - 40px));
   margin-inline: auto;
@@ -612,6 +665,9 @@ p {
 .portal-main,
 .portal-side,
 .module-card,
+.platform-strip,
+.genre-hub,
+.ranked,
 .spotlight,
 .request-strip,
 .rail,
@@ -624,6 +680,79 @@ p {
   border: 1px solid var(--line);
   border-radius: 10px;
   box-shadow: 0 24px 74px rgba(0, 0, 0, 0.42);
+}
+
+.platform-strip,
+.genre-hub,
+.ranked {
+  margin-bottom: 34px;
+  padding: 18px;
+}
+
+.platform-rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(210px, 270px);
+  gap: 14px;
+  overflow-x: auto;
+  padding: 3px 2px 18px;
+  scrollbar-width: thin;
+}
+
+.platform-card {
+  position: relative;
+  min-height: 150px;
+  overflow: hidden;
+  display: grid;
+  align-content: end;
+  gap: 8px;
+  color: var(--ink);
+  text-align: left;
+  padding: 18px;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--wine) 82%, black), #070002),
+    radial-gradient(circle at 18% 12%, color-mix(in srgb, var(--red) 54%, transparent), transparent 9rem),
+    radial-gradient(circle at 88% 0%, color-mix(in srgb, var(--gold) 38%, transparent), transparent 8rem);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.48);
+}
+
+.platform-card::before {
+  content: "";
+  position: absolute;
+  inset: -45% auto auto -20%;
+  width: 180px;
+  aspect-ratio: 1;
+  border: 18px solid color-mix(in srgb, var(--gold) 20%, transparent);
+  border-radius: 50%;
+}
+
+.platform-card span {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  color: #160104;
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+  border-radius: 9px;
+  font-size: 20px;
+  font-weight: 950;
+}
+
+.platform-card strong,
+.platform-card em {
+  position: relative;
+}
+
+.platform-card strong {
+  font-size: 25px;
+}
+
+.platform-card em {
+  color: var(--muted);
+  font-style: normal;
 }
 
 .portal-main {
@@ -681,6 +810,69 @@ p {
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
   margin-bottom: 34px;
+}
+
+.genre-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+}
+
+.genre-tile {
+  position: relative;
+  min-height: 180px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: start;
+  gap: 8px;
+  width: 100%;
+  padding: 18px;
+  color: var(--ink);
+  background: #090002;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  text-align: left;
+}
+
+.genre-tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.34;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.genre-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(6, 0, 2, 0.94), transparent 72%);
+}
+
+.genre-tile span,
+.genre-tile strong {
+  position: relative;
+  z-index: 1;
+}
+
+.genre-tile span {
+  color: var(--gold-soft);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.genre-tile strong {
+  font-size: 28px;
+}
+
+.genre-tile:hover img {
+  opacity: 0.52;
+  transform: scale(1.08);
 }
 
 .module-card {
@@ -815,6 +1007,74 @@ p {
   grid-auto-columns: minmax(185px, 230px);
   gap: 16px;
   padding: 4px 2px 18px;
+}
+
+.ranked-rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(250px, 330px);
+  gap: 22px;
+  overflow-x: auto;
+  padding: 8px 6px 20px;
+  scrollbar-width: thin;
+}
+
+.rank-card {
+  position: relative;
+  min-height: 230px;
+  overflow: hidden;
+  display: flex;
+  align-items: end;
+  width: 100%;
+  padding: 18px;
+  color: var(--ink);
+  background: #090002;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  text-align: left;
+}
+
+.rank-card span {
+  position: absolute;
+  left: -8px;
+  bottom: -30px;
+  z-index: 2;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--gold);
+  font-size: 150px;
+  font-weight: 950;
+  line-height: 0.8;
+  opacity: 0.84;
+  text-shadow: 0 0 calc(24px * var(--glow)) color-mix(in srgb, var(--red) 50%, transparent);
+}
+
+.rank-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.46;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.rank-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, #050001, transparent 62%);
+}
+
+.rank-card strong {
+  position: relative;
+  z-index: 3;
+  margin-left: 76px;
+  font-size: 24px;
+}
+
+.rank-card:hover img {
+  opacity: 0.68;
+  transform: scale(1.07);
 }
 
 .catalog-grid {
@@ -1371,6 +1631,37 @@ p {
   color: var(--muted);
 }
 
+.suggestion-float {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 65;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 10px 16px 10px 10px;
+  color: #170104;
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+  border: 0;
+  border-radius: 999px;
+  box-shadow:
+    0 18px 54px rgba(0, 0, 0, 0.56),
+    0 0 calc(28px * var(--glow)) color-mix(in srgb, var(--gold) 48%, transparent);
+  font-weight: 950;
+}
+
+.suggestion-float span {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--red), var(--wine));
+  border-radius: 50%;
+  font-size: 24px;
+}
+
 @keyframes heroMove {
   from {
     transform: scale(1.01) translate3d(0, 0, 0);
@@ -1476,6 +1767,10 @@ p {
     bottom: auto;
     margin: -86px 20px 34px auto;
   }
+
+  .hero-dock {
+    right: 20px;
+  }
 }
 
 @media (max-width: 720px) {
@@ -1506,13 +1801,31 @@ p {
   }
 
   .control-panel,
+  .platform-strip,
   .portal,
   .modules-grid,
+  .genre-hub,
   .spotlight,
   .request-strip,
   .rail,
+  .ranked,
   .catalog {
     width: min(100vw - 20px, 1500px);
+  }
+
+  .hero-dock {
+    left: 20px;
+    right: 20px;
+    justify-content: center;
+  }
+
+  .ranked-rail {
+    grid-auto-columns: minmax(220px, 78vw);
+  }
+
+  .suggestion-float {
+    right: 14px;
+    bottom: 14px;
   }
 
   .drawer-card,
