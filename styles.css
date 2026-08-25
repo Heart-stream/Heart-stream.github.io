@@ -86,6 +86,99 @@ body::before {
   display: none;
 }
 
+body[data-decor-style="posters"] .float-orbit,
+body[data-decor-style="posters"] .float-ring {
+  opacity: 0.18;
+}
+
+body[data-decor-style="posters"] .float-poster {
+  width: 118px;
+  height: 172px;
+  opacity: 1;
+  border-color: rgba(255, 221, 117, 0.68);
+}
+
+body[data-decor-style="posters"] .float-card {
+  background: linear-gradient(135deg, rgba(231, 182, 75, 0.9), rgba(111, 6, 24, 0.86));
+}
+
+body[data-decor-style="neon"] .float-card,
+body[data-decor-style="neon"] .float-ring,
+body[data-decor-style="neon"] .float-orbit {
+  filter: drop-shadow(0 0 24px rgba(255, 23, 52, 0.92));
+  border-color: rgba(255, 23, 52, 0.74);
+}
+
+body[data-decor-style="neon"] .float-poster {
+  background: linear-gradient(145deg, #ff1734, #350009 62%, #ff6b7f);
+  box-shadow: 0 0 34px rgba(255, 23, 52, 0.74);
+}
+
+body[data-decor-style="gold"] .float-card,
+body[data-decor-style="gold"] .float-poster {
+  color: #190205;
+  background: linear-gradient(145deg, #fff0a3, #e7b64b 58%, #8f5f16);
+  box-shadow: 0 0 44px rgba(231, 182, 75, 0.52);
+}
+
+body[data-decor-style="gold"] .float-ring {
+  border-color: rgba(231, 182, 75, 0.36);
+  border-top-color: #fff0a3;
+}
+
+body[data-decor-style="space"] .float-orbit {
+  opacity: 1;
+  width: 440px;
+  border-style: dashed;
+  animation-duration: 24s;
+}
+
+body[data-decor-style="space"] .float-card {
+  background: linear-gradient(135deg, rgba(28, 20, 66, 0.84), rgba(111, 6, 24, 0.78));
+}
+
+body[data-decor-style="space"] .float-poster {
+  opacity: 0.44;
+}
+
+body[data-decor-style="minimal"] .float-poster,
+body[data-decor-style="minimal"] .float-card-three,
+body[data-decor-style="minimal"] .float-ring-two,
+body[data-decor-style="minimal"] .float-orbit-two {
+  display: none;
+}
+
+body[data-decor-style="minimal"] .float-card,
+body[data-decor-style="minimal"] .float-ring,
+body[data-decor-style="minimal"] .float-orbit {
+  opacity: 0.42;
+}
+
+body[data-decor-style="party"] .float-card {
+  min-width: 96px;
+  height: 52px;
+  background: linear-gradient(135deg, #ff1734, #fff0a3 50%, #7a0618);
+  color: #180205;
+  animation-duration: 7s;
+}
+
+body[data-decor-style="party"] .float-spark {
+  width: 10px;
+  height: 10px;
+  animation-duration: 5s;
+}
+
+body[data-decor-style="embers"] .float-card,
+body[data-decor-style="embers"] .float-poster {
+  background: linear-gradient(155deg, #7a0618, #1b0004 58%, #ff6b2b);
+  box-shadow: 0 0 42px rgba(255, 63, 43, 0.45);
+}
+
+body[data-decor-style="embers"] .float-spark {
+  background: #ff6b2b;
+  box-shadow: 0 0 28px rgba(255, 63, 43, 0.95);
+}
+
 .float-orbit,
 .float-ring,
 .float-card,

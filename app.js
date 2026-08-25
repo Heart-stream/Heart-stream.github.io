@@ -8,6 +8,7 @@ const defaultSettings = {
   accent: "#e50922",
   gold: "#e7b64b",
   glow: 80,
+  decorStyle: "cinema",
   modules: {
     platforms: true,
     premiere: true,
@@ -234,6 +235,7 @@ const els = {
   settingAccent: document.querySelector("#settingAccent"),
   settingGold: document.querySelector("#settingGold"),
   settingGlow: document.querySelector("#settingGlow"),
+  settingDecorStyle: document.querySelector("#settingDecorStyle"),
   modulePlatforms: document.querySelector("#modulePlatforms"),
   modulePremiere: document.querySelector("#modulePremiere"),
   moduleContinue: document.querySelector("#moduleContinue"),
@@ -285,6 +287,7 @@ function applySettings() {
   });
 
   document.body.classList.toggle("decor-off", !settings.modules.decor);
+  document.body.dataset.decorStyle = settings.decorStyle || defaultSettings.decorStyle;
 }
 
 function fillSettingsForm() {
@@ -295,6 +298,7 @@ function fillSettingsForm() {
   els.settingAccent.value = settings.accent;
   els.settingGold.value = settings.gold;
   els.settingGlow.value = settings.glow;
+  els.settingDecorStyle.value = settings.decorStyle;
   els.modulePlatforms.checked = settings.modules.platforms;
   els.modulePremiere.checked = settings.modules.premiere;
   els.moduleContinue.checked = settings.modules.continue;
@@ -312,6 +316,7 @@ function readSettingsForm() {
     accent: els.settingAccent.value,
     gold: els.settingGold.value,
     glow: Number(els.settingGlow.value),
+    decorStyle: els.settingDecorStyle.value,
     modules: {
       platforms: els.modulePlatforms.checked,
       premiere: els.modulePremiere.checked,
@@ -872,6 +877,7 @@ els.adminImportSettings.addEventListener("click", importSettings);
   els.settingAccent,
   els.settingGold,
   els.settingGlow,
+  els.settingDecorStyle,
   els.modulePlatforms,
   els.modulePremiere,
   els.moduleContinue,
