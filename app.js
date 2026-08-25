@@ -18,6 +18,7 @@ const defaultSettings = {
   decorStyle: "cinema",
   modules: {
     platforms: true,
+    discovery: true,
     premiere: true,
     continue: true,
     top: true,
@@ -251,6 +252,7 @@ const els = {
   settingGlow: document.querySelector("#settingGlow"),
   settingDecorStyle: document.querySelector("#settingDecorStyle"),
   modulePlatforms: document.querySelector("#modulePlatforms"),
+  moduleDiscovery: document.querySelector("#moduleDiscovery"),
   modulePremiere: document.querySelector("#modulePremiere"),
   moduleContinue: document.querySelector("#moduleContinue"),
   moduleTop: document.querySelector("#moduleTop"),
@@ -258,6 +260,14 @@ const els = {
   moduleReviews: document.querySelector("#moduleReviews"),
   moduleDecor: document.querySelector("#moduleDecor"),
   moduleCustom: document.querySelector("#moduleCustom"),
+  portalTitle: document.querySelector("#portalTitle"),
+  portalDescription: document.querySelector("#portalDescription"),
+  portalMeta: document.querySelector("#portalMeta"),
+  portalPoster: document.querySelector("#portalPoster"),
+  portalGenres: document.querySelector("#portalGenres"),
+  portalTrending: document.querySelector("#portalTrending"),
+  portalWatch: document.querySelector("#portalWatch"),
+  portalTrailer: document.querySelector("#portalTrailer"),
   adminSaveSettings: document.querySelector("#adminSaveSettings"),
   adminResetSettings: document.querySelector("#adminResetSettings"),
   adminExportSettings: document.querySelector("#adminExportSettings"),
@@ -333,6 +343,7 @@ function fillSettingsForm() {
   els.settingGlow.value = settings.glow;
   els.settingDecorStyle.value = settings.decorStyle;
   els.modulePlatforms.checked = settings.modules.platforms;
+  els.moduleDiscovery.checked = settings.modules.discovery;
   els.modulePremiere.checked = settings.modules.premiere;
   els.moduleContinue.checked = settings.modules.continue;
   els.moduleTop.checked = settings.modules.top;
@@ -359,6 +370,7 @@ function readSettingsForm() {
     decorStyle: els.settingDecorStyle.value,
     modules: {
       platforms: els.modulePlatforms.checked,
+      discovery: els.moduleDiscovery.checked,
       premiere: els.modulePremiere.checked,
       continue: els.moduleContinue.checked,
       top: els.moduleTop.checked,
@@ -523,6 +535,39 @@ function renderRails(items) {
   els.count.textContent = `${items.length} titre${items.length > 1 ? "s" : ""}`;
 }
 
+function renderDiscovery(items) {
+  const item = selectedItem() || heroItem();
+  els.portalTitle.textContent = item.title;
+  els.portalDescription.textContent = item.description;
+  els.portalPoster.src = item.poster || fallbackPoster;
+  els.portalPoster.alt = `Affiche ${item.title}`;
+  els.portalMeta.innerHTML = `
+    <span>${escapeHtml(item.type)}</span>
+    <span>${item.year}</span>
+    <span>${computedRating(item)}/5</span>
+    <span>${escapeHtml(item.genres.slice(0, 2).join(" / "))}</span>
+  `;
+
+  els.portalGenres.innerHTML = allGenres()
+    .slice(0, 12)
+    .map((genre) => `<button class="portal-tag" data-portal-genre="${escapeHtml(genre)}">${escapeHtml(genre)}</button>`)
+    .join("");
+
+  els.portalTrending.innerHTML = [...store.catalog]
+    .sort((a, b) => Number(computedRating(b)) - Number(computedRating(a)))
+    .slice(0, 5)
+    .map(
+      (entry, index) => `
+        <button class="portal-mini" data-portal-id="${entry.id}">
+          <strong>${index + 1}</strong>
+          <span>${escapeHtml(entry.title)}</span>
+          <em>${computedRating(entry)}</em>
+        </button>
+      `
+    )
+    .join("");
+}
+
 function makeContinueCard(item) {
   const card = document.createElement("button");
   card.className = "continue-card";
@@ -552,6 +597,7 @@ function render() {
   els.statTitles.textContent = store.catalog.length;
   els.statFavorites.textContent = store.favorites.length;
   renderRails(items);
+  renderDiscovery(items);
   renderCatalog(items);
   setHero(selectedItem() || heroItem());
 }
@@ -897,6 +943,11 @@ els.heroTrailer.addEventListener("click", () => {
   openPlayer("trailer");
 });
 els.heroFavorite.addEventListener("click", () => toggleFavorite(state.selectedId));
+els.portalWatch.addEventListener("click", () => openDetail(state.selectedId));
+els.portalTrailer.addEventListener("click", () => {
+  openDetail(state.selectedId);
+  openPlayer("trailer");
+});
 els.closePlayer.addEventListener("click", closePlayer);
 els.openAdminPanel.addEventListener("click", openAdminPanel);
 els.adminGateForm.addEventListener("submit", unlockAdmin);
@@ -927,6 +978,7 @@ els.adminImportSettings.addEventListener("click", importSettings);
   els.settingGlow,
   els.settingDecorStyle,
   els.modulePlatforms,
+  els.moduleDiscovery,
   els.modulePremiere,
   els.moduleContinue,
   els.moduleTop,
@@ -935,6 +987,17 @@ els.adminImportSettings.addEventListener("click", importSettings);
   els.moduleDecor,
   els.moduleCustom,
 ].forEach((control) => control.addEventListener("input", saveSettings));
+els.portalGenres.addEventListener("click", (event) => {
+  const genre = event.target.dataset.portalGenre;
+  if (!genre) return;
+  state.genre = genre;
+  render();
+});
+els.portalTrending.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-portal-id]");
+  if (!button) return;
+  openDetail(button.dataset.portalId);
+});
 els.adminList.addEventListener("click", (event) => {
   const viewId = event.target.dataset.adminView;
   const editId = event.target.dataset.adminEdit;

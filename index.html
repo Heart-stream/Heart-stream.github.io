@@ -90,6 +90,32 @@
         </select>
       </section>
 
+      <section class="discovery-board" data-module="discovery" aria-label="Selection portail">
+        <article class="portal-feature">
+          <div>
+            <p class="eyebrow">Selection HS</p>
+            <h2 id="portalTitle">Le meilleur du moment</h2>
+            <p id="portalDescription">Un espace plus direct pour lancer un film, une serie ou une bande-annonce.</p>
+            <div class="portal-meta" id="portalMeta"></div>
+            <div class="watch-row">
+              <button id="portalWatch" class="gold-button">Regarder</button>
+              <button id="portalTrailer" class="glass-button">Bande-annonce</button>
+            </div>
+          </div>
+          <img id="portalPoster" alt="" />
+        </article>
+        <aside class="portal-side">
+          <div class="portal-card">
+            <p class="eyebrow">Genres</p>
+            <div id="portalGenres" class="portal-tags"></div>
+          </div>
+          <div class="portal-card">
+            <p class="eyebrow">Tendance rapide</p>
+            <div id="portalTrending" class="portal-mini-list"></div>
+          </div>
+        </aside>
+      </section>
+
       <section class="brand-lanes" data-module="platforms" aria-label="Ambiance plateforme">
         <article>
           <span>Netflix</span>
@@ -365,6 +391,7 @@
 
           <div class="module-grid" aria-label="Modules du site">
             <label><input id="modulePlatforms" type="checkbox" /> Blocs Netflix / HBO / Canal+</label>
+            <label><input id="moduleDiscovery" type="checkbox" /> Portail decouverte</label>
             <label><input id="modulePremiere" type="checkbox" /> Bandeau soiree cinema</label>
             <label><input id="moduleContinue" type="checkbox" /> Continuer a regarder</label>
             <label><input id="moduleTop" type="checkbox" /> Top tendances</label>
