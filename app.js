@@ -2,7 +2,7 @@ const fallbackPoster =
   "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=900&q=80";
 const adminCode = "heart2026";
 const defaultSettings = {
-  settingsVersion: 2,
+  settingsVersion: 3,
   siteName: "Heart-Stream HS",
   logoText: "HS",
   tagline: "Experience cinema",
@@ -295,8 +295,9 @@ function mergeSettings(saved) {
   const migrated = saved
     ? {
         ...saved,
-        siteName: !saved.settingsVersion && saved.siteName === "Heart-Stream" ? defaultSettings.siteName : saved.siteName,
-        logoText: saved.logoText || defaultSettings.logoText,
+        settingsVersion: defaultSettings.settingsVersion,
+        siteName: saved.siteName === "Heart-Stream" ? defaultSettings.siteName : saved.siteName,
+        logoText: !saved.logoText || saved.logoText === "H" ? defaultSettings.logoText : saved.logoText,
       }
     : null;
   return {

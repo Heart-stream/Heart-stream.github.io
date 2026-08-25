@@ -411,6 +411,19 @@ button,
   font-weight: 900;
 }
 
+.build-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 3px 8px;
+  color: #180205;
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 950;
+  box-shadow: 0 0 18px rgba(231, 182, 75, 0.34);
+}
+
 .brand-mark {
   display: grid;
   place-items: center;
