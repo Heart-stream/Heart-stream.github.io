@@ -1,37 +1,8 @@
-const fallbackPoster =
-  "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=900&q=80";
-const adminCode = "heart2026";
+const adminPassword = "heart2026";
+const fallbackImage =
+  "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1400&q=80";
 
-const defaultSettings = {
-  siteName: "Heart-Stream HS",
-  logo: "HS",
-  tagline: "Cinema prive premium",
-  topTitle: "Top Heart-Stream HS",
-  catalogTitle: "Tous les titres",
-  platformsText: "Netflix, HBO, Canal+, Prime, Disney+, Apple TV, Anime, Docs",
-  requestTitle: "Un titre manque ?",
-  wine: "#650619",
-  red: "#ff1734",
-  gold: "#e7b64b",
-  glow: 85,
-  floatStyle: "cinema",
-  modules: {
-    heroSlider: true,
-    portal: true,
-    platforms: true,
-    genreHub: true,
-    spotlight: true,
-    requests: true,
-    continue: true,
-    top: true,
-    top10: true,
-    catalog: true,
-    reviews: true,
-    decor: true,
-  },
-};
-
-const starterCatalog = [
+const demoCatalog = [
   {
     id: "red-orbit",
     title: "Red Orbit",
@@ -40,27 +11,27 @@ const starterCatalog = [
     genres: ["Science-fiction", "Thriller"],
     rating: 4.7,
     progress: 68,
-    poster: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1400&q=80",
     description:
       "Une expedition isolee capte un signal impossible au bord d'une planete rouge. Plus l'equipage approche de la source, plus la mission ressemble a un piege ancien.",
-    playerUrl: "",
-    trailerUrl: "https://www.youtube.com/embed/aqz-KE-bpKQ",
+    player: "",
+    trailer: "https://www.youtube.com/embed/aqz-KE-bpKQ",
     featured: true,
   },
   {
-    id: "maison-minuit",
-    title: "Maison Minuit",
+    id: "velvet-code",
+    title: "Velvet Code",
     type: "Serie",
     year: 2025,
-    genres: ["Mystere", "Drame"],
-    rating: 4.5,
-    progress: 34,
-    poster: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
+    genres: ["Espionnage", "Thriller"],
+    rating: 4.6,
+    progress: 42,
+    image: "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1400&q=80",
     description:
-      "Dans une demeure au bord du lac, une famille cache un secret qui recommence chaque nuit a la meme heure.",
-    playerUrl: "",
-    trailerUrl: "https://www.youtube.com/embed/ysz5S6PUM-U",
-    featured: true,
+      "Une analyste decouvre un reseau dormant cache dans les archives d'un palace europeen. Les messages semblent dater du futur.",
+    player: "",
+    trailer: "https://www.youtube.com/embed/ysz5S6PUM-U",
+    featured: false,
   },
   {
     id: "golden-ring",
@@ -70,12 +41,12 @@ const starterCatalog = [
     genres: ["Aventure", "Fantastique"],
     rating: 4.8,
     progress: 0,
-    poster: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=1400&q=80",
     description:
       "Une apprentie cartographe traverse des cites suspendues pour retrouver un anneau capable de modifier les souvenirs.",
-    playerUrl: "",
-    trailerUrl: "https://www.youtube.com/embed/ScMzIvxBSi4",
-    featured: true,
+    player: "",
+    trailer: "https://www.youtube.com/embed/ScMzIvxBSi4",
+    featured: false,
   },
   {
     id: "deep-city",
@@ -84,12 +55,12 @@ const starterCatalog = [
     year: 2023,
     genres: ["Urbain", "Societe"],
     rating: 4.1,
-    progress: 21,
-    poster: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=900&q=80",
+    progress: 26,
+    image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1400&q=80",
     description:
       "Un regard nocturne sur les villes, leurs energies cachees, leurs artistes et les histoires qui restent apres minuit.",
-    playerUrl: "",
-    trailerUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+    player: "",
+    trailer: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
     featured: false,
   },
   {
@@ -100,138 +71,106 @@ const starterCatalog = [
     genres: ["Action", "Crime"],
     rating: 4.3,
     progress: 0,
-    poster: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1400&q=80",
     description:
       "Un braquage de luxe tourne a la chasse a l'homme quand le coffre vise contient une preuve capable de renverser une dynastie.",
-    playerUrl: "",
-    trailerUrl: "https://www.youtube.com/embed/aqz-KE-bpKQ",
+    player: "",
+    trailer: "https://www.youtube.com/embed/aqz-KE-bpKQ",
     featured: false,
   },
   {
-    id: "velvet-code",
-    title: "Velvet Code",
+    id: "maison-minuit",
+    title: "Maison Minuit",
     type: "Serie",
     year: 2025,
-    genres: ["Espionnage", "Thriller"],
-    rating: 4.6,
-    progress: 56,
-    poster: "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=900&q=80",
+    genres: ["Mystere", "Drame"],
+    rating: 4.5,
+    progress: 61,
+    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80",
     description:
-      "Une analyste decouvre un reseau dormant cache dans les archives d'un palace europeen. Les messages semblent dater du futur.",
-    playerUrl: "",
-    trailerUrl: "https://www.youtube.com/embed/ysz5S6PUM-U",
-    featured: true,
+      "Dans une demeure au bord du lac, une famille cache un secret qui recommence chaque nuit a la meme heure.",
+    player: "",
+    trailer: "https://www.youtube.com/embed/ysz5S6PUM-U",
+    featured: false,
   },
 ];
 
-const state = {
-  type: "Tous",
-  genre: "Tous",
-  query: "",
-  favoritesOnly: false,
-  selectedId: starterCatalog[0].id,
-  heroIndex: 0,
-  editingId: null,
-  adminUnlocked: false,
-  adminSection: "site",
+const defaultSettings = {
+  siteName: "Heart-Stream HS",
+  logo: "HS",
+  tagline: "Cinema prive premium",
+  platforms: "Netflix,HBO,Canal+,Prime,Disney+,Apple TV,Anime,Docs",
+  wine: "#5d0618",
+  red: "#ff1738",
+  gold: "#e1b447",
+  decor: "cinema",
+  modules: {
+    platforms: true,
+    top10: true,
+    continue: true,
+    genres: true,
+    catalog: true,
+    reviews: true,
+  },
 };
 
-const store = {
-  get catalog() {
-    const saved = readJson("heartStream.catalog", null);
-    return Array.isArray(saved) && saved.length ? saved : starterCatalog;
-  },
-  set catalog(value) {
-    localStorage.setItem("heartStream.catalog", JSON.stringify(value));
-  },
-  get settings() {
-    return mergeSettings(readJson("heartStream.settings", null));
-  },
-  set settings(value) {
-    localStorage.setItem("heartStream.settings", JSON.stringify(mergeSettings(value)));
-  },
-  get favorites() {
-    return readJson("heartStream.favorites", []);
-  },
-  set favorites(value) {
-    localStorage.setItem("heartStream.favorites", JSON.stringify(value));
-  },
-  get history() {
-    return readJson("heartStream.history", []);
-  },
-  set history(value) {
-    localStorage.setItem("heartStream.history", JSON.stringify(value.slice(0, 8)));
-  },
-  get requests() {
-    return readJson("heartStream.requests", []);
-  },
-  set requests(value) {
-    localStorage.setItem("heartStream.requests", JSON.stringify(value.slice(0, 30)));
-  },
-  reviews(id) {
-    return readJson(`heartStream.reviews.${id}`, []);
-  },
-  saveReviews(id, value) {
-    localStorage.setItem(`heartStream.reviews.${id}`, JSON.stringify(value));
-  },
+const state = {
+  selectedId: "red-orbit",
+  heroIndex: 0,
+  filter: "all",
+  query: "",
+  genre: "Tous",
+  favoritesOnly: false,
+  editId: null,
+  adminTab: "site",
+  adminUnlocked: false,
 };
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
 const els = {
-  brandLogo: $("#brandLogo"),
+  logoMark: $("#logoMark"),
   searchInput: $("#searchInput"),
-  favoritesToggle: $("#favoritesToggle"),
-  adminButton: $("#adminButton"),
-  navItems: $$(".nav-item"),
+  searchForm: $("#searchForm"),
+  navLinks: $$(".nav-link[data-filter]"),
+  exploreButton: $("#exploreButton"),
+  megaMenu: $("#megaMenu"),
+  megaGrid: $("#megaGrid"),
   heroImage: $("#heroImage"),
-  heroMeta: $("#heroMeta"),
+  heroBadges: $("#heroBadges"),
   heroTitle: $("#heroTitle"),
-  heroText: $("#heroText"),
-  heroTagline: $("#heroTagline"),
-  heroWatch: $("#heroWatch"),
-  heroTrailer: $("#heroTrailer"),
-  heroFavorite: $("#heroFavorite"),
+  heroDescription: $("#heroDescription"),
+  heroProgress: $("#heroProgress"),
   heroPrev: $("#heroPrev"),
   heroNext: $("#heroNext"),
-  heroDots: $("#heroDots"),
+  heroWatch: $("#heroWatch"),
+  heroInfo: $("#heroInfo"),
+  heroFav: $("#heroFav"),
+  tagline: $("#tagline"),
   statTitles: $("#statTitles"),
-  currentView: $("#currentView"),
-  genreChips: $("#genreChips"),
-  sortSelect: $("#sortSelect"),
-  platformRail: $("#platformRail"),
-  portalTitle: $("#portalTitle"),
-  portalText: $("#portalText"),
-  portalMeta: $("#portalMeta"),
-  portalWatch: $("#portalWatch"),
-  portalTrailer: $("#portalTrailer"),
-  quickTop: $("#quickTop"),
-  spotlightGrid: $("#spotlightGrid"),
-  genreTiles: $("#genreTiles"),
-  requestForm: $("#requestForm"),
-  requestTitle: $("#requestTitle"),
-  requestInput: $("#requestInput"),
-  suggestionButton: $("#suggestionButton"),
-  continueSection: $("#continueSection"),
-  continueGrid: $("#continueGrid"),
-  topTitle: $("#topTitle"),
-  countLabel: $("#countLabel"),
-  topRail: $("#topRail"),
-  rankedRail: $("#rankedRail"),
+  statFavorites: $("#statFavorites"),
+  statReviews: $("#statReviews"),
+  favoriteButtonTop: $("#favoriteButtonTop"),
+  platformGrid: $("#platformGrid"),
+  topTen: $("#topTen"),
+  continueRow: $("#continueRow"),
+  genreWall: $("#genreWall"),
   catalogTitle: $("#catalogTitle"),
-  catalogGrid: $("#catalogGrid"),
-  cardTemplate: $("#cardTemplate"),
-  details: $("#details"),
-  detailBackdrop: $("#detailBackdrop"),
+  genreSelect: $("#genreSelect"),
+  sortSelect: $("#sortSelect"),
+  posterGrid: $("#posterGrid"),
+  posterTemplate: $("#posterTemplate"),
+  detailDrawer: $("#detailDrawer"),
+  detailImage: $("#detailImage"),
   detailPoster: $("#detailPoster"),
   detailMeta: $("#detailMeta"),
   detailTitle: $("#detailTitle"),
-  detailText: $("#detailText"),
-  detailGenres: $("#detailGenres"),
-  watchButton: $("#watchButton"),
-  trailerButton: $("#trailerButton"),
-  favoriteButton: $("#favoriteButton"),
+  detailDescription: $("#detailDescription"),
+  detailTags: $("#detailTags"),
+  watchNow: $("#watchNow"),
+  watchTrailer: $("#watchTrailer"),
+  toggleFavorite: $("#toggleFavorite"),
   playerBox: $("#playerBox"),
   playerTitle: $("#playerTitle"),
   playerFrame: $("#playerFrame"),
@@ -240,49 +179,26 @@ const els = {
   reviewName: $("#reviewName"),
   reviewRating: $("#reviewRating"),
   reviewText: $("#reviewText"),
-  reviewCount: $("#reviewCount"),
-  reviewsList: $("#reviewsList"),
+  reviewList: $("#reviewList"),
+  adminOpen: $("#adminOpen"),
   adminGate: $("#adminGate"),
   gateForm: $("#gateForm"),
-  adminPassword: $("#adminPassword"),
+  adminCode: $("#adminCode"),
   gateError: $("#gateError"),
   adminPanel: $("#adminPanel"),
-  adminTotal: $("#adminTotal"),
-  adminFavorites: $("#adminFavorites"),
-  adminReviews: $("#adminReviews"),
-  adminRequests: $("#adminRequests"),
-  adminTabs: $$(".admin-tile"),
-  adminSections: $$("[data-admin-section]"),
+  adminTabs: $("#adminTabs"),
+  adminSections: $$(".admin-section"),
   settingName: $("#settingName"),
   settingLogo: $("#settingLogo"),
   settingTagline: $("#settingTagline"),
-  settingTopTitle: $("#settingTopTitle"),
-  settingCatalogTitle: $("#settingCatalogTitle"),
   settingPlatforms: $("#settingPlatforms"),
-  settingRequestTitle: $("#settingRequestTitle"),
-  settingFloatStyle: $("#settingFloatStyle"),
   settingWine: $("#settingWine"),
   settingRed: $("#settingRed"),
   settingGold: $("#settingGold"),
-  settingGlow: $("#settingGlow"),
-  modulePortal: $("#modulePortal"),
-  moduleHeroSlider: $("#moduleHeroSlider"),
-  modulePlatforms: $("#modulePlatforms"),
-  moduleGenreHub: $("#moduleGenreHub"),
-  moduleSpotlight: $("#moduleSpotlight"),
-  moduleRequests: $("#moduleRequests"),
-  moduleContinue: $("#moduleContinue"),
-  moduleTop: $("#moduleTop"),
-  moduleTop10: $("#moduleTop10"),
-  moduleCatalog: $("#moduleCatalog"),
-  moduleReviews: $("#moduleReviews"),
-  moduleDecor: $("#moduleDecor"),
+  settingDecor: $("#settingDecor"),
+  moduleGrid: $("#moduleGrid"),
   saveSettings: $("#saveSettings"),
   resetSettings: $("#resetSettings"),
-  exportSettings: $("#exportSettings"),
-  importSettings: $("#importSettings"),
-  settingsJson: $("#settingsJson"),
-  newItem: $("#newItem"),
   contentForm: $("#contentForm"),
   itemTitle: $("#itemTitle"),
   itemType: $("#itemType"),
@@ -293,19 +209,61 @@ const els = {
   itemTrailer: $("#itemTrailer"),
   itemFeatured: $("#itemFeatured"),
   itemDescription: $("#itemDescription"),
+  newItem: $("#newItem"),
   adminList: $("#adminList"),
-  exportCatalog: $("#exportCatalog"),
-  importCatalog: $("#importCatalog"),
+  requestForm: $("#requestForm"),
+  requestInput: $("#requestInput"),
+  requestList: $("#requestList"),
+  exportAll: $("#exportAll"),
+  importAll: $("#importAll"),
   resetCatalog: $("#resetCatalog"),
-  catalogJson: $("#catalogJson"),
-  adminRequestList: $("#adminRequestList"),
-  clearRequests: $("#clearRequests"),
+  jsonBox: $("#jsonBox"),
+  floatingRequest: $("#floatingRequest"),
+};
+
+const store = {
+  get catalog() {
+    const saved = readJson("hs.catalog", null);
+    return Array.isArray(saved) && saved.length ? saved : demoCatalog;
+  },
+  set catalog(value) {
+    localStorage.setItem("hs.catalog", JSON.stringify(value));
+  },
+  get settings() {
+    return mergeSettings(readJson("hs.settings", null));
+  },
+  set settings(value) {
+    localStorage.setItem("hs.settings", JSON.stringify(mergeSettings(value)));
+  },
+  get favorites() {
+    return readJson("hs.favorites", []);
+  },
+  set favorites(value) {
+    localStorage.setItem("hs.favorites", JSON.stringify(value));
+  },
+  get history() {
+    return readJson("hs.history", []);
+  },
+  set history(value) {
+    localStorage.setItem("hs.history", JSON.stringify(value.slice(0, 10)));
+  },
+  get requests() {
+    return readJson("hs.requests", []);
+  },
+  set requests(value) {
+    localStorage.setItem("hs.requests", JSON.stringify(value.slice(0, 50)));
+  },
+  reviews(id) {
+    return readJson(`hs.reviews.${id}`, []);
+  },
+  saveReviews(id, value) {
+    localStorage.setItem(`hs.reviews.${id}`, JSON.stringify(value));
+  },
 };
 
 function readJson(key, fallback) {
   try {
-    const value = JSON.parse(localStorage.getItem(key) || "null");
-    return value ?? fallback;
+    return JSON.parse(localStorage.getItem(key) || "null") ?? fallback;
   } catch {
     return fallback;
   }
@@ -315,13 +273,9 @@ function mergeSettings(settings) {
   return {
     ...defaultSettings,
     ...(settings || {}),
-    siteName:
-      settings?.siteName && settings.siteName !== "Heart-Stream" ? settings.siteName : defaultSettings.siteName,
-    logo: settings?.logo && settings.logo !== "H" ? settings.logo : defaultSettings.logo,
-    modules: {
-      ...defaultSettings.modules,
-      ...(settings?.modules || {}),
-    },
+    siteName: settings?.siteName || defaultSettings.siteName,
+    logo: settings?.logo || defaultSettings.logo,
+    modules: { ...defaultSettings.modules, ...(settings?.modules || {}) },
   };
 }
 
@@ -334,330 +288,139 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
-function lighten(hex, amount) {
-  const clean = String(hex || defaultSettings.gold).replace("#", "");
-  const value = parseInt(clean.length === 3 ? clean.replace(/(.)/g, "$1$1") : clean, 16);
-  const r = Math.min(255, ((value >> 16) & 255) + amount);
-  const g = Math.min(255, ((value >> 8) & 255) + amount);
-  const b = Math.min(255, (value & 255) + amount);
-  return `#${[r, g, b].map((part) => part.toString(16).padStart(2, "0")).join("")}`;
+function catalog() {
+  return store.catalog;
 }
 
 function selectedItem() {
-  return store.catalog.find((item) => item.id === state.selectedId) || store.catalog[0] || starterCatalog[0];
+  return catalog().find((item) => item.id === state.selectedId) || catalog()[0] || demoCatalog[0];
 }
 
 function heroItems() {
-  const catalog = store.catalog;
-  const featured = catalog.filter((item) => item.featured);
-  return (featured.length ? featured : catalog).slice(0, 6);
+  const featured = catalog().filter((item) => item.featured);
+  return (featured.length ? featured : catalog()).slice(0, 6);
 }
 
-function featuredItem() {
-  return store.catalog.find((item) => item.featured) || store.catalog[0] || starterCatalog[0];
-}
-
-function computedRating(item) {
+function rating(item) {
   const reviews = store.reviews(item.id);
   if (!reviews.length) return Number(item.rating || 4).toFixed(1);
   return (reviews.reduce((total, review) => total + Number(review.rating), 0) / reviews.length).toFixed(1);
 }
 
-function applySettings() {
-  const settings = store.settings;
-  const root = document.documentElement;
-  root.style.setProperty("--wine", settings.wine);
-  root.style.setProperty("--red", settings.red);
-  root.style.setProperty("--gold", settings.gold);
-  root.style.setProperty("--gold-soft", lighten(settings.gold, 38));
-  root.style.setProperty("--glow", String(Math.max(0, Math.min(Number(settings.glow) || 0, 100)) / 100));
-  document.body.classList.toggle("decor-off", !settings.modules.decor);
-  document.body.dataset.floatStyle = settings.floatStyle;
-  document.title = settings.siteName;
-  els.brandLogo.textContent = settings.logo.toUpperCase();
-  $$("[data-site-name]").forEach((node) => {
-    node.textContent = settings.siteName;
-  });
-  els.heroTagline.textContent = settings.tagline;
-  els.requestTitle.textContent = settings.requestTitle;
-  els.topTitle.textContent = settings.topTitle;
-  $$(".module").forEach((node) => {
-    const moduleName = node.dataset.module;
-    if (!moduleName) return;
-    node.hidden = settings.modules[moduleName] === false;
-  });
-}
-
-function fillSettingsForm() {
-  const settings = store.settings;
-  els.settingName.value = settings.siteName;
-  els.settingLogo.value = settings.logo;
-  els.settingTagline.value = settings.tagline;
-  els.settingTopTitle.value = settings.topTitle;
-  els.settingCatalogTitle.value = settings.catalogTitle;
-  els.settingPlatforms.value = settings.platformsText;
-  els.settingRequestTitle.value = settings.requestTitle;
-  els.settingFloatStyle.value = settings.floatStyle;
-  els.settingWine.value = settings.wine;
-  els.settingRed.value = settings.red;
-  els.settingGold.value = settings.gold;
-  els.settingGlow.value = settings.glow;
-  els.moduleHeroSlider.checked = settings.modules.heroSlider;
-  els.modulePortal.checked = settings.modules.portal;
-  els.modulePlatforms.checked = settings.modules.platforms;
-  els.moduleGenreHub.checked = settings.modules.genreHub;
-  els.moduleSpotlight.checked = settings.modules.spotlight;
-  els.moduleRequests.checked = settings.modules.requests;
-  els.moduleContinue.checked = settings.modules.continue;
-  els.moduleTop.checked = settings.modules.top;
-  els.moduleTop10.checked = settings.modules.top10;
-  els.moduleCatalog.checked = settings.modules.catalog;
-  els.moduleReviews.checked = settings.modules.reviews;
-  els.moduleDecor.checked = settings.modules.decor;
-}
-
-function readSettingsForm() {
-  return mergeSettings({
-    siteName: els.settingName.value.trim() || defaultSettings.siteName,
-    logo: els.settingLogo.value.trim() || defaultSettings.logo,
-    tagline: els.settingTagline.value.trim() || defaultSettings.tagline,
-    topTitle: els.settingTopTitle.value.trim() || defaultSettings.topTitle,
-    catalogTitle: els.settingCatalogTitle.value.trim() || defaultSettings.catalogTitle,
-    platformsText: els.settingPlatforms.value.trim() || defaultSettings.platformsText,
-    requestTitle: els.settingRequestTitle.value.trim() || defaultSettings.requestTitle,
-    floatStyle: els.settingFloatStyle.value,
-    wine: els.settingWine.value,
-    red: els.settingRed.value,
-    gold: els.settingGold.value,
-    glow: Number(els.settingGlow.value),
-    modules: {
-      heroSlider: els.moduleHeroSlider.checked,
-      portal: els.modulePortal.checked,
-      platforms: els.modulePlatforms.checked,
-      genreHub: els.moduleGenreHub.checked,
-      spotlight: els.moduleSpotlight.checked,
-      requests: els.moduleRequests.checked,
-      continue: els.moduleContinue.checked,
-      top: els.moduleTop.checked,
-      top10: els.moduleTop10.checked,
-      catalog: els.moduleCatalog.checked,
-      reviews: els.moduleReviews.checked,
-      decor: els.moduleDecor.checked,
-    },
-  });
-}
-
-function saveSettings() {
-  store.settings = readSettingsForm();
-  applySettings();
-  render();
-}
-
-function resetSettings() {
-  if (!confirm("Remettre l'apparence par defaut ?")) return;
-  localStorage.removeItem("heartStream.settings");
-  fillSettingsForm();
-  applySettings();
-  render();
-}
-
 function allGenres() {
   const genres = new Set(["Tous"]);
-  store.catalog.forEach((item) => (item.genres || []).forEach((genre) => genres.add(genre)));
+  catalog().forEach((item) => (item.genres || []).forEach((genre) => genres.add(genre)));
   return [...genres];
 }
 
 function filteredCatalog() {
-  let items = [...store.catalog];
+  let items = [...catalog()];
   const query = state.query.toLowerCase().trim();
-  if (state.type !== "Tous") items = items.filter((item) => item.type === state.type);
+  if (state.filter !== "all") items = items.filter((item) => item.type === state.filter);
   if (state.genre !== "Tous") items = items.filter((item) => (item.genres || []).includes(state.genre));
+  if (state.favoritesOnly) items = items.filter((item) => store.favorites.includes(item.id));
   if (query) {
     items = items.filter((item) =>
-      [item.title, item.type, item.year, item.description, ...(item.genres || [])]
-        .join(" ")
-        .toLowerCase()
-        .includes(query)
+      [item.title, item.type, item.year, item.description, ...(item.genres || [])].join(" ").toLowerCase().includes(query)
     );
   }
-  if (state.favoritesOnly) items = items.filter((item) => store.favorites.includes(item.id));
   const sort = els.sortSelect.value;
   if (sort === "featured") items.sort((a, b) => Number(b.featured) - Number(a.featured));
-  if (sort === "rating") items.sort((a, b) => Number(computedRating(b)) - Number(computedRating(a)));
+  if (sort === "rating") items.sort((a, b) => Number(rating(b)) - Number(rating(a)));
   if (sort === "recent") items.sort((a, b) => Number(b.year) - Number(a.year));
-  if (sort === "title") items.sort((a, b) => a.title.localeCompare(b.title));
+  if (sort === "az") items.sort((a, b) => a.title.localeCompare(b.title));
   return items;
 }
 
-function renderHero(item = selectedItem()) {
-  els.heroImage.src = item.poster || fallbackPoster;
+function applySettings() {
+  const settings = store.settings;
+  document.documentElement.style.setProperty("--wine", settings.wine);
+  document.documentElement.style.setProperty("--red", settings.red);
+  document.documentElement.style.setProperty("--gold", settings.gold);
+  document.body.dataset.decor = settings.decor;
+  document.title = settings.siteName;
+  els.logoMark.textContent = settings.logo.toUpperCase();
+  els.tagline.textContent = settings.tagline;
+  $$("[data-site-name]").forEach((node) => {
+    node.textContent = settings.siteName;
+  });
+  $$(".module[data-module]").forEach((node) => {
+    node.hidden = settings.modules[node.dataset.module] === false;
+  });
+}
+
+function renderHero() {
+  const item = selectedItem();
+  els.heroImage.src = item.image || fallbackImage;
+  els.heroImage.alt = item.title;
   els.heroTitle.textContent = item.title;
-  els.heroText.textContent = item.description;
-  els.heroMeta.innerHTML = [item.type, item.year, `${computedRating(item)}/5`, ...(item.genres || []).slice(0, 2)]
+  els.heroDescription.textContent = item.description || "";
+  els.heroBadges.innerHTML = [item.type, item.year, `${rating(item)}/5`, ...(item.genres || []).slice(0, 2)]
     .map((value) => `<span>${escapeHtml(value)}</span>`)
     .join("");
-  els.heroFavorite.textContent = store.favorites.includes(item.id) ? "Retirer favori" : "Ajouter favori";
-  renderHeroDots();
-}
-
-function renderHeroDots() {
-  const items = heroItems();
-  els.heroDots.innerHTML = items
-    .map(
-      (item, index) =>
-        `<button class="${item.id === state.selectedId ? "is-active" : ""}" data-hero="${index}" type="button" aria-label="${escapeHtml(item.title)}"></button>`
-    )
+  els.heroFav.textContent = store.favorites.includes(item.id) ? "Retirer favori" : "Favori";
+  els.heroProgress.innerHTML = heroItems()
+    .map((hero, index) => `<button class="${hero.id === item.id ? "is-active" : ""}" data-hero="${index}" type="button"></button>`)
     .join("");
 }
 
-function moveHero(direction) {
+function moveHero(step) {
   const items = heroItems();
   if (!items.length) return;
-  state.heroIndex = (state.heroIndex + direction + items.length) % items.length;
+  state.heroIndex = (state.heroIndex + step + items.length) % items.length;
   state.selectedId = items[state.heroIndex].id;
   render();
 }
 
-function renderGenreChips() {
-  els.genreChips.innerHTML = allGenres()
-    .map((genre) => `<button class="chip ${state.genre === genre ? "is-active" : ""}" data-genre="${escapeHtml(genre)}">${escapeHtml(genre)}</button>`)
+function renderMega() {
+  const cards = [
+    ["Films", "Longs metrages", "Film"],
+    ["Series", "Episodes et saisons", "Serie"],
+    ["Animes", "Animation et manga", "Anime"],
+    ["Top 10", "Classement populaire", "top"],
+    ["Favoris", "Ta liste", "favorites"],
+    ["Demandes", "Suggestions membres", "requests"],
+    ["Lecteur", "Abyss integre par fiche", "player"],
+    ["Admin", "Gestion globale", "admin"],
+  ];
+  els.megaGrid.innerHTML = cards
+    .map(
+      ([title, text, action]) => `
+        <button class="mega-card" data-mega="${action}" type="button">
+          <span>${escapeHtml(title)}</span>
+          <strong>${escapeHtml(text)}</strong>
+          <p>Ouvrir cette section</p>
+        </button>
+      `
+    )
     .join("");
 }
 
 function renderPlatforms() {
-  const names = store.settings.platformsText
-    .split(",")
-    .map((name) => name.trim())
-    .filter(Boolean)
-    .slice(0, 10);
-  els.platformRail.innerHTML = names
+  const names = store.settings.platforms.split(",").map((name) => name.trim()).filter(Boolean).slice(0, 8);
+  els.platformGrid.innerHTML = names
     .map((name, index) => {
-      const catalogItem = store.catalog[index % Math.max(store.catalog.length, 1)] || {};
+      const item = catalog()[index % catalog().length] || demoCatalog[0];
       return `
-        <button class="platform-card" data-open="${escapeHtml(catalogItem.id || state.selectedId)}" type="button">
+        <button class="platform-card" data-open="${item.id}" type="button">
           <span>${escapeHtml(name.slice(0, 2).toUpperCase())}</span>
           <strong>${escapeHtml(name)}</strong>
-          <em>${escapeHtml(catalogItem.title || "Collection")}</em>
+          <em>${escapeHtml(item.title)}</em>
         </button>
       `;
     })
     .join("");
 }
 
-function makeCard(item) {
-  const card = els.cardTemplate.content.firstElementChild.cloneNode(true);
-  const posterButton = card.querySelector(".poster-button");
-  const img = card.querySelector(".poster-img");
-  const play = card.querySelector(".poster-play");
-  const score = card.querySelector(".poster-score");
-  const type = card.querySelector(".poster-type");
-  const title = card.querySelector("h3");
-  const heart = card.querySelector(".heart-button");
-  img.src = item.poster || fallbackPoster;
-  img.alt = `Affiche ${item.title}`;
-  play.textContent = "Regarder";
-  score.textContent = computedRating(item);
-  type.textContent = `${item.type} • ${item.year}`;
-  title.textContent = item.title;
-  heart.textContent = store.favorites.includes(item.id) ? "♥" : "+";
-  heart.classList.toggle("is-on", store.favorites.includes(item.id));
-  posterButton.addEventListener("click", () => openDetails(item.id));
-  heart.addEventListener("click", () => toggleFavorite(item.id));
-  return card;
-}
-
-function renderPortal() {
-  const item = selectedItem();
-  els.portalTitle.textContent = item.title;
-  els.portalText.textContent = item.description;
-  els.portalMeta.innerHTML = [item.type, item.year, `${computedRating(item)}/5`, ...(item.genres || []).slice(0, 3)]
-    .map((value) => `<span>${escapeHtml(value)}</span>`)
-    .join("");
-  els.quickTop.innerHTML = [...store.catalog]
-    .sort((a, b) => Number(computedRating(b)) - Number(computedRating(a)))
-    .slice(0, 5)
-    .map(
-      (item, index) => `
-        <button class="quick-item" data-open="${item.id}" type="button">
-          <strong>${index + 1}</strong>
-          <span>${escapeHtml(item.title)}</span>
-          <em>${computedRating(item)}</em>
-        </button>
-      `
-    )
-    .join("");
-}
-
-function renderSpotlight() {
-  els.spotlightGrid.innerHTML = [...store.catalog]
-    .sort((a, b) => Number(b.featured) - Number(a.featured) || Number(b.year) - Number(a.year))
-    .slice(0, 5)
-    .map(
-      (item) => `
-        <button class="spotlight-card" data-open="${item.id}" type="button">
-          <img src="${item.poster || fallbackPoster}" alt="">
-          <div>
-            <span>${escapeHtml(item.type)} • ${item.year}</span>
-            <strong>${escapeHtml(item.title)}</strong>
-          </div>
-        </button>
-      `
-    )
-    .join("");
-}
-
-function renderGenreHub() {
-  const genres = allGenres().filter((genre) => genre !== "Tous").slice(0, 8);
-  els.genreTiles.innerHTML = genres
-    .map((genre) => {
-      const sample = store.catalog.find((item) => (item.genres || []).includes(genre)) || selectedItem();
-      const count = store.catalog.filter((item) => (item.genres || []).includes(genre)).length;
-      return `
-        <button class="genre-tile" data-genre-tile="${escapeHtml(genre)}" type="button">
-          <img src="${sample.poster || fallbackPoster}" alt="">
-          <span>${escapeHtml(count)} titre${count > 1 ? "s" : ""}</span>
-          <strong>${escapeHtml(genre)}</strong>
-        </button>
-      `;
-    })
-    .join("");
-}
-
-function renderRails(items) {
-  els.topRail.innerHTML = "";
-  [...store.catalog]
-    .sort((a, b) => Number(computedRating(b)) - Number(computedRating(a)))
-    .slice(0, 10)
-    .forEach((item) => els.topRail.appendChild(makeCard(item)));
-
-  const historyItems = store.history.map((id) => store.catalog.find((item) => item.id === id)).filter(Boolean);
-  const fallback = store.catalog.filter((item) => item.progress > 0).slice(0, 4);
-  const rows = historyItems.length ? historyItems : fallback;
-  els.continueSection.hidden = !rows.length || store.settings.modules.continue === false;
-  els.continueGrid.innerHTML = rows
-    .map(
-      (item) => `
-        <button class="continue-card" data-open="${item.id}" type="button">
-          <img src="${item.poster || fallbackPoster}" alt="">
-          <div>
-            <h3>${escapeHtml(item.title)}</h3>
-            <p>${escapeHtml(item.type)} • ${escapeHtml((item.genres || []).join(", "))}</p>
-            <div class="progress"><span style="width:${Number(item.progress) || 18}%"></span></div>
-          </div>
-        </button>
-      `
-    )
-    .join("");
-
-  els.countLabel.textContent = `${items.length} titre${items.length > 1 ? "s" : ""}`;
-  els.rankedRail.innerHTML = [...store.catalog]
-    .sort((a, b) => Number(computedRating(b)) - Number(computedRating(a)))
+function renderTopTen() {
+  els.topTen.innerHTML = [...catalog()]
+    .sort((a, b) => Number(rating(b)) - Number(rating(a)))
     .slice(0, 10)
     .map(
       (item, index) => `
         <button class="rank-card" data-open="${item.id}" type="button">
-          <span>${index + 1}</span>
-          <img src="${item.poster || fallbackPoster}" alt="">
+          <img src="${item.image || fallbackImage}" alt="">
+          <b>${index + 1}</b>
           <strong>${escapeHtml(item.title)}</strong>
         </button>
       `
@@ -665,59 +428,99 @@ function renderRails(items) {
     .join("");
 }
 
-function renderCatalog(items) {
-  els.catalogGrid.innerHTML = "";
-  items.forEach((item) => els.catalogGrid.appendChild(makeCard(item)));
+function renderContinue() {
+  const history = store.history.map((id) => catalog().find((item) => item.id === id)).filter(Boolean);
+  const items = history.length ? history : catalog().filter((item) => Number(item.progress) > 0);
+  els.continueRow.innerHTML = items
+    .slice(0, 8)
+    .map(
+      (item) => `
+        <button class="wide-card" data-open="${item.id}" type="button">
+          <img src="${item.image || fallbackImage}" alt="">
+          <div>
+            <h3>${escapeHtml(item.title)}</h3>
+            <p>${escapeHtml(item.type)} • ${escapeHtml((item.genres || []).join(", "))}</p>
+            <div class="bar"><span style="width:${Number(item.progress) || 22}%"></span></div>
+          </div>
+        </button>
+      `
+    )
+    .join("");
+}
+
+function renderGenres() {
+  const genres = allGenres().filter((genre) => genre !== "Tous").slice(0, 12);
+  els.genreWall.innerHTML = genres
+    .map((genre) => {
+      const count = catalog().filter((item) => (item.genres || []).includes(genre)).length;
+      return `
+        <button class="genre-tile" data-genre="${escapeHtml(genre)}" type="button">
+          <span>${count} titre${count > 1 ? "s" : ""}</span>
+          <strong>${escapeHtml(genre)}</strong>
+        </button>
+      `;
+    })
+    .join("");
+  els.genreSelect.innerHTML = allGenres()
+    .map((genre) => `<option value="${escapeHtml(genre)}">${escapeHtml(genre)}</option>`)
+    .join("");
+  els.genreSelect.value = state.genre;
+}
+
+function createPoster(item) {
+  const card = els.posterTemplate.content.firstElementChild.cloneNode(true);
+  const button = card.querySelector(".poster-open");
+  const image = card.querySelector("img");
+  const meta = card.querySelector("p");
+  const title = card.querySelector("h3");
+  image.src = item.image || fallbackImage;
+  image.alt = item.title;
+  meta.textContent = `${item.type} • ${item.year} • ${rating(item)}/5`;
+  title.textContent = item.title;
+  button.addEventListener("click", () => openDetail(item.id));
+  return card;
+}
+
+function renderCatalog() {
+  const items = filteredCatalog();
+  els.catalogTitle.textContent = state.favoritesOnly ? "Mes favoris" : state.query ? "Resultats" : "Tous les titres";
+  els.posterGrid.innerHTML = "";
+  items.forEach((item) => els.posterGrid.appendChild(createPoster(item)));
+}
+
+function renderStats() {
+  els.statTitles.textContent = catalog().length;
+  els.statFavorites.textContent = store.favorites.length;
+  els.statReviews.textContent = catalog().reduce((total, item) => total + store.reviews(item.id).length, 0);
 }
 
 function render() {
-  const settings = store.settings;
   applySettings();
-  renderGenreChips();
-  const items = filteredCatalog();
-  els.currentView.textContent = state.favoritesOnly ? "Mes favoris" : state.type === "Tous" ? "A decouvrir" : state.type;
-  els.catalogTitle.textContent = state.query ? "Resultats de recherche" : settings.catalogTitle;
-  els.statTitles.textContent = store.catalog.length;
-  renderHero(selectedItem());
+  renderHero();
+  renderMega();
   renderPlatforms();
-  renderPortal();
-  renderSpotlight();
-  renderGenreHub();
-  renderRails(items);
-  renderCatalog(items);
+  renderTopTen();
+  renderContinue();
+  renderGenres();
+  renderCatalog();
+  renderStats();
 }
 
-function openDetails(id) {
+function openDetail(id) {
   state.selectedId = id;
   const item = selectedItem();
   store.history = [id, ...store.history.filter((entry) => entry !== id)];
-  els.detailBackdrop.src = item.poster || fallbackPoster;
-  els.detailPoster.src = item.poster || fallbackPoster;
-  els.detailPoster.alt = `Affiche ${item.title}`;
-  els.detailMeta.textContent = `${item.type} • ${item.year} • ${computedRating(item)}/5`;
+  els.detailImage.src = item.image || fallbackImage;
+  els.detailPoster.src = item.image || fallbackImage;
+  els.detailMeta.textContent = `${item.type} • ${item.year} • ${rating(item)}/5`;
   els.detailTitle.textContent = item.title;
-  els.detailText.textContent = item.description;
-  els.detailGenres.innerHTML = (item.genres || []).map((genre) => `<span>${escapeHtml(genre)}</span>`).join("");
-  els.favoriteButton.textContent = store.favorites.includes(id) ? "Retirer favori" : "Ajouter favori";
+  els.detailDescription.textContent = item.description || "";
+  els.detailTags.innerHTML = (item.genres || []).map((genre) => `<span>${escapeHtml(genre)}</span>`).join("");
+  els.toggleFavorite.textContent = store.favorites.includes(id) ? "Retirer favori" : "Ajouter favori";
   closePlayer();
   renderReviews();
-  openDrawer(els.details);
+  openPanel(els.detailDrawer);
   render();
-}
-
-function closeDetails() {
-  closeDrawer(els.details);
-  closePlayer();
-}
-
-function toggleFavorite(id) {
-  store.favorites = store.favorites.includes(id)
-    ? store.favorites.filter((itemId) => itemId !== id)
-    : [...store.favorites, id];
-  render();
-  if (els.details.classList.contains("is-open")) {
-    els.favoriteButton.textContent = store.favorites.includes(state.selectedId) ? "Retirer favori" : "Ajouter favori";
-  }
 }
 
 function normalizeEmbed(url) {
@@ -729,7 +532,7 @@ function normalizeEmbed(url) {
 
 function openPlayer(mode) {
   const item = selectedItem();
-  const url = normalizeEmbed(mode === "trailer" ? item.trailerUrl : item.playerUrl);
+  const url = normalizeEmbed(mode === "trailer" ? item.trailer : item.player);
   els.playerBox.classList.add("is-open");
   els.playerTitle.textContent = mode === "trailer" ? "Bande-annonce" : "Lecteur Abyss";
   if (!url) {
@@ -744,14 +547,23 @@ function openPlayer(mode) {
 
 function closePlayer() {
   els.playerBox.classList.remove("is-open");
-  els.playerFrame.textContent = "Le lecteur apparait ici.";
+  els.playerFrame.textContent = "Ajoute un lien Abyss dans le panel admin.";
+}
+
+function toggleFavorite(id = state.selectedId) {
+  store.favorites = store.favorites.includes(id)
+    ? store.favorites.filter((itemId) => itemId !== id)
+    : [...store.favorites, id];
+  render();
+  if (els.detailDrawer.classList.contains("is-open")) {
+    els.toggleFavorite.textContent = store.favorites.includes(id) ? "Retirer favori" : "Ajouter favori";
+  }
 }
 
 function renderReviews() {
   const item = selectedItem();
   const reviews = store.reviews(item.id);
-  els.reviewCount.textContent = `${reviews.length} avis`;
-  els.reviewsList.innerHTML = reviews.length
+  els.reviewList.innerHTML = reviews.length
     ? reviews
         .map(
           (review) => `
@@ -762,376 +574,386 @@ function renderReviews() {
           `
         )
         .join("")
-    : `<article class="review-item"><strong>Aucun avis</strong><p>Sois le premier a donner ton avis.</p></article>`;
+    : `<article class="review-item"><strong>Aucun avis</strong><p>Le premier avis apparaitra ici.</p></article>`;
 }
 
-function openDrawer(drawer) {
-  drawer.classList.add("is-open");
-  drawer.setAttribute("aria-hidden", "false");
+function openPanel(panel) {
+  panel.classList.add("is-open");
+  panel.setAttribute("aria-hidden", "false");
 }
 
-function closeDrawer(drawer) {
-  drawer.classList.remove("is-open");
-  drawer.setAttribute("aria-hidden", "true");
+function closePanel(panel) {
+  panel.classList.remove("is-open");
+  panel.setAttribute("aria-hidden", "true");
 }
 
 function openAdmin() {
   if (!state.adminUnlocked) {
+    els.adminCode.value = "";
     els.gateError.textContent = "";
-    els.adminPassword.value = "";
-    openDrawer(els.adminGate);
-    setTimeout(() => els.adminPassword.focus(), 50);
+    openPanel(els.adminGate);
     return;
   }
+  fillSettings();
   renderAdmin();
-  openDrawer(els.adminPanel);
+  openPanel(els.adminPanel);
 }
 
-function unlockAdmin(event) {
-  event.preventDefault();
-  if (els.adminPassword.value !== adminCode) {
-    els.gateError.textContent = "Code incorrect.";
-    return;
-  }
-  state.adminUnlocked = true;
-  closeDrawer(els.adminGate);
-  openAdmin();
+function fillSettings() {
+  const settings = store.settings;
+  els.settingName.value = settings.siteName;
+  els.settingLogo.value = settings.logo;
+  els.settingTagline.value = settings.tagline;
+  els.settingPlatforms.value = settings.platforms;
+  els.settingWine.value = settings.wine;
+  els.settingRed.value = settings.red;
+  els.settingGold.value = settings.gold;
+  els.settingDecor.value = settings.decor;
+  els.moduleGrid.innerHTML = Object.entries(settings.modules)
+    .map(
+      ([key, value]) => `
+        <label><input type="checkbox" data-module-key="${key}" ${value ? "checked" : ""}> ${moduleLabel(key)}</label>
+      `
+    )
+    .join("");
 }
 
-function clearContentForm() {
-  state.editingId = null;
-  els.contentForm.reset();
-  els.itemYear.value = new Date().getFullYear();
+function moduleLabel(key) {
+  return {
+    platforms: "Plateformes",
+    top10: "Top 10",
+    continue: "Continuer a regarder",
+    genres: "Genres",
+    catalog: "Catalogue",
+    reviews: "Avis membres",
+  }[key] || key;
 }
 
-function fillContentForm(id) {
-  const item = store.catalog.find((entry) => entry.id === id);
-  if (!item) return;
-  state.editingId = id;
-  els.itemTitle.value = item.title;
-  els.itemType.value = item.type;
-  els.itemYear.value = item.year;
-  els.itemGenres.value = (item.genres || []).join(", ");
-  els.itemPoster.value = item.poster || "";
-  els.itemPlayer.value = item.playerUrl || "";
-  els.itemTrailer.value = item.trailerUrl || "";
-  els.itemFeatured.checked = Boolean(item.featured);
-  els.itemDescription.value = item.description || "";
-  els.contentForm.scrollIntoView({ behavior: "smooth", block: "center" });
-}
-
-function saveContent(event) {
-  event.preventDefault();
-  const title = els.itemTitle.value.trim();
-  const current = state.editingId ? store.catalog.find((item) => item.id === state.editingId) : null;
-  const item = {
-    id: current?.id || `${Date.now()}-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
-    title,
-    type: els.itemType.value,
-    year: Number(els.itemYear.value) || new Date().getFullYear(),
-    genres: els.itemGenres.value.split(",").map((genre) => genre.trim()).filter(Boolean),
-    rating: current?.rating || 4,
-    progress: current?.progress || 0,
-    poster: els.itemPoster.value.trim() || fallbackPoster,
-    playerUrl: els.itemPlayer.value.trim(),
-    trailerUrl: els.itemTrailer.value.trim(),
-    description: els.itemDescription.value.trim(),
-    featured: els.itemFeatured.checked,
-  };
-  if (!item.genres.length) item.genres = ["Nouveau"];
-  store.catalog = current
-    ? store.catalog.map((entry) => (entry.id === current.id ? item : entry))
-    : [item, ...store.catalog];
-  if (item.featured) {
-    store.catalog = store.catalog.map((entry) => ({ ...entry, featured: entry.id === item.id }));
-  }
-  state.selectedId = item.id;
-  clearContentForm();
-  render();
-  renderAdmin();
+function readSettings() {
+  const modules = {};
+  $$("[data-module-key]").forEach((input) => {
+    modules[input.dataset.moduleKey] = input.checked;
+  });
+  return mergeSettings({
+    siteName: els.settingName.value.trim(),
+    logo: els.settingLogo.value.trim(),
+    tagline: els.settingTagline.value.trim(),
+    platforms: els.settingPlatforms.value.trim(),
+    wine: els.settingWine.value,
+    red: els.settingRed.value,
+    gold: els.settingGold.value,
+    decor: els.settingDecor.value,
+    modules,
+  });
 }
 
 function renderAdmin() {
-  const catalog = store.catalog;
-  const requests = store.requests;
-  fillSettingsForm();
-  els.adminTotal.textContent = catalog.length;
-  els.adminFavorites.textContent = store.favorites.length;
-  els.adminReviews.textContent = catalog.reduce((total, item) => total + store.reviews(item.id).length, 0);
-  els.adminRequests.textContent = requests.length;
-  els.adminTabs.forEach((tab) => tab.classList.toggle("is-active", tab.dataset.adminTab === state.adminSection));
-  els.adminSections.forEach((section) => {
-    section.hidden = section.dataset.adminSection !== state.adminSection;
+  els.adminTabs.querySelectorAll("button").forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.tab === state.adminTab);
   });
-  els.adminList.innerHTML = catalog
+  els.adminSections.forEach((section) => {
+    section.classList.toggle("is-active", section.dataset.section === state.adminTab);
+  });
+  els.adminList.innerHTML = catalog()
     .map(
       (item) => `
         <article class="admin-row">
-          <img src="${item.poster || fallbackPoster}" alt="">
+          <img src="${item.image || fallbackImage}" alt="">
           <div>
-            <h3>${escapeHtml(item.title)} ${item.featured ? "• En avant" : ""}</h3>
+            <h3>${escapeHtml(item.title)}${item.featured ? " • Hero" : ""}</h3>
             <p>${escapeHtml(item.type)} • ${item.year} • ${escapeHtml((item.genres || []).join(", "))}</p>
           </div>
           <div class="admin-actions">
-            <button class="ghost-button" data-view="${item.id}" type="button">Voir</button>
-            <button class="ghost-button" data-edit="${item.id}" type="button">Modifier</button>
-            <button class="ghost-button" data-feature="${item.id}" type="button">Avant</button>
+            <button class="glass-button" data-view="${item.id}" type="button">Voir</button>
+            <button class="glass-button" data-edit="${item.id}" type="button">Modifier</button>
+            <button class="glass-button" data-feature="${item.id}" type="button">Hero</button>
             <button class="danger-button" data-delete="${item.id}" type="button">Supprimer</button>
           </div>
         </article>
       `
     )
     .join("");
-  els.adminRequestList.innerHTML = requests.length
-    ? requests
+  els.requestList.innerHTML = store.requests.length
+    ? store.requests
         .map((request) => `<article class="request-row"><strong>${escapeHtml(request.title)}</strong><span>${escapeHtml(request.date)}</span></article>`)
         .join("")
-    : `<article class="request-row"><strong>Aucune demande</strong><span>Les demandes apparaitront ici.</span></article>`;
+    : `<article class="request-row"><strong>Aucune demande</strong><span>Les demandes seront listees ici.</span></article>`;
+}
+
+function clearEditor() {
+  state.editId = null;
+  els.contentForm.reset();
+  els.itemYear.value = new Date().getFullYear();
+}
+
+function fillEditor(id) {
+  const item = catalog().find((entry) => entry.id === id);
+  if (!item) return;
+  state.editId = id;
+  els.itemTitle.value = item.title;
+  els.itemType.value = item.type;
+  els.itemYear.value = item.year;
+  els.itemGenres.value = (item.genres || []).join(", ");
+  els.itemPoster.value = item.image || "";
+  els.itemPlayer.value = item.player || "";
+  els.itemTrailer.value = item.trailer || "";
+  els.itemFeatured.checked = Boolean(item.featured);
+  els.itemDescription.value = item.description || "";
+  els.contentForm.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function saveItem(event) {
+  event.preventDefault();
+  const title = els.itemTitle.value.trim();
+  const current = catalog().find((item) => item.id === state.editId);
+  const item = {
+    id: current?.id || `${Date.now()}-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+    title,
+    type: els.itemType.value,
+    year: Number(els.itemYear.value) || new Date().getFullYear(),
+    genres: els.itemGenres.value.split(",").map((genre) => genre.trim()).filter(Boolean),
+    rating: current?.rating || 4.2,
+    progress: current?.progress || 0,
+    image: els.itemPoster.value.trim() || fallbackImage,
+    player: els.itemPlayer.value.trim(),
+    trailer: els.itemTrailer.value.trim(),
+    description: els.itemDescription.value.trim(),
+    featured: els.itemFeatured.checked,
+  };
+  if (!item.genres.length) item.genres = ["Nouveau"];
+  const next = current ? catalog().map((entry) => (entry.id === current.id ? item : entry)) : [item, ...catalog()];
+  store.catalog = item.featured ? next.map((entry) => ({ ...entry, featured: entry.id === item.id })) : next;
+  state.selectedId = item.id;
+  clearEditor();
+  render();
+  renderAdmin();
+}
+
+function exportAll() {
+  els.jsonBox.value = JSON.stringify(
+    {
+      settings: store.settings,
+      catalog: store.catalog,
+      favorites: store.favorites,
+      requests: store.requests,
+    },
+    null,
+    2
+  );
+  els.jsonBox.select();
+}
+
+function importAll() {
+  try {
+    const data = JSON.parse(els.jsonBox.value);
+    if (Array.isArray(data.catalog)) store.catalog = data.catalog;
+    if (data.settings) store.settings = data.settings;
+    if (Array.isArray(data.favorites)) store.favorites = data.favorites;
+    if (Array.isArray(data.requests)) store.requests = data.requests;
+    state.selectedId = catalog()[0]?.id || demoCatalog[0].id;
+    fillSettings();
+    render();
+    renderAdmin();
+  } catch {
+    alert("JSON invalide.");
+  }
 }
 
 function deleteItem(id) {
-  const item = store.catalog.find((entry) => entry.id === id);
+  const item = catalog().find((entry) => entry.id === id);
   if (!item || !confirm(`Supprimer "${item.title}" ?`)) return;
-  store.catalog = store.catalog.filter((entry) => entry.id !== id);
-  store.favorites = store.favorites.filter((entryId) => entryId !== id);
-  store.history = store.history.filter((entryId) => entryId !== id);
-  state.selectedId = store.catalog[0]?.id || starterCatalog[0].id;
+  store.catalog = catalog().filter((entry) => entry.id !== id);
+  store.favorites = store.favorites.filter((entry) => entry !== id);
+  store.history = store.history.filter((entry) => entry !== id);
+  state.selectedId = catalog()[0]?.id || demoCatalog[0].id;
   render();
   renderAdmin();
 }
 
-function setFeatured(id) {
-  store.catalog = store.catalog.map((item) => ({ ...item, featured: item.id === id }));
-  state.selectedId = id;
-  render();
-  renderAdmin();
-}
-
-function exportSettings() {
-  els.settingsJson.value = JSON.stringify(store.settings, null, 2);
-  els.settingsJson.select();
-}
-
-function importSettings() {
-  try {
-    store.settings = JSON.parse(els.settingsJson.value);
-    fillSettingsForm();
+function bindEvents() {
+  els.navLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      state.filter = link.dataset.filter;
+      state.favoritesOnly = false;
+      els.navLinks.forEach((node) => node.classList.toggle("is-active", node === link));
+      render();
+    });
+  });
+  els.searchForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    state.query = els.searchInput.value;
     render();
-  } catch {
-    alert("Configuration JSON invalide.");
-  }
-}
-
-function exportCatalog() {
-  els.catalogJson.value = JSON.stringify(store.catalog, null, 2);
-  els.catalogJson.select();
-}
-
-function importCatalog() {
-  try {
-    const next = JSON.parse(els.catalogJson.value);
-    if (!Array.isArray(next)) throw new Error("Invalid");
-    store.catalog = next;
-    state.selectedId = store.catalog[0]?.id || starterCatalog[0].id;
+    $("#catalog").scrollIntoView({ behavior: "smooth" });
+  });
+  els.searchInput.addEventListener("input", () => {
+    state.query = els.searchInput.value;
+    renderCatalog();
+  });
+  els.favoriteButtonTop.addEventListener("click", () => {
+    state.favoritesOnly = !state.favoritesOnly;
     render();
-    renderAdmin();
-  } catch {
-    alert("Catalogue JSON invalide.");
-  }
-}
-
-function resetCatalog() {
-  if (!confirm("Remettre le catalogue de demo ?")) return;
-  localStorage.removeItem("heartStream.catalog");
-  state.selectedId = starterCatalog[0].id;
-  render();
-  renderAdmin();
-}
-
-function goHome() {
-  state.type = "Tous";
-  state.genre = "Tous";
-  state.query = "";
-  state.favoritesOnly = false;
-  state.selectedId = featuredItem().id;
-  els.searchInput.value = "";
-  els.navItems.forEach((item) => item.classList.toggle("is-active", item.dataset.type === "Tous"));
-  render();
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-$("#homeButton").addEventListener("click", goHome);
-els.heroPrev.addEventListener("click", () => moveHero(-1));
-els.heroNext.addEventListener("click", () => moveHero(1));
-els.heroDots.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-hero]");
-  if (!button) return;
-  const items = heroItems();
-  state.heroIndex = Number(button.dataset.hero);
-  state.selectedId = items[state.heroIndex]?.id || state.selectedId;
-  render();
-});
-els.navItems.forEach((button) => {
-  button.addEventListener("click", () => {
-    els.navItems.forEach((item) => item.classList.remove("is-active"));
-    button.classList.add("is-active");
-    state.type = button.dataset.type;
+    $("#catalog").scrollIntoView({ behavior: "smooth" });
+  });
+  els.exploreButton.addEventListener("click", () => {
+    els.megaMenu.classList.toggle("is-open");
+    els.megaMenu.setAttribute("aria-hidden", String(!els.megaMenu.classList.contains("is-open")));
+  });
+  els.megaGrid.addEventListener("click", (event) => {
+    const action = event.target.closest("[data-mega]")?.dataset.mega;
+    if (!action) return;
+    els.megaMenu.classList.remove("is-open");
+    if (["Film", "Serie", "Anime"].includes(action)) state.filter = action;
+    if (action === "favorites") state.favoritesOnly = true;
+    if (action === "admin") openAdmin();
+    if (action === "requests") els.floatingRequest.click();
+    if (action === "top") $(".top-ten")?.scrollIntoView({ behavior: "smooth" });
+    if (["Film", "Serie", "Anime", "favorites"].includes(action)) $("#catalog").scrollIntoView({ behavior: "smooth" });
     render();
   });
-});
-els.searchInput.addEventListener("input", (event) => {
-  state.query = event.target.value;
-  render();
-});
-els.favoritesToggle.addEventListener("click", () => {
-  state.favoritesOnly = !state.favoritesOnly;
-  els.favoritesToggle.classList.toggle("gold-button", state.favoritesOnly);
-  render();
-});
-els.sortSelect.addEventListener("change", render);
-els.genreChips.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-genre]");
-  if (!button) return;
-  state.genre = button.dataset.genre;
-  render();
-});
-els.genreTiles.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-genre-tile]");
-  if (!button) return;
-  state.genre = button.dataset.genreTile;
-  state.favoritesOnly = false;
-  render();
-  document.querySelector(".catalog")?.scrollIntoView({ behavior: "smooth", block: "start" });
-});
-els.platformRail.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-platform]");
-  if (!button) return;
-  state.query = button.dataset.platform;
-  els.searchInput.value = state.query;
-  render();
-  document.querySelector(".catalog")?.scrollIntoView({ behavior: "smooth", block: "start" });
-});
-document.addEventListener("click", (event) => {
-  const openId = event.target.closest("[data-open]")?.dataset.open;
-  if (openId) openDetails(openId);
-});
-els.heroWatch.addEventListener("click", () => openDetails(state.selectedId));
-els.heroTrailer.addEventListener("click", () => {
-  openDetails(state.selectedId);
-  openPlayer("trailer");
-});
-els.heroFavorite.addEventListener("click", () => toggleFavorite(state.selectedId));
-els.portalWatch.addEventListener("click", () => openDetails(state.selectedId));
-els.portalTrailer.addEventListener("click", () => {
-  openDetails(state.selectedId);
-  openPlayer("trailer");
-});
-els.watchButton.addEventListener("click", () => openPlayer("watch"));
-els.trailerButton.addEventListener("click", () => openPlayer("trailer"));
-els.favoriteButton.addEventListener("click", () => toggleFavorite(state.selectedId));
-els.closePlayer.addEventListener("click", closePlayer);
-els.reviewForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const item = selectedItem();
-  const reviews = store.reviews(item.id);
-  reviews.unshift({
-    name: els.reviewName.value.trim(),
-    rating: els.reviewRating.value,
-    text: els.reviewText.value.trim(),
+  els.heroPrev.addEventListener("click", () => moveHero(-1));
+  els.heroNext.addEventListener("click", () => moveHero(1));
+  els.heroProgress.addEventListener("click", (event) => {
+    const index = event.target.closest("[data-hero]")?.dataset.hero;
+    if (index === undefined) return;
+    const item = heroItems()[Number(index)];
+    if (!item) return;
+    state.heroIndex = Number(index);
+    state.selectedId = item.id;
+    render();
   });
-  store.saveReviews(item.id, reviews);
-  els.reviewForm.reset();
-  renderReviews();
-  render();
-});
-els.requestForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  store.requests = [
-    { title: els.requestInput.value.trim(), date: new Date().toLocaleDateString("fr-FR") },
-    ...store.requests,
-  ];
-  els.requestForm.reset();
-  alert("Demande envoyee.");
-});
-els.suggestionButton.addEventListener("click", () => {
-  document.querySelector(".request-strip")?.scrollIntoView({ behavior: "smooth", block: "center" });
-  setTimeout(() => els.requestInput?.focus(), 350);
-});
-els.adminButton.addEventListener("click", openAdmin);
-els.adminTabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    state.adminSection = tab.dataset.adminTab || "site";
+  els.heroWatch.addEventListener("click", () => openDetail(state.selectedId));
+  els.heroInfo.addEventListener("click", () => openDetail(state.selectedId));
+  els.heroFav.addEventListener("click", () => toggleFavorite(state.selectedId));
+  document.addEventListener("click", (event) => {
+    const id = event.target.closest("[data-open]")?.dataset.open;
+    if (id) openDetail(id);
+  });
+  els.genreWall.addEventListener("click", (event) => {
+    const genre = event.target.closest("[data-genre]")?.dataset.genre;
+    if (!genre) return;
+    state.genre = genre;
+    render();
+    $("#catalog").scrollIntoView({ behavior: "smooth" });
+  });
+  els.genreSelect.addEventListener("change", () => {
+    state.genre = els.genreSelect.value;
+    renderCatalog();
+  });
+  els.sortSelect.addEventListener("change", renderCatalog);
+  $$("[data-close-detail]").forEach((button) => button.addEventListener("click", () => closePanel(els.detailDrawer)));
+  els.watchNow.addEventListener("click", () => openPlayer("watch"));
+  els.watchTrailer.addEventListener("click", () => openPlayer("trailer"));
+  els.closePlayer.addEventListener("click", closePlayer);
+  els.toggleFavorite.addEventListener("click", () => toggleFavorite(state.selectedId));
+  els.reviewForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const item = selectedItem();
+    store.saveReviews(item.id, [
+      { name: els.reviewName.value.trim(), rating: els.reviewRating.value, text: els.reviewText.value.trim() },
+      ...store.reviews(item.id),
+    ]);
+    els.reviewForm.reset();
+    renderReviews();
+    renderStats();
+  });
+  els.adminOpen.addEventListener("click", openAdmin);
+  $$("[data-close-admin-gate]").forEach((button) => button.addEventListener("click", () => closePanel(els.adminGate)));
+  $$("[data-close-admin]").forEach((button) => button.addEventListener("click", () => closePanel(els.adminPanel)));
+  els.gateForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (els.adminCode.value !== adminPassword) {
+      els.gateError.textContent = "Code incorrect.";
+      return;
+    }
+    state.adminUnlocked = true;
+    closePanel(els.adminGate);
+    openAdmin();
+  });
+  els.adminTabs.addEventListener("click", (event) => {
+    const tab = event.target.closest("[data-tab]")?.dataset.tab;
+    if (!tab) return;
+    state.adminTab = tab;
     renderAdmin();
   });
-});
-els.gateForm.addEventListener("submit", unlockAdmin);
-$$("[data-close]").forEach((button) => button.addEventListener("click", closeDetails));
-$$("[data-gate-close]").forEach((button) => button.addEventListener("click", () => closeDrawer(els.adminGate)));
-$$("[data-admin-close]").forEach((button) => button.addEventListener("click", () => closeDrawer(els.adminPanel)));
-[
-  els.settingName,
-  els.settingLogo,
-  els.settingTagline,
-  els.settingTopTitle,
-  els.settingCatalogTitle,
-  els.settingPlatforms,
-  els.settingRequestTitle,
-  els.settingFloatStyle,
-  els.settingWine,
-  els.settingRed,
-  els.settingGold,
-  els.settingGlow,
-  els.moduleHeroSlider,
-  els.modulePortal,
-  els.modulePlatforms,
-  els.moduleGenreHub,
-  els.moduleSpotlight,
-  els.moduleRequests,
-  els.moduleContinue,
-  els.moduleTop,
-  els.moduleTop10,
-  els.moduleCatalog,
-  els.moduleReviews,
-  els.moduleDecor,
-].forEach((control) => control.addEventListener("input", saveSettings));
-els.saveSettings.addEventListener("click", saveSettings);
-els.resetSettings.addEventListener("click", resetSettings);
-els.exportSettings.addEventListener("click", exportSettings);
-els.importSettings.addEventListener("click", importSettings);
-els.newItem.addEventListener("click", clearContentForm);
-els.contentForm.addEventListener("submit", saveContent);
-els.adminList.addEventListener("click", (event) => {
-  const button = event.target.closest("button");
-  if (!button) return;
-  if (button.dataset.view) {
-    closeDrawer(els.adminPanel);
-    openDetails(button.dataset.view);
-  }
-  if (button.dataset.edit) fillContentForm(button.dataset.edit);
-  if (button.dataset.feature) setFeatured(button.dataset.feature);
-  if (button.dataset.delete) deleteItem(button.dataset.delete);
-});
-els.exportCatalog.addEventListener("click", exportCatalog);
-els.importCatalog.addEventListener("click", importCatalog);
-els.resetCatalog.addEventListener("click", resetCatalog);
-els.clearRequests.addEventListener("click", () => {
-  if (!confirm("Vider les demandes ?")) return;
-  store.requests = [];
-  renderAdmin();
-});
-document.addEventListener("keydown", (event) => {
-  if (event.key !== "Escape") return;
-  closeDetails();
-  closeDrawer(els.adminGate);
-  closeDrawer(els.adminPanel);
-});
+  els.saveSettings.addEventListener("click", () => {
+    store.settings = readSettings();
+    fillSettings();
+    render();
+    renderAdmin();
+  });
+  els.resetSettings.addEventListener("click", () => {
+    if (!confirm("Remettre le design par defaut ?")) return;
+    localStorage.removeItem("hs.settings");
+    fillSettings();
+    render();
+    renderAdmin();
+  });
+  els.moduleGrid.addEventListener("input", () => {
+    store.settings = readSettings();
+    render();
+    renderAdmin();
+  });
+  [els.settingName, els.settingLogo, els.settingTagline, els.settingPlatforms, els.settingWine, els.settingRed, els.settingGold, els.settingDecor].forEach(
+    (input) => input.addEventListener("input", () => {
+      store.settings = readSettings();
+      render();
+      renderAdmin();
+    })
+  );
+  els.contentForm.addEventListener("submit", saveItem);
+  els.newItem.addEventListener("click", clearEditor);
+  els.adminList.addEventListener("click", (event) => {
+    const button = event.target.closest("button");
+    if (!button) return;
+    if (button.dataset.view) openDetail(button.dataset.view);
+    if (button.dataset.edit) fillEditor(button.dataset.edit);
+    if (button.dataset.feature) {
+      store.catalog = catalog().map((item) => ({ ...item, featured: item.id === button.dataset.feature }));
+      state.selectedId = button.dataset.feature;
+      render();
+      renderAdmin();
+    }
+    if (button.dataset.delete) deleteItem(button.dataset.delete);
+  });
+  els.requestForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    store.requests = [{ title: els.requestInput.value.trim(), date: new Date().toLocaleDateString("fr-FR") }, ...store.requests];
+    els.requestForm.reset();
+    renderAdmin();
+  });
+  els.floatingRequest.addEventListener("click", () => {
+    if (!state.adminUnlocked) {
+      store.requests = [{ title: "Nouvelle suggestion membre", date: new Date().toLocaleDateString("fr-FR") }, ...store.requests];
+      alert("Suggestion ajoutee en exemple. Le detail se gere dans le panel admin.");
+      return;
+    }
+    state.adminTab = "requests";
+    openAdmin();
+  });
+  els.exportAll.addEventListener("click", exportAll);
+  els.importAll.addEventListener("click", importAll);
+  els.resetCatalog.addEventListener("click", () => {
+    if (!confirm("Remettre le catalogue de demo ?")) return;
+    localStorage.removeItem("hs.catalog");
+    state.selectedId = demoCatalog[0].id;
+    render();
+    renderAdmin();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    closePanel(els.detailDrawer);
+    closePanel(els.adminGate);
+    closePanel(els.adminPanel);
+    els.megaMenu.classList.remove("is-open");
+  });
+}
 
-applySettings();
-fillSettingsForm();
-state.selectedId = featuredItem().id;
+bindEvents();
+fillSettings();
+state.selectedId = heroItems()[0]?.id || demoCatalog[0].id;
 render();
 
 setInterval(() => {
-  if (!store.settings.modules.heroSlider || document.hidden || els.details.classList.contains("is-open")) return;
+  if (document.hidden || els.detailDrawer.classList.contains("is-open") || els.adminPanel.classList.contains("is-open")) return;
   moveHero(1);
-}, 8500);
+}, 7000);
