@@ -2200,6 +2200,169 @@ h2 {
   font-weight: 900;
 }
 
+.editorial-zone {
+  position: relative;
+  z-index: 18;
+  width: min(1500px, calc(100vw - 42px));
+  margin: 0 auto 38px;
+  padding: 18px;
+  background:
+    linear-gradient(145deg, rgba(18, 0, 4, 0.88), rgba(5, 0, 1, 0.94)),
+    radial-gradient(circle at 18% 0%, rgba(231, 182, 75, 0.14), transparent 20rem);
+  border: 1px solid rgba(255, 221, 117, 0.16);
+  border-radius: 10px;
+  box-shadow: 0 24px 74px rgba(0, 0, 0, 0.44);
+}
+
+.editorial-grid {
+  display: grid;
+  grid-template-columns: 1.25fr repeat(4, 1fr);
+  gap: 12px;
+}
+
+.editorial-card {
+  position: relative;
+  min-height: 250px;
+  overflow: hidden;
+  display: flex;
+  align-items: end;
+  width: 100%;
+  padding: 16px;
+  color: var(--ink);
+  background: #090002;
+  border: 1px solid rgba(255, 221, 117, 0.14);
+  border-radius: 8px;
+  text-align: left;
+}
+
+.editorial-card.is-large {
+  min-height: 340px;
+}
+
+.editorial-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.62;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.editorial-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(8, 0, 2, 0.96), transparent 58%);
+}
+
+.editorial-card span,
+.editorial-card strong,
+.editorial-card em {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.editorial-card span {
+  color: var(--gold-soft);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.editorial-card strong {
+  margin-top: 8px;
+  font-size: 22px;
+  line-height: 1.05;
+}
+
+.editorial-card.is-large strong {
+  font-size: clamp(30px, 3.6vw, 54px);
+}
+
+.editorial-card em {
+  margin-top: 7px;
+  color: var(--muted);
+  font-style: normal;
+  font-weight: 800;
+}
+
+.editorial-card:hover img {
+  opacity: 0.82;
+  transform: scale(1.06);
+}
+
+.request-module {
+  position: relative;
+  z-index: 18;
+  width: min(1500px, calc(100vw - 42px));
+  display: grid;
+  grid-template-columns: 1fr minmax(320px, 480px);
+  gap: 18px;
+  align-items: center;
+  margin: 0 auto 38px;
+  padding: 22px;
+  background:
+    linear-gradient(135deg, rgba(102, 4, 22, 0.72), rgba(7, 0, 2, 0.92)),
+    repeating-linear-gradient(90deg, rgba(255, 221, 117, 0.05) 0 1px, transparent 1px 80px);
+  border: 1px solid rgba(255, 221, 117, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 24px 74px rgba(0, 0, 0, 0.4);
+}
+
+.request-module h2 {
+  margin: 0 0 8px;
+}
+
+.request-module p:not(.eyebrow) {
+  margin: 0;
+  color: var(--muted);
+}
+
+.request-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+.request-form input {
+  min-height: 46px;
+  color: var(--ink);
+  background: rgba(0, 0, 0, 0.34);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.admin-requests {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.request-list {
+  display: grid;
+  gap: 8px;
+}
+
+.request-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 221, 117, 0.14);
+  border-radius: 8px;
+}
+
+.request-row span {
+  color: var(--muted);
+}
+
 .brand-lanes article {
   min-height: 138px;
   padding: 20px;
@@ -2443,8 +2606,17 @@ h2 {
   }
 
   .discovery-board,
-  .portal-feature {
+  .portal-feature,
+  .request-module {
     grid-template-columns: 1fr;
+  }
+
+  .editorial-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .editorial-card.is-large {
+    grid-column: 1 / -1;
   }
 
   .portal-feature img {
@@ -2492,11 +2664,18 @@ h2 {
 
   .browse-panel,
   .discovery-board,
+  .editorial-zone,
   .brand-lanes,
   .content-row,
   .premiere-strip,
-  .custom-module {
+  .custom-module,
+  .request-module {
     width: min(100vw - 20px, 1500px);
+  }
+
+  .editorial-grid,
+  .request-form {
+    grid-template-columns: 1fr;
   }
 
   .float-card,

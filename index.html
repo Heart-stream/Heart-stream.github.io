@@ -134,6 +134,17 @@
         </article>
       </section>
 
+      <section class="editorial-zone" data-module="editorial" aria-label="Selection editoriale">
+        <div class="rail-heading">
+          <div>
+            <p class="eyebrow">Spotlight</p>
+            <h2>Selection realisateur</h2>
+          </div>
+          <span>Ambiance noir cinema</span>
+        </div>
+        <div class="editorial-grid" id="editorialGrid"></div>
+      </section>
+
       <section class="premiere-strip" data-module="premiere" aria-label="Selections rapides">
         <div>
           <span class="premiere-kicker">Soiree cinema</span>
@@ -156,6 +167,18 @@
           <p id="customModuleText">Ajoute ici un message, une annonce ou une zone speciale depuis le panel admin.</p>
         </div>
         <button class="gold-button" data-home type="button">Explorer</button>
+      </section>
+
+      <section class="request-module" data-module="requests" aria-label="Demandes membres">
+        <div>
+          <p class="eyebrow">Demandes express</p>
+          <h2>Un titre manque au catalogue ?</h2>
+          <p>Les membres peuvent laisser une idee. Tu la retrouves ensuite dans le panel admin.</p>
+        </div>
+        <form id="requestForm" class="request-form">
+          <input id="requestTitle" type="text" maxlength="80" placeholder="Nom du film ou de la serie" required />
+          <button class="gold-button" type="submit">Envoyer</button>
+        </form>
       </section>
 
       <section class="content-row" id="continueSection" data-module="continue">
@@ -392,6 +415,7 @@
           <div class="module-grid" aria-label="Modules du site">
             <label><input id="modulePlatforms" type="checkbox" /> Blocs Netflix / HBO / Canal+</label>
             <label><input id="moduleDiscovery" type="checkbox" /> Portail decouverte</label>
+            <label><input id="moduleEditorial" type="checkbox" /> Spotlight cinema</label>
             <label><input id="modulePremiere" type="checkbox" /> Bandeau soiree cinema</label>
             <label><input id="moduleContinue" type="checkbox" /> Continuer a regarder</label>
             <label><input id="moduleTop" type="checkbox" /> Top tendances</label>
@@ -399,6 +423,7 @@
             <label><input id="moduleReviews" type="checkbox" /> Avis membres</label>
             <label><input id="moduleDecor" type="checkbox" /> Decors flottants</label>
             <label><input id="moduleCustom" type="checkbox" /> Module personnalise</label>
+            <label><input id="moduleRequests" type="checkbox" /> Demandes express</label>
           </div>
 
           <div class="admin-toolbar">
@@ -421,6 +446,17 @@
         </div>
 
         <div class="admin-list" id="adminList"></div>
+
+        <section class="admin-requests">
+          <div class="admin-section-head">
+            <div>
+              <p class="eyebrow">Membres</p>
+              <h3>Demandes express</h3>
+            </div>
+            <button class="danger-button" id="adminClearRequests" type="button">Vider les demandes</button>
+          </div>
+          <div class="request-list" id="adminRequestsList"></div>
+        </section>
 
         <label class="admin-json">
           Sauvegarde / import JSON

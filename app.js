@@ -19,6 +19,7 @@ const defaultSettings = {
   modules: {
     platforms: true,
     discovery: true,
+    editorial: true,
     premiere: true,
     continue: true,
     top: true,
@@ -26,6 +27,7 @@ const defaultSettings = {
     reviews: true,
     decor: true,
     custom: true,
+    requests: true,
   },
 };
 
@@ -158,6 +160,12 @@ const store = {
   set history(value) {
     localStorage.setItem("heartStream.history", JSON.stringify(value.slice(0, 8)));
   },
+  get requests() {
+    return JSON.parse(localStorage.getItem("heartStream.requests") || "[]");
+  },
+  set requests(value) {
+    localStorage.setItem("heartStream.requests", JSON.stringify(value.slice(0, 30)));
+  },
   reviewsFor(id) {
     return JSON.parse(localStorage.getItem(`heartStream.reviews.${id}`) || "[]");
   },
@@ -253,6 +261,7 @@ const els = {
   settingDecorStyle: document.querySelector("#settingDecorStyle"),
   modulePlatforms: document.querySelector("#modulePlatforms"),
   moduleDiscovery: document.querySelector("#moduleDiscovery"),
+  moduleEditorial: document.querySelector("#moduleEditorial"),
   modulePremiere: document.querySelector("#modulePremiere"),
   moduleContinue: document.querySelector("#moduleContinue"),
   moduleTop: document.querySelector("#moduleTop"),
@@ -260,6 +269,12 @@ const els = {
   moduleReviews: document.querySelector("#moduleReviews"),
   moduleDecor: document.querySelector("#moduleDecor"),
   moduleCustom: document.querySelector("#moduleCustom"),
+  moduleRequests: document.querySelector("#moduleRequests"),
+  editorialGrid: document.querySelector("#editorialGrid"),
+  requestForm: document.querySelector("#requestForm"),
+  requestTitle: document.querySelector("#requestTitle"),
+  adminRequestsList: document.querySelector("#adminRequestsList"),
+  adminClearRequests: document.querySelector("#adminClearRequests"),
   portalTitle: document.querySelector("#portalTitle"),
   portalDescription: document.querySelector("#portalDescription"),
   portalMeta: document.querySelector("#portalMeta"),
@@ -344,6 +359,7 @@ function fillSettingsForm() {
   els.settingDecorStyle.value = settings.decorStyle;
   els.modulePlatforms.checked = settings.modules.platforms;
   els.moduleDiscovery.checked = settings.modules.discovery;
+  els.moduleEditorial.checked = settings.modules.editorial;
   els.modulePremiere.checked = settings.modules.premiere;
   els.moduleContinue.checked = settings.modules.continue;
   els.moduleTop.checked = settings.modules.top;
@@ -351,6 +367,7 @@ function fillSettingsForm() {
   els.moduleReviews.checked = settings.modules.reviews;
   els.moduleDecor.checked = settings.modules.decor;
   els.moduleCustom.checked = settings.modules.custom;
+  els.moduleRequests.checked = settings.modules.requests;
 }
 
 function readSettingsForm() {
@@ -371,6 +388,7 @@ function readSettingsForm() {
     modules: {
       platforms: els.modulePlatforms.checked,
       discovery: els.moduleDiscovery.checked,
+      editorial: els.moduleEditorial.checked,
       premiere: els.modulePremiere.checked,
       continue: els.moduleContinue.checked,
       top: els.moduleTop.checked,
@@ -378,6 +396,7 @@ function readSettingsForm() {
       reviews: els.moduleReviews.checked,
       decor: els.moduleDecor.checked,
       custom: els.moduleCustom.checked,
+      requests: els.moduleRequests.checked,
     },
   });
 }
@@ -568,6 +587,23 @@ function renderDiscovery(items) {
     .join("");
 }
 
+function renderEditorial() {
+  els.editorialGrid.innerHTML = [...store.catalog]
+    .sort((a, b) => Number(b.featured) - Number(a.featured) || b.year - a.year)
+    .slice(0, 5)
+    .map(
+      (item, index) => `
+        <button class="editorial-card ${index === 0 ? "is-large" : ""}" data-editorial-id="${item.id}">
+          <img src="${item.poster || fallbackPoster}" alt="">
+          <span>${escapeHtml(item.type)} • ${item.year}</span>
+          <strong>${escapeHtml(item.title)}</strong>
+          <em>${escapeHtml(item.genres.slice(0, 2).join(" / "))}</em>
+        </button>
+      `
+    )
+    .join("");
+}
+
 function makeContinueCard(item) {
   const card = document.createElement("button");
   card.className = "continue-card";
@@ -598,6 +634,7 @@ function render() {
   els.statFavorites.textContent = store.favorites.length;
   renderRails(items);
   renderDiscovery(items);
+  renderEditorial();
   renderCatalog(items);
   setHero(selectedItem() || heroItem());
 }
@@ -801,10 +838,23 @@ function unlockAdmin(event) {
 
 function renderAdminPanel() {
   const catalog = store.catalog;
+  const requests = store.requests;
   fillSettingsForm();
   els.adminTotal.textContent = catalog.length;
   els.adminFavorites.textContent = store.favorites.length;
   els.adminReviews.textContent = catalog.reduce((total, item) => total + store.reviewsFor(item.id).length, 0);
+  els.adminRequestsList.innerHTML = requests.length
+    ? requests
+        .map(
+          (request) => `
+            <article class="request-row">
+              <strong>${escapeHtml(request.title)}</strong>
+              <span>${escapeHtml(request.date)}</span>
+            </article>
+          `
+        )
+        .join("")
+    : `<article class="request-row"><strong>Aucune demande pour le moment</strong><span>Les demandes des membres apparaitront ici.</span></article>`;
   els.adminList.innerHTML = catalog
     .map(
       (item) => `
@@ -979,6 +1029,7 @@ els.adminImportSettings.addEventListener("click", importSettings);
   els.settingDecorStyle,
   els.modulePlatforms,
   els.moduleDiscovery,
+  els.moduleEditorial,
   els.modulePremiere,
   els.moduleContinue,
   els.moduleTop,
@@ -986,6 +1037,7 @@ els.adminImportSettings.addEventListener("click", importSettings);
   els.moduleReviews,
   els.moduleDecor,
   els.moduleCustom,
+  els.moduleRequests,
 ].forEach((control) => control.addEventListener("input", saveSettings));
 els.portalGenres.addEventListener("click", (event) => {
   const genre = event.target.dataset.portalGenre;
@@ -997,6 +1049,31 @@ els.portalTrending.addEventListener("click", (event) => {
   const button = event.target.closest("[data-portal-id]");
   if (!button) return;
   openDetail(button.dataset.portalId);
+});
+els.editorialGrid.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-editorial-id]");
+  if (!button) return;
+  openDetail(button.dataset.editorialId);
+});
+els.requestForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const title = els.requestTitle.value.trim();
+  if (!title) return;
+  store.requests = [
+    {
+      title,
+      date: new Date().toLocaleDateString("fr-FR"),
+    },
+    ...store.requests,
+  ];
+  els.requestForm.reset();
+  renderAdminPanel();
+  alert("Demande envoyee.");
+});
+els.adminClearRequests.addEventListener("click", () => {
+  if (!confirm("Vider toutes les demandes membres ?")) return;
+  store.requests = [];
+  renderAdminPanel();
 });
 els.adminList.addEventListener("click", (event) => {
   const viewId = event.target.dataset.adminView;
