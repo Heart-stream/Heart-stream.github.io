@@ -2,8 +2,15 @@ const fallbackPoster =
   "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=900&q=80";
 const adminCode = "heart2026";
 const defaultSettings = {
-  siteName: "Heart-Stream",
+  settingsVersion: 2,
+  siteName: "Heart-Stream HS",
+  logoText: "HS",
   tagline: "Experience cinema",
+  premiereText: "Ambiance rouge vin, or, affiches mouvantes et lecteur integre.",
+  topTitle: "Top Heart-Stream HS",
+  catalogHeading: "Tous les titres",
+  customTitle: "Selection speciale",
+  customText: "Ajoute ici un message, une annonce ou une zone speciale depuis le panel admin.",
   wine: "#6f0618",
   accent: "#e50922",
   gold: "#e7b64b",
@@ -17,6 +24,7 @@ const defaultSettings = {
     catalog: true,
     reviews: true,
     decor: true,
+    custom: true,
   },
 };
 
@@ -230,7 +238,13 @@ const els = {
   adminImport: document.querySelector("#adminImport"),
   adminReset: document.querySelector("#adminReset"),
   settingSiteName: document.querySelector("#settingSiteName"),
+  settingLogoText: document.querySelector("#settingLogoText"),
   settingTagline: document.querySelector("#settingTagline"),
+  settingPremiereText: document.querySelector("#settingPremiereText"),
+  settingTopTitle: document.querySelector("#settingTopTitle"),
+  settingCatalogHeading: document.querySelector("#settingCatalogHeading"),
+  settingCustomTitle: document.querySelector("#settingCustomTitle"),
+  settingCustomText: document.querySelector("#settingCustomText"),
   settingWine: document.querySelector("#settingWine"),
   settingAccent: document.querySelector("#settingAccent"),
   settingGold: document.querySelector("#settingGold"),
@@ -243,6 +257,7 @@ const els = {
   moduleCatalog: document.querySelector("#moduleCatalog"),
   moduleReviews: document.querySelector("#moduleReviews"),
   moduleDecor: document.querySelector("#moduleDecor"),
+  moduleCustom: document.querySelector("#moduleCustom"),
   adminSaveSettings: document.querySelector("#adminSaveSettings"),
   adminResetSettings: document.querySelector("#adminResetSettings"),
   adminExportSettings: document.querySelector("#adminExportSettings"),
@@ -252,12 +267,19 @@ const els = {
 };
 
 function mergeSettings(saved) {
+  const migrated = saved
+    ? {
+        ...saved,
+        siteName: !saved.settingsVersion && saved.siteName === "Heart-Stream" ? defaultSettings.siteName : saved.siteName,
+        logoText: saved.logoText || defaultSettings.logoText,
+      }
+    : null;
   return {
     ...defaultSettings,
-    ...(saved || {}),
+    ...(migrated || {}),
     modules: {
       ...defaultSettings.modules,
-      ...((saved && saved.modules) || {}),
+      ...((migrated && migrated.modules) || {}),
     },
   };
 }
@@ -266,6 +288,7 @@ function applySettings() {
   const settings = store.settings;
   const root = document.documentElement;
   const glow = Number(settings.glow) || 0;
+  const logoText = (settings.logoText || "HS").trim().slice(0, 4).toUpperCase();
 
   root.style.setProperty("--wine", settings.wine);
   root.style.setProperty("--wine-hot", settings.accent);
@@ -277,8 +300,12 @@ function applySettings() {
   document.querySelectorAll("[data-site-name]").forEach((node) => {
     node.textContent = settings.siteName;
   });
-  document.querySelector(".brand-mark").textContent = settings.siteName.trim().charAt(0).toUpperCase() || "H";
+  document.querySelector("[data-logo-mark]").textContent = logoText;
   document.querySelector(".billboard-card strong").textContent = settings.tagline || defaultSettings.tagline;
+  document.querySelector("#premiereText").textContent = settings.premiereText || defaultSettings.premiereText;
+  document.querySelector("#topSectionTitle").textContent = settings.topTitle || defaultSettings.topTitle;
+  document.querySelector("#customModuleTitle").textContent = settings.customTitle || defaultSettings.customTitle;
+  document.querySelector("#customModuleText").textContent = settings.customText || defaultSettings.customText;
 
   Object.entries(settings.modules).forEach(([module, enabled]) => {
     document.querySelectorAll(`[data-module="${module}"]`).forEach((node) => {
@@ -293,7 +320,13 @@ function applySettings() {
 function fillSettingsForm() {
   const settings = store.settings;
   els.settingSiteName.value = settings.siteName;
+  els.settingLogoText.value = settings.logoText;
   els.settingTagline.value = settings.tagline;
+  els.settingPremiereText.value = settings.premiereText;
+  els.settingTopTitle.value = settings.topTitle;
+  els.settingCatalogHeading.value = settings.catalogHeading;
+  els.settingCustomTitle.value = settings.customTitle;
+  els.settingCustomText.value = settings.customText;
   els.settingWine.value = settings.wine;
   els.settingAccent.value = settings.accent;
   els.settingGold.value = settings.gold;
@@ -306,12 +339,19 @@ function fillSettingsForm() {
   els.moduleCatalog.checked = settings.modules.catalog;
   els.moduleReviews.checked = settings.modules.reviews;
   els.moduleDecor.checked = settings.modules.decor;
+  els.moduleCustom.checked = settings.modules.custom;
 }
 
 function readSettingsForm() {
   return mergeSettings({
     siteName: els.settingSiteName.value.trim() || defaultSettings.siteName,
+    logoText: els.settingLogoText.value.trim() || defaultSettings.logoText,
     tagline: els.settingTagline.value.trim() || defaultSettings.tagline,
+    premiereText: els.settingPremiereText.value.trim() || defaultSettings.premiereText,
+    topTitle: els.settingTopTitle.value.trim() || defaultSettings.topTitle,
+    catalogHeading: els.settingCatalogHeading.value.trim() || defaultSettings.catalogHeading,
+    customTitle: els.settingCustomTitle.value.trim() || defaultSettings.customTitle,
+    customText: els.settingCustomText.value.trim() || defaultSettings.customText,
     wine: els.settingWine.value,
     accent: els.settingAccent.value,
     gold: els.settingGold.value,
@@ -325,6 +365,7 @@ function readSettingsForm() {
       catalog: els.moduleCatalog.checked,
       reviews: els.moduleReviews.checked,
       decor: els.moduleDecor.checked,
+      custom: els.moduleCustom.checked,
     },
   });
 }
@@ -503,10 +544,11 @@ function renderCatalog(items) {
 }
 
 function render() {
+  const settings = store.settings;
   renderGenreFilters();
   const items = filteredCatalog();
   els.title.textContent = state.favoritesOnly ? "Mes favoris" : state.filter === "Tous" ? "A decouvrir" : state.filter;
-  els.gridHeading.textContent = state.query ? "Resultats de recherche" : "Tous les titres";
+  els.gridHeading.textContent = state.query ? "Resultats de recherche" : settings.catalogHeading;
   els.statTitles.textContent = store.catalog.length;
   els.statFavorites.textContent = store.favorites.length;
   renderRails(items);
@@ -824,7 +866,7 @@ els.tabs.forEach((tab) => {
   });
 });
 
-document.querySelector("[data-home]").addEventListener("click", () => {
+document.querySelectorAll("[data-home]").forEach((button) => button.addEventListener("click", () => {
   state.filter = "Tous";
   state.genre = "Tous";
   state.query = "";
@@ -832,7 +874,7 @@ document.querySelector("[data-home]").addEventListener("click", () => {
   els.tabs.forEach((item) => item.classList.toggle("is-active", item.dataset.filter === "Tous"));
   render();
   window.scrollTo({ top: 0, behavior: "smooth" });
-});
+}));
 
 els.search.addEventListener("input", (event) => {
   state.query = event.target.value;
@@ -872,7 +914,13 @@ els.adminExportSettings.addEventListener("click", exportSettings);
 els.adminImportSettings.addEventListener("click", importSettings);
 [
   els.settingSiteName,
+  els.settingLogoText,
   els.settingTagline,
+  els.settingPremiereText,
+  els.settingTopTitle,
+  els.settingCatalogHeading,
+  els.settingCustomTitle,
+  els.settingCustomText,
   els.settingWine,
   els.settingAccent,
   els.settingGold,
@@ -885,6 +933,7 @@ els.adminImportSettings.addEventListener("click", importSettings);
   els.moduleCatalog,
   els.moduleReviews,
   els.moduleDecor,
+  els.moduleCustom,
 ].forEach((control) => control.addEventListener("input", saveSettings));
 els.adminList.addEventListener("click", (event) => {
   const viewId = event.target.dataset.adminView;

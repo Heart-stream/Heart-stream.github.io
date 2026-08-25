@@ -414,8 +414,10 @@ button,
 .brand-mark {
   display: grid;
   place-items: center;
-  width: 42px;
+  min-width: 46px;
+  width: auto;
   height: 42px;
+  padding: 0 10px;
   color: #1a070a;
   background: linear-gradient(145deg, #fff0a8, var(--gold) 54%, #9f6818);
   border-radius: 9px;
@@ -1314,7 +1316,8 @@ h2 {
   font-weight: 850;
 }
 
-.settings-grid input {
+.settings-grid input,
+.settings-grid select {
   width: 100%;
   min-height: 46px;
   color: var(--ink);
@@ -1325,7 +1328,9 @@ h2 {
 }
 
 .settings-grid input[type="color"] {
+  width: 82px;
   padding: 5px;
+  cursor: pointer;
 }
 
 .settings-grid input[type="range"] {
@@ -1886,6 +1891,8 @@ h2 {
     0 0 16px rgba(229, 9, 34, 0.82),
     0 0 34px rgba(229, 9, 34, 0.38),
     inset 0 0 12px rgba(255, 240, 163, 0.28);
+  font-size: 16px;
+  letter-spacing: 0;
 }
 
 .stream-topbar .tabs {
@@ -2168,6 +2175,47 @@ h2 {
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.26);
 }
 
+.custom-module {
+  position: relative;
+  z-index: 18;
+  width: min(1500px, calc(100vw - 42px));
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 18px;
+  align-items: center;
+  overflow: hidden;
+  margin: 0 auto 38px;
+  padding: 24px;
+  background:
+    linear-gradient(135deg, rgba(111, 6, 24, 0.72), rgba(7, 0, 2, 0.9)),
+    radial-gradient(circle at 14% 0%, rgba(255, 240, 163, 0.18), transparent 20rem);
+  border: 1px solid rgba(255, 221, 117, 0.22);
+  border-radius: 8px;
+  box-shadow: 0 24px 74px rgba(0, 0, 0, 0.42);
+}
+
+.custom-module::after {
+  content: "";
+  position: absolute;
+  top: -80px;
+  right: 12%;
+  width: 160px;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(229, 9, 34, 0.34), transparent 68%);
+  filter: blur(2px);
+}
+
+.custom-module h2 {
+  margin: 0 0 8px;
+}
+
+.custom-module p:not(.eyebrow) {
+  max-width: 760px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
 .content-row .rail-heading {
   padding: 0 2px;
 }
@@ -2262,6 +2310,10 @@ h2 {
     grid-template-columns: 1fr;
   }
 
+  .custom-module {
+    grid-template-columns: 1fr;
+  }
+
   .floating-decor {
     opacity: 0.65;
   }
@@ -2288,7 +2340,8 @@ h2 {
   .browse-panel,
   .brand-lanes,
   .content-row,
-  .premiere-strip {
+  .premiere-strip,
+  .custom-module {
     width: min(100vw - 20px, 1500px);
   }
 
