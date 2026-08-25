@@ -298,7 +298,25 @@
           <div><strong id="adminRequests">0</strong><span>demandes</span></div>
         </section>
 
-        <section class="admin-section">
+        <section class="admin-dashboard">
+          <button class="admin-tile is-active" data-admin-tab="site" type="button">
+            <span>Design</span>
+            <strong>Site complet</strong>
+            <em>Nom, couleurs, modules, flottants.</em>
+          </button>
+          <button class="admin-tile" data-admin-tab="catalog" type="button">
+            <span>Catalogue</span>
+            <strong>Films et series</strong>
+            <em>Ajouter, modifier, mettre en avant.</em>
+          </button>
+          <button class="admin-tile" data-admin-tab="requests" type="button">
+            <span>Membres</span>
+            <strong>Demandes</strong>
+            <em>Voir les suggestions recues.</em>
+          </button>
+        </section>
+
+        <section class="admin-section" data-admin-section="site">
           <div class="admin-section-head">
             <div>
               <p class="eyebrow">Site complet</p>
@@ -356,7 +374,7 @@
           <textarea id="settingsJson" class="json-box" placeholder="Configuration JSON du site"></textarea>
         </section>
 
-        <section class="admin-section">
+        <section class="admin-section" data-admin-section="catalog">
           <div class="admin-section-head">
             <div>
               <p class="eyebrow">Catalogue</p>
@@ -390,7 +408,7 @@
           <textarea id="catalogJson" class="json-box" placeholder="Catalogue JSON"></textarea>
         </section>
 
-        <section class="admin-section">
+        <section class="admin-section" data-admin-section="requests">
           <div class="admin-section-head">
             <div>
               <p class="eyebrow">Membres</p>

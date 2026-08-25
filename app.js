@@ -133,6 +133,7 @@ const state = {
   heroIndex: 0,
   editingId: null,
   adminUnlocked: false,
+  adminSection: "site",
 };
 
 const store = {
@@ -250,6 +251,8 @@ const els = {
   adminFavorites: $("#adminFavorites"),
   adminReviews: $("#adminReviews"),
   adminRequests: $("#adminRequests"),
+  adminTabs: $$(".admin-tile"),
+  adminSections: $$("[data-admin-section]"),
   settingName: $("#settingName"),
   settingLogo: $("#settingLogo"),
   settingTagline: $("#settingTagline"),
@@ -856,6 +859,10 @@ function renderAdmin() {
   els.adminFavorites.textContent = store.favorites.length;
   els.adminReviews.textContent = catalog.reduce((total, item) => total + store.reviews(item.id).length, 0);
   els.adminRequests.textContent = requests.length;
+  els.adminTabs.forEach((tab) => tab.classList.toggle("is-active", tab.dataset.adminTab === state.adminSection));
+  els.adminSections.forEach((section) => {
+    section.hidden = section.dataset.adminSection !== state.adminSection;
+  });
   els.adminList.innerHTML = catalog
     .map(
       (item) => `
@@ -1051,6 +1058,12 @@ els.suggestionButton.addEventListener("click", () => {
   setTimeout(() => els.requestInput?.focus(), 350);
 });
 els.adminButton.addEventListener("click", openAdmin);
+els.adminTabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    state.adminSection = tab.dataset.adminTab || "site";
+    renderAdmin();
+  });
+});
 els.gateForm.addEventListener("submit", unlockAdmin);
 $$("[data-close]").forEach((button) => button.addEventListener("click", closeDetails));
 $$("[data-gate-close]").forEach((button) => button.addEventListener("click", () => closeDrawer(els.adminGate)));
