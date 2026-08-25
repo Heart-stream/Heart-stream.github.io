@@ -1270,6 +1270,18 @@ h2 {
   line-height: 1.5;
 }
 
+.admin-version {
+  display: inline-flex;
+  margin-top: 14px;
+  padding: 8px 12px;
+  color: #180205;
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 950;
+  box-shadow: 0 0 24px rgba(231, 182, 75, 0.32);
+}
+
 .admin-stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(140px, 1fr));
