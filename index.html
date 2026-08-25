@@ -6,401 +6,280 @@
     <title>Heart-Stream HS</title>
     <meta
       name="description"
-      content="Heart-Stream HS, plateforme locale avec lecteur Abyss, bandes-annonces, favoris, recherche et avis membres."
+      content="Heart-Stream HS, portail cinema avec catalogue, lecteur Abyss, bandes-annonces, favoris, commentaires et panel admin."
     />
-    <link rel="stylesheet" href="styles.css?v=hs-portal-3" />
+    <link rel="stylesheet" href="styles.css?v=rebuild-1" />
   </head>
   <body>
-    <div class="cinema-glow" aria-hidden="true"></div>
-    <div class="film-grain" aria-hidden="true"></div>
-    <div class="floating-decor" aria-hidden="true">
-      <span class="float-orbit float-orbit-one"></span>
-      <span class="float-orbit float-orbit-two"></span>
-      <span class="float-ring float-ring-one"></span>
-      <span class="float-ring float-ring-two"></span>
-      <span class="float-card float-card-one">4K</span>
-      <span class="float-card float-card-two">PLAY</span>
-      <span class="float-card float-card-three">NEW</span>
-      <span class="float-poster float-poster-one"></span>
-      <span class="float-poster float-poster-two"></span>
-      <span class="float-poster float-poster-three"></span>
-      <span class="float-spark float-spark-one"></span>
-      <span class="float-spark float-spark-two"></span>
-      <span class="float-spark float-spark-three"></span>
+    <div class="ambient" aria-hidden="true">
+      <span class="light light-a"></span>
+      <span class="light light-b"></span>
+      <span class="float float-a">HS</span>
+      <span class="float float-b">4K</span>
+      <span class="float float-c">PLAY</span>
+      <span class="ring ring-a"></span>
+      <span class="ring ring-b"></span>
+      <span class="poster-shape poster-a"></span>
+      <span class="poster-shape poster-b"></span>
+      <span class="spark spark-a"></span>
+      <span class="spark spark-b"></span>
+      <span class="spark spark-c"></span>
     </div>
-    <header class="stream-topbar">
-      <button class="brand" data-home aria-label="Accueil Heart-Stream">
-        <span class="brand-mark" data-logo-mark>HS</span>
-        <span data-site-name>Heart-Stream HS</span>
-        <small class="build-badge">v3</small>
+
+    <header class="topbar">
+      <button class="brand" id="homeButton" type="button" aria-label="Accueil">
+        <span class="brand-logo" id="brandLogo">HS</span>
+        <span class="brand-name" data-site-name>Heart-Stream HS</span>
       </button>
-      <nav class="tabs" aria-label="Navigation principale">
-        <button class="tab is-active" data-filter="Tous">Accueil</button>
-        <button class="tab" data-filter="Film">Films</button>
-        <button class="tab" data-filter="Serie">Series</button>
-        <button class="tab" data-filter="Anime">Animes</button>
-        <button class="tab" data-filter="Documentaire">Docs</button>
+
+      <nav class="main-nav" aria-label="Navigation">
+        <button class="nav-item is-active" data-type="Tous" type="button">Accueil</button>
+        <button class="nav-item" data-type="Film" type="button">Films</button>
+        <button class="nav-item" data-type="Serie" type="button">Series</button>
+        <button class="nav-item" data-type="Anime" type="button">Animes</button>
+        <button class="nav-item" data-type="Doc" type="button">Docs</button>
       </nav>
+
       <div class="top-actions">
-        <label class="search-box">
+        <label class="search">
           <span>Recherche</span>
           <input id="searchInput" type="search" placeholder="Titre, genre, annee..." autocomplete="off" />
         </label>
-        <button id="favoritesOnly" class="icon-button" aria-label="Afficher les favoris">Favoris</button>
-        <button id="openAdminPanel" class="icon-button admin-button">Admin</button>
+        <button class="ghost-button" id="favoritesToggle" type="button">Favoris</button>
+        <button class="gold-button" id="adminButton" type="button">Admin</button>
       </div>
     </header>
 
-    <main class="stream-home">
-      <section class="billboard" id="hero">
-        <img id="heroImage" class="hero-image" alt="" />
-        <div class="billboard-overlay"></div>
-        <div class="billboard-content">
-          <div class="hero-meta">
-            <span class="live-dot"></span>
-            <span id="heroType">Selection</span>
-            <span id="heroYear"></span>
-            <span id="heroRating"></span>
-          </div>
-          <h1 id="heroTitle">Heart-Stream</h1>
-          <p id="heroDescription"></p>
-          <div class="hero-actions">
-            <button id="heroWatch" class="gold-button big">Regarder</button>
-            <button id="heroTrailer" class="glass-button big">Bande-annonce</button>
-            <button id="heroFavorite" class="glass-button big">Favori</button>
+    <main>
+      <section class="hero" id="hero">
+        <img class="hero-bg" id="heroImage" alt="" />
+        <div class="hero-shadow"></div>
+        <div class="hero-copy">
+          <div class="meta-line" id="heroMeta"></div>
+          <h1 id="heroTitle">Heart-Stream HS</h1>
+          <p id="heroText"></p>
+          <div class="button-row">
+            <button class="gold-button large" id="heroWatch" type="button">Regarder</button>
+            <button class="ghost-button large" id="heroTrailer" type="button">Bande-annonce</button>
+            <button class="ghost-button large" id="heroFavorite" type="button">Favori</button>
           </div>
         </div>
-        <div class="billboard-card">
-          <p class="eyebrow">A la une</p>
-          <strong>Experience cinema</strong>
-          <span><b id="statTitles">0</b> titres • <b id="statFavorites">0</b> favoris</span>
-        </div>
+        <aside class="hero-panel">
+          <span>A la une</span>
+          <strong id="heroTagline">Cinema prive premium</strong>
+          <p><b id="statTitles">0</b> titres dans le catalogue</p>
+        </aside>
       </section>
 
-      <section class="browse-panel" aria-label="Filtres et tri">
+      <section class="control-panel">
         <div>
           <p class="eyebrow">Explorer</p>
-          <h2 id="catalogTitle">A decouvrir</h2>
+          <h2 id="currentView">A decouvrir</h2>
         </div>
-        <div class="genre-strip" id="genreFilters"></div>
-        <select id="sortSelect" aria-label="Trier le catalogue">
-          <option value="featured">A decouvrir</option>
+        <div class="chips" id="genreChips"></div>
+        <select id="sortSelect" aria-label="Trier">
+          <option value="featured">Mis en avant</option>
           <option value="rating">Mieux notes</option>
           <option value="recent">Plus recents</option>
           <option value="title">Titre A-Z</option>
         </select>
       </section>
 
-      <section class="discovery-board" data-module="discovery" aria-label="Selection portail">
-        <article class="portal-feature">
-          <div>
-            <p class="eyebrow">Selection HS</p>
-            <h2 id="portalTitle">Le meilleur du moment</h2>
-            <p id="portalDescription">Un espace plus direct pour lancer un film, une serie ou une bande-annonce.</p>
-            <div class="portal-meta" id="portalMeta"></div>
-            <div class="watch-row">
-              <button id="portalWatch" class="gold-button">Regarder</button>
-              <button id="portalTrailer" class="glass-button">Bande-annonce</button>
-            </div>
+      <section class="portal module" data-module="portal">
+        <article class="portal-main">
+          <p class="eyebrow">Selection HS</p>
+          <h2 id="portalTitle">Le meilleur du moment</h2>
+          <p id="portalText"></p>
+          <div class="portal-tags" id="portalMeta"></div>
+          <div class="button-row">
+            <button class="gold-button" id="portalWatch" type="button">Regarder</button>
+            <button class="ghost-button" id="portalTrailer" type="button">Trailer</button>
           </div>
-          <img id="portalPoster" alt="" />
         </article>
         <aside class="portal-side">
-          <div class="portal-card">
-            <p class="eyebrow">Genres</p>
-            <div id="portalGenres" class="portal-tags"></div>
-          </div>
-          <div class="portal-card">
-            <p class="eyebrow">Tendance rapide</p>
-            <div id="portalTrending" class="portal-mini-list"></div>
-          </div>
+          <p class="eyebrow">Top rapide</p>
+          <div id="quickTop" class="quick-top"></div>
         </aside>
       </section>
 
-      <section class="brand-lanes" data-module="platforms" aria-label="Ambiance plateforme">
-        <article>
+      <section class="modules-grid">
+        <article class="module-card module" data-module="platforms">
           <span>Netflix</span>
-          <strong>Rails rapides</strong>
-          <p>Des affiches visibles, un clic, la fiche s'ouvre.</p>
+          <strong>Navigation rapide</strong>
+          <p>Des rails propres, des affiches fortes, une lecture directe.</p>
         </article>
-        <article>
+        <article class="module-card module" data-module="platforms">
           <span>HBO</span>
-          <strong>Hero premium</strong>
-          <p>Une selection sombre, immersive, tres cinema.</p>
+          <strong>Ambiance premium</strong>
+          <p>Un hero sombre, large, pose, avec une vraie sensation cinema.</p>
         </article>
-        <article>
+        <article class="module-card module" data-module="platforms">
           <span>Canal+</span>
-          <strong>Edition claire</strong>
-          <p>Des blocs propres, lisibles, organises.</p>
+          <strong>Interface nette</strong>
+          <p>Des sections organisees pour chercher, filtrer et gerer vite.</p>
         </article>
       </section>
 
-      <section class="editorial-zone" data-module="editorial" aria-label="Selection editoriale">
-        <div class="rail-heading">
+      <section class="spotlight module" data-module="spotlight">
+        <div class="section-head">
           <div>
             <p class="eyebrow">Spotlight</p>
             <h2>Selection realisateur</h2>
           </div>
-          <span>Ambiance noir cinema</span>
         </div>
-        <div class="editorial-grid" id="editorialGrid"></div>
+        <div class="spotlight-grid" id="spotlightGrid"></div>
       </section>
 
-      <section class="premiere-strip" data-module="premiere" aria-label="Selections rapides">
+      <section class="request-strip module" data-module="requests">
         <div>
-          <span class="premiere-kicker">Soiree cinema</span>
-          <strong id="premiereText">Ambiance rouge vin, or, affiches mouvantes et lecteur integre.</strong>
-        </div>
-        <div class="premiere-marquee" aria-hidden="true">
-          <span>Films</span>
-          <span>Series</span>
-          <span>Animes</span>
-          <span>Bandes-annonces</span>
-          <span>Favoris</span>
-          <span>Commentaires</span>
-        </div>
-      </section>
-
-      <section class="custom-module" data-module="custom" aria-label="Module personnalise">
-        <div>
-          <p class="eyebrow">Module admin</p>
-          <h2 id="customModuleTitle">Selection speciale</h2>
-          <p id="customModuleText">Ajoute ici un message, une annonce ou une zone speciale depuis le panel admin.</p>
-        </div>
-        <button class="gold-button" data-home type="button">Explorer</button>
-      </section>
-
-      <section class="request-module" data-module="requests" aria-label="Demandes membres">
-        <div>
-          <p class="eyebrow">Demandes express</p>
-          <h2>Un titre manque au catalogue ?</h2>
-          <p>Les membres peuvent laisser une idee. Tu la retrouves ensuite dans le panel admin.</p>
+          <p class="eyebrow">Demandes membres</p>
+          <h2>Un titre manque ?</h2>
+          <p>Les membres peuvent proposer un film ou une serie. Tu retrouves tout dans l'admin.</p>
         </div>
         <form id="requestForm" class="request-form">
-          <input id="requestTitle" type="text" maxlength="80" placeholder="Nom du film ou de la serie" required />
+          <input id="requestInput" type="text" placeholder="Nom du film ou de la serie" maxlength="80" required />
           <button class="gold-button" type="submit">Envoyer</button>
         </form>
       </section>
 
-      <section class="content-row" id="continueSection" data-module="continue">
-        <div class="rail-heading">
+      <section class="rail module" data-module="continue" id="continueSection">
+        <div class="section-head">
           <div>
             <p class="eyebrow">Reprendre</p>
             <h2>Continuer a regarder</h2>
           </div>
-          <span>Local</span>
         </div>
         <div class="continue-grid" id="continueGrid"></div>
       </section>
 
-      <section class="content-row" data-module="top">
-        <div class="rail-heading">
+      <section class="rail module" data-module="top">
+        <div class="section-head">
           <div>
             <p class="eyebrow">Tendances</p>
-            <h2 id="topSectionTitle">Top Heart-Stream HS</h2>
+            <h2 id="topTitle">Top Heart-Stream HS</h2>
           </div>
           <span id="countLabel"></span>
         </div>
         <div class="poster-rail" id="topRail"></div>
       </section>
 
-      <section class="content-row catalog-row" data-module="catalog">
-        <div class="rail-heading">
+      <section class="catalog module" data-module="catalog">
+        <div class="section-head">
           <div>
             <p class="eyebrow">Catalogue</p>
-            <h2 id="gridHeading">Tous les titres</h2>
+            <h2 id="catalogTitle">Tous les titres</h2>
           </div>
         </div>
-        <div class="grid" id="catalogGrid"></div>
+        <div class="catalog-grid" id="catalogGrid"></div>
       </section>
     </main>
 
-    <aside class="drawer" id="detailDrawer" aria-hidden="true">
-      <div class="drawer-backdrop" data-close></div>
-      <article class="drawer-panel">
-        <button class="close" data-close aria-label="Fermer">x</button>
+    <aside class="drawer" id="details" aria-hidden="true">
+      <div class="drawer-bg" data-close></div>
+      <article class="drawer-card">
+        <button class="close-button" data-close type="button" aria-label="Fermer">x</button>
         <div class="detail-hero">
           <img id="detailBackdrop" alt="" />
-          <div class="detail-gradient"></div>
-          <div class="detail-summary">
+          <div class="detail-shade"></div>
+          <div class="detail-copy">
             <img id="detailPoster" class="detail-poster" alt="" />
             <div>
-              <div class="detail-kicker" id="detailMeta"></div>
+              <p class="eyebrow" id="detailMeta"></p>
               <h2 id="detailTitle"></h2>
-              <p id="detailDescription"></p>
-              <div class="chips" id="detailGenres"></div>
-              <div class="rating-row">
-                <span id="detailRating"></span>
-                <button id="favoriteBtn" class="glass-button">Ajouter aux favoris</button>
-              </div>
-              <div class="watch-row">
-                <button id="watchBtn" class="gold-button">Regarder</button>
-                <button id="trailerBtn" class="glass-button">Bande-annonce</button>
+              <p id="detailText"></p>
+              <div class="portal-tags" id="detailGenres"></div>
+              <div class="button-row">
+                <button class="gold-button" id="watchButton" type="button">Regarder</button>
+                <button class="ghost-button" id="trailerButton" type="button">Bande-annonce</button>
+                <button class="ghost-button" id="favoriteButton" type="button">Favori</button>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="detail-body">
-          <div class="player-card" id="playerCard">
-            <div class="player-header">
-              <strong id="playerTitle">Lecteur</strong>
-              <button id="closePlayer" class="glass-button">Fermer</button>
-            </div>
-            <div class="player-frame" id="playerFrame">
-              <p>Le lecteur apparait ici.</p>
-            </div>
+        <section class="player" id="playerBox">
+          <div class="player-head">
+            <strong id="playerTitle">Lecteur</strong>
+            <button class="ghost-button" id="closePlayer" type="button">Fermer</button>
           </div>
+          <div class="player-frame" id="playerFrame">Le lecteur apparait ici.</div>
+        </section>
 
-          <section class="reviews" data-module="reviews">
-            <div class="rail-heading compact">
-              <div>
-                <p class="eyebrow">Communaute</p>
-                <h3>Avis des membres</h3>
-              </div>
-              <span id="reviewCount"></span>
+        <section class="reviews module" data-module="reviews">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Communaute</p>
+              <h2>Avis membres</h2>
             </div>
-            <form id="reviewForm" class="review-form">
-              <input id="memberName" type="text" placeholder="Ton pseudo" maxlength="32" required />
-              <select id="memberRating" aria-label="Note">
-                <option value="5">5/5 Excellent</option>
-                <option value="4">4/5 Tres bon</option>
-                <option value="3">3/5 Correct</option>
-                <option value="2">2/5 Moyen</option>
-                <option value="1">1/5 Faible</option>
-              </select>
-              <textarea id="memberComment" placeholder="Partage ton avis sur cette fiche..." required></textarea>
-              <button class="gold-button" type="submit">Publier l'avis</button>
-            </form>
-            <div id="reviewsList" class="reviews-list"></div>
-          </section>
-        </div>
+            <span id="reviewCount"></span>
+          </div>
+          <form class="review-form" id="reviewForm">
+            <input id="reviewName" type="text" placeholder="Pseudo" maxlength="32" required />
+            <select id="reviewRating">
+              <option value="5">5/5</option>
+              <option value="4">4/5</option>
+              <option value="3">3/5</option>
+              <option value="2">2/5</option>
+              <option value="1">1/5</option>
+            </select>
+            <textarea id="reviewText" placeholder="Ton avis..." required></textarea>
+            <button class="gold-button" type="submit">Publier</button>
+          </form>
+          <div class="review-list" id="reviewsList"></div>
+        </section>
       </article>
     </aside>
 
-    <aside class="add-panel" id="addPanel" aria-hidden="true">
-      <div class="drawer-backdrop" data-add-close></div>
-      <form class="add-card" id="addContentForm">
-        <button class="close" type="button" data-add-close aria-label="Fermer">x</button>
-        <p class="eyebrow">Studio Heart</p>
-        <h2 id="addPanelTitle">Ajouter un contenu</h2>
-        <div class="form-grid">
-          <label>
-            Titre
-            <input id="newTitle" type="text" required />
-          </label>
-          <label>
-            Type
-            <select id="newType">
-              <option>Film</option>
-              <option>Serie</option>
-              <option>Anime</option>
-              <option>Documentaire</option>
-            </select>
-          </label>
-          <label>
-            Genres
-            <input id="newGenres" type="text" placeholder="Action, Drame" />
-          </label>
-          <label>
-            Affiche / poster
-            <input id="newPoster" type="url" placeholder="https://..." />
-          </label>
-          <label>
-            Lien Abyss iframe
-            <input id="newPlayer" type="url" placeholder="https://..." />
-          </label>
-          <label>
-            Bande-annonce
-            <input id="newTrailer" type="url" placeholder="YouTube, Vimeo ou MP4" />
-          </label>
-        </div>
+    <aside class="drawer" id="adminGate" aria-hidden="true">
+      <div class="drawer-bg" data-gate-close></div>
+      <form class="gate-card" id="gateForm">
+        <button class="close-button" data-gate-close type="button">x</button>
+        <p class="eyebrow">Acces admin</p>
+        <h2>Connexion</h2>
         <label>
-          Description
-          <textarea id="newDescription" required></textarea>
+          Code admin
+          <input id="adminPassword" type="password" placeholder="Code admin" />
         </label>
-        <button class="gold-button big" type="submit">Ajouter au catalogue</button>
+        <p class="error" id="gateError"></p>
+        <button class="gold-button large" type="submit">Ouvrir le panel</button>
       </form>
     </aside>
 
-    <aside class="admin-panel" id="adminPanel" aria-hidden="true">
-      <div class="drawer-backdrop" data-admin-close></div>
+    <aside class="drawer" id="adminPanel" aria-hidden="true">
+      <div class="drawer-bg" data-admin-close></div>
       <article class="admin-card">
-        <button class="close" type="button" data-admin-close aria-label="Fermer">x</button>
-        <div class="admin-hero">
+        <button class="close-button" data-admin-close type="button">x</button>
+        <header class="admin-hero">
           <p class="eyebrow">Console privee</p>
-          <h2>Panel admin <span data-site-name>Heart-Stream</span></h2>
-          <p>Gere ton catalogue, l'apparence, les modules et les reglages globaux du site.</p>
-          <span class="admin-version">Admin global 2.0</span>
-        </div>
+          <h2>Panel admin <span data-site-name>Heart-Stream HS</span></h2>
+          <p>Gestion globale du site, du catalogue, des modules et de l'apparence.</p>
+          <span class="version-pill">Rebuild 1</span>
+        </header>
 
-        <div class="admin-stats">
+        <section class="admin-stats">
           <div><strong id="adminTotal">0</strong><span>contenus</span></div>
           <div><strong id="adminFavorites">0</strong><span>favoris</span></div>
           <div><strong id="adminReviews">0</strong><span>avis</span></div>
-        </div>
+          <div><strong id="adminRequests">0</strong><span>demandes</span></div>
+        </section>
 
-        <section class="admin-config">
+        <section class="admin-section">
           <div class="admin-section-head">
             <div>
-              <p class="eyebrow">Gestion globale</p>
-              <h3>Configurer le site complet</h3>
+              <p class="eyebrow">Site complet</p>
+              <h3>Identite et apparence</h3>
             </div>
-            <button class="glass-button" id="adminResetSettings" type="button">Reset design</button>
+            <button class="ghost-button" id="resetSettings" type="button">Reset design</button>
           </div>
 
           <div class="settings-grid">
-            <label>
-              Nom du serveur
-              <input id="settingSiteName" type="text" maxlength="36" placeholder="Heart-Stream HS" />
-            </label>
-            <label>
-              Logo court
-              <input id="settingLogoText" type="text" maxlength="4" placeholder="HS" />
-            </label>
-            <label>
-              Slogan accueil
-              <input id="settingTagline" type="text" maxlength="90" placeholder="Experience cinema premium" />
-            </label>
-            <label>
-              Texte bandeau
-              <input id="settingPremiereText" type="text" maxlength="120" placeholder="Ambiance rouge vin, or, affiches mouvantes..." />
-            </label>
-            <label>
-              Titre top tendances
-              <input id="settingTopTitle" type="text" maxlength="60" placeholder="Top Heart-Stream HS" />
-            </label>
-            <label>
-              Titre catalogue
-              <input id="settingCatalogHeading" type="text" maxlength="60" placeholder="Tous les titres" />
-            </label>
-            <label>
-              Module personnalise
-              <input id="settingCustomTitle" type="text" maxlength="60" placeholder="Selection speciale" />
-            </label>
-            <label>
-              Texte du module
-              <input id="settingCustomText" type="text" maxlength="140" placeholder="Annonce, info, evenement..." />
-            </label>
-            <label>
-              Rouge fonce
-              <input id="settingWine" type="color" value="#6f0618" />
-            </label>
-            <label>
-              Rouge fluo
-              <input id="settingAccent" type="color" value="#e50922" />
-            </label>
-            <label>
-              Dore
-              <input id="settingGold" type="color" value="#e7b64b" />
-            </label>
-            <label>
-              Intensite neon
-              <input id="settingGlow" type="range" min="0" max="100" value="80" />
-            </label>
-            <label>
-              Style des flottants
-              <select id="settingDecorStyle">
+            <label>Nom du serveur <input id="settingName" type="text" maxlength="36" /></label>
+            <label>Logo court <input id="settingLogo" type="text" maxlength="4" /></label>
+            <label>Slogan accueil <input id="settingTagline" type="text" maxlength="90" /></label>
+            <label>Titre tendances <input id="settingTopTitle" type="text" maxlength="60" /></label>
+            <label>Titre catalogue <input id="settingCatalogTitle" type="text" maxlength="60" /></label>
+            <label>Style flottants
+              <select id="settingFloatStyle">
                 <option value="cinema">Cinema premium</option>
                 <option value="posters">Affiches flottantes</option>
                 <option value="neon">Neon rouge</option>
@@ -411,95 +290,96 @@
                 <option value="embers">Braises rouges</option>
               </select>
             </label>
+            <label>Rouge fonce <input id="settingWine" type="color" /></label>
+            <label>Rouge fluo <input id="settingRed" type="color" /></label>
+            <label>Dore <input id="settingGold" type="color" /></label>
+            <label>Intensite neon <input id="settingGlow" type="range" min="0" max="100" /></label>
           </div>
 
-          <div class="module-grid" aria-label="Modules du site">
+          <div class="module-switches">
+            <label><input id="modulePortal" type="checkbox" /> Portail decouverte</label>
             <label><input id="modulePlatforms" type="checkbox" /> Blocs Netflix / HBO / Canal+</label>
-            <label><input id="moduleDiscovery" type="checkbox" /> Portail decouverte</label>
-            <label><input id="moduleEditorial" type="checkbox" /> Spotlight cinema</label>
-            <label><input id="modulePremiere" type="checkbox" /> Bandeau soiree cinema</label>
+            <label><input id="moduleSpotlight" type="checkbox" /> Spotlight cinema</label>
+            <label><input id="moduleRequests" type="checkbox" /> Demandes membres</label>
             <label><input id="moduleContinue" type="checkbox" /> Continuer a regarder</label>
             <label><input id="moduleTop" type="checkbox" /> Top tendances</label>
-            <label><input id="moduleCatalog" type="checkbox" /> Catalogue public</label>
+            <label><input id="moduleCatalog" type="checkbox" /> Catalogue</label>
             <label><input id="moduleReviews" type="checkbox" /> Avis membres</label>
             <label><input id="moduleDecor" type="checkbox" /> Decors flottants</label>
-            <label><input id="moduleCustom" type="checkbox" /> Module personnalise</label>
-            <label><input id="moduleRequests" type="checkbox" /> Demandes express</label>
           </div>
 
-          <div class="admin-toolbar">
-            <button class="gold-button" id="adminSaveSettings" type="button">Sauvegarder configuration</button>
-            <button class="glass-button" id="adminExportSettings" type="button">Exporter config</button>
-            <button class="glass-button" id="adminImportSettings" type="button">Importer config</button>
+          <div class="button-row">
+            <button class="gold-button" id="saveSettings" type="button">Sauvegarder</button>
+            <button class="ghost-button" id="exportSettings" type="button">Exporter config</button>
+            <button class="ghost-button" id="importSettings" type="button">Importer config</button>
           </div>
-
-          <label class="admin-json compact-json">
-            Configuration JSON du site
-            <textarea id="settingsJson" placeholder="Exporte ou colle ici une configuration globale."></textarea>
-          </label>
+          <textarea id="settingsJson" class="json-box" placeholder="Configuration JSON du site"></textarea>
         </section>
 
-        <div class="admin-toolbar">
-          <button class="gold-button" id="adminAddNew">Ajouter un titre</button>
-          <button class="glass-button" id="adminExport">Exporter JSON</button>
-          <button class="glass-button" id="adminImport">Importer JSON</button>
-          <button class="danger-button" id="adminReset">Reset catalogue</button>
-        </div>
+        <section class="admin-section">
+          <div class="admin-section-head">
+            <div>
+              <p class="eyebrow">Catalogue</p>
+              <h3>Gerer les titres</h3>
+            </div>
+            <button class="gold-button" id="newItem" type="button">Ajouter un titre</button>
+          </div>
+          <form class="content-form" id="contentForm">
+            <input id="itemTitle" type="text" placeholder="Titre" required />
+            <select id="itemType">
+              <option>Film</option>
+              <option>Serie</option>
+              <option>Anime</option>
+              <option>Doc</option>
+            </select>
+            <input id="itemYear" type="number" placeholder="Annee" min="1900" max="2100" />
+            <input id="itemGenres" type="text" placeholder="Genres separes par virgules" />
+            <input id="itemPoster" type="url" placeholder="URL affiche" />
+            <input id="itemPlayer" type="url" placeholder="Lien Abyss embed" />
+            <input id="itemTrailer" type="url" placeholder="Lien bande-annonce" />
+            <label class="inline-check"><input id="itemFeatured" type="checkbox" /> Mettre en avant</label>
+            <textarea id="itemDescription" placeholder="Description" required></textarea>
+            <button class="gold-button" type="submit">Enregistrer le titre</button>
+          </form>
+          <div class="admin-list" id="adminList"></div>
+          <div class="button-row">
+            <button class="ghost-button" id="exportCatalog" type="button">Exporter catalogue</button>
+            <button class="ghost-button" id="importCatalog" type="button">Importer catalogue</button>
+            <button class="danger-button" id="resetCatalog" type="button">Reset catalogue</button>
+          </div>
+          <textarea id="catalogJson" class="json-box" placeholder="Catalogue JSON"></textarea>
+        </section>
 
-        <div class="admin-list" id="adminList"></div>
-
-        <section class="admin-requests">
+        <section class="admin-section">
           <div class="admin-section-head">
             <div>
               <p class="eyebrow">Membres</p>
-              <h3>Demandes express</h3>
+              <h3>Demandes recues</h3>
             </div>
-            <button class="danger-button" id="adminClearRequests" type="button">Vider les demandes</button>
+            <button class="danger-button" id="clearRequests" type="button">Vider</button>
           </div>
-          <div class="request-list" id="adminRequestsList"></div>
+          <div class="request-list" id="adminRequestList"></div>
         </section>
-
-        <label class="admin-json">
-          Sauvegarde / import JSON
-          <textarea id="adminJson" placeholder="Clique sur Exporter JSON pour copier ta base ici, ou colle une base puis clique sur Importer JSON."></textarea>
-        </label>
       </article>
     </aside>
 
-    <aside class="admin-gate" id="adminGate" aria-hidden="true">
-      <div class="drawer-backdrop" data-gate-close></div>
-      <form class="gate-card" id="adminGateForm">
-        <button class="close" type="button" data-gate-close aria-label="Fermer">x</button>
-        <p class="eyebrow">Acces protege</p>
-        <h2>Connexion admin</h2>
-        <p>Le panel admin est reserve a la gestion du catalogue.</p>
-        <label>
-          Code admin
-          <input id="adminPassword" type="password" placeholder="Entre le code admin" autocomplete="current-password" />
-        </label>
-        <p class="gate-error" id="gateError"></p>
-        <button class="gold-button big" type="submit">Ouvrir le panel</button>
-      </form>
-    </aside>
-
     <template id="cardTemplate">
-      <article class="card">
-        <button class="poster-button">
-          <img class="poster" alt="" />
-          <span class="play-badge">Regarder</span>
-          <span class="score"></span>
+      <article class="poster-card">
+        <button class="poster-button" type="button">
+          <img class="poster-img" alt="" />
+          <span class="poster-play">Regarder</span>
+          <span class="poster-score"></span>
         </button>
-        <div class="card-body">
-          <div class="card-line">
-            <span class="type"></span>
-            <button class="heart" aria-label="Favori">♡</button>
+        <div class="poster-info">
+          <div>
+            <span class="poster-type"></span>
+            <h3></h3>
           </div>
-          <h3></h3>
-          <p></p>
+          <button class="heart-button" type="button" aria-label="Favori">+</button>
         </div>
       </article>
     </template>
 
-    <script src="app.js?v=hs-portal-3"></script>
+    <script src="app.js?v=rebuild-1"></script>
   </body>
 </html>

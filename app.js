@@ -1,33 +1,28 @@
 const fallbackPoster =
   "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=900&q=80";
 const adminCode = "heart2026";
+
 const defaultSettings = {
-  settingsVersion: 3,
   siteName: "Heart-Stream HS",
-  logoText: "HS",
-  tagline: "Experience cinema",
-  premiereText: "Ambiance rouge vin, or, affiches mouvantes et lecteur integre.",
+  logo: "HS",
+  tagline: "Cinema prive premium",
   topTitle: "Top Heart-Stream HS",
-  catalogHeading: "Tous les titres",
-  customTitle: "Selection speciale",
-  customText: "Ajoute ici un message, une annonce ou une zone speciale depuis le panel admin.",
-  wine: "#6f0618",
-  accent: "#e50922",
+  catalogTitle: "Tous les titres",
+  wine: "#650619",
+  red: "#ff1734",
   gold: "#e7b64b",
-  glow: 80,
-  decorStyle: "cinema",
+  glow: 85,
+  floatStyle: "cinema",
   modules: {
+    portal: true,
     platforms: true,
-    discovery: true,
-    editorial: true,
-    premiere: true,
+    spotlight: true,
+    requests: true,
     continue: true,
     top: true,
     catalog: true,
     reviews: true,
     decor: true,
-    custom: true,
-    requests: true,
   },
 };
 
@@ -40,8 +35,7 @@ const starterCatalog = [
     genres: ["Science-fiction", "Thriller"],
     rating: 4.7,
     progress: 68,
-    poster:
-      "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=900&q=80",
+    poster: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=900&q=80",
     description:
       "Une expedition isolee capte un signal impossible au bord d'une planete rouge. Plus l'equipage approche de la source, plus la mission ressemble a un piege ancien.",
     playerUrl: "",
@@ -56,10 +50,9 @@ const starterCatalog = [
     genres: ["Mystere", "Drame"],
     rating: 4.5,
     progress: 34,
-    poster:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
+    poster: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
     description:
-      "Dans une demeure au bord du lac, une famille cache un secret qui recommence chaque nuit a la meme heure. Chaque episode ouvre une piece interdite.",
+      "Dans une demeure au bord du lac, une famille cache un secret qui recommence chaque nuit a la meme heure.",
     playerUrl: "",
     trailerUrl: "https://www.youtube.com/embed/ysz5S6PUM-U",
     featured: true,
@@ -72,10 +65,9 @@ const starterCatalog = [
     genres: ["Aventure", "Fantastique"],
     rating: 4.8,
     progress: 0,
-    poster:
-      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=900&q=80",
+    poster: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=900&q=80",
     description:
-      "Une apprentie cartographe traverse des cites suspendues pour retrouver un anneau capable de modifier les souvenirs et de reveiller les royaumes perdus.",
+      "Une apprentie cartographe traverse des cites suspendues pour retrouver un anneau capable de modifier les souvenirs.",
     playerUrl: "",
     trailerUrl: "https://www.youtube.com/embed/ScMzIvxBSi4",
     featured: true,
@@ -83,15 +75,14 @@ const starterCatalog = [
   {
     id: "deep-city",
     title: "Deep City",
-    type: "Documentaire",
+    type: "Doc",
     year: 2023,
     genres: ["Urbain", "Societe"],
     rating: 4.1,
     progress: 21,
-    poster:
-      "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=900&q=80",
+    poster: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=900&q=80",
     description:
-      "Un regard nocturne sur les villes, leurs energies cachees, leurs artistes, leurs quartiers oublies et les histoires qui restent apres minuit.",
+      "Un regard nocturne sur les villes, leurs energies cachees, leurs artistes et les histoires qui restent apres minuit.",
     playerUrl: "",
     trailerUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
     featured: false,
@@ -104,8 +95,7 @@ const starterCatalog = [
     genres: ["Action", "Crime"],
     rating: 4.3,
     progress: 0,
-    poster:
-      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=80",
+    poster: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=80",
     description:
       "Un braquage de luxe tourne a la chasse a l'homme quand le coffre vise contient une preuve capable de renverser une dynastie.",
     playerUrl: "",
@@ -120,8 +110,7 @@ const starterCatalog = [
     genres: ["Espionnage", "Thriller"],
     rating: 4.6,
     progress: 56,
-    poster:
-      "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=900&q=80",
+    poster: "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=900&q=80",
     description:
       "Une analyste decouvre un reseau dormant cache dans les archives d'un palace europeen. Les messages semblent dater du futur.",
     playerUrl: "",
@@ -131,7 +120,7 @@ const starterCatalog = [
 ];
 
 const state = {
-  filter: "Tous",
+  type: "Tous",
   genre: "Tous",
   query: "",
   favoritesOnly: false,
@@ -142,262 +131,279 @@ const state = {
 
 const store = {
   get catalog() {
-    const saved = JSON.parse(localStorage.getItem("heartStream.catalog") || "null");
-    return saved && saved.length ? saved : starterCatalog;
+    const saved = readJson("heartStream.catalog", null);
+    return Array.isArray(saved) && saved.length ? saved : starterCatalog;
   },
   set catalog(value) {
     localStorage.setItem("heartStream.catalog", JSON.stringify(value));
   },
+  get settings() {
+    return mergeSettings(readJson("heartStream.settings", null));
+  },
+  set settings(value) {
+    localStorage.setItem("heartStream.settings", JSON.stringify(mergeSettings(value)));
+  },
   get favorites() {
-    return JSON.parse(localStorage.getItem("heartStream.favorites") || "[]");
+    return readJson("heartStream.favorites", []);
   },
   set favorites(value) {
     localStorage.setItem("heartStream.favorites", JSON.stringify(value));
   },
   get history() {
-    return JSON.parse(localStorage.getItem("heartStream.history") || "[]");
+    return readJson("heartStream.history", []);
   },
   set history(value) {
     localStorage.setItem("heartStream.history", JSON.stringify(value.slice(0, 8)));
   },
   get requests() {
-    return JSON.parse(localStorage.getItem("heartStream.requests") || "[]");
+    return readJson("heartStream.requests", []);
   },
   set requests(value) {
     localStorage.setItem("heartStream.requests", JSON.stringify(value.slice(0, 30)));
   },
-  reviewsFor(id) {
-    return JSON.parse(localStorage.getItem(`heartStream.reviews.${id}`) || "[]");
+  reviews(id) {
+    return readJson(`heartStream.reviews.${id}`, []);
   },
-  saveReviews(id, reviews) {
-    localStorage.setItem(`heartStream.reviews.${id}`, JSON.stringify(reviews));
-  },
-  get settings() {
-    const saved = JSON.parse(localStorage.getItem("heartStream.settings") || "null");
-    return mergeSettings(saved);
-  },
-  set settings(value) {
-    localStorage.setItem("heartStream.settings", JSON.stringify(mergeSettings(value)));
+  saveReviews(id, value) {
+    localStorage.setItem(`heartStream.reviews.${id}`, JSON.stringify(value));
   },
 };
+
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => [...document.querySelectorAll(selector)];
 
 const els = {
-  hero: document.querySelector("#hero"),
-  heroImage: document.querySelector("#heroImage"),
-  heroType: document.querySelector("#heroType"),
-  heroYear: document.querySelector("#heroYear"),
-  heroRating: document.querySelector("#heroRating"),
-  heroTitle: document.querySelector("#heroTitle"),
-  heroDescription: document.querySelector("#heroDescription"),
-  heroWatch: document.querySelector("#heroWatch"),
-  heroTrailer: document.querySelector("#heroTrailer"),
-  heroFavorite: document.querySelector("#heroFavorite"),
-  statTitles: document.querySelector("#statTitles"),
-  statFavorites: document.querySelector("#statFavorites"),
-  grid: document.querySelector("#catalogGrid"),
-  topRail: document.querySelector("#topRail"),
-  continueGrid: document.querySelector("#continueGrid"),
-  continueSection: document.querySelector("#continueSection"),
-  template: document.querySelector("#cardTemplate"),
-  search: document.querySelector("#searchInput"),
-  tabs: document.querySelectorAll(".tab"),
-  favoritesOnly: document.querySelector("#favoritesOnly"),
-  sort: document.querySelector("#sortSelect"),
-  count: document.querySelector("#countLabel"),
-  title: document.querySelector("#catalogTitle"),
-  gridHeading: document.querySelector("#gridHeading"),
-  genres: document.querySelector("#genreFilters"),
-  drawer: document.querySelector("#detailDrawer"),
-  detailBackdrop: document.querySelector("#detailBackdrop"),
-  poster: document.querySelector("#detailPoster"),
-  detailTitle: document.querySelector("#detailTitle"),
-  detailMeta: document.querySelector("#detailMeta"),
-  detailDescription: document.querySelector("#detailDescription"),
-  detailGenres: document.querySelector("#detailGenres"),
-  detailRating: document.querySelector("#detailRating"),
-  favoriteBtn: document.querySelector("#favoriteBtn"),
-  watchBtn: document.querySelector("#watchBtn"),
-  trailerBtn: document.querySelector("#trailerBtn"),
-  playerCard: document.querySelector("#playerCard"),
-  playerFrame: document.querySelector("#playerFrame"),
-  playerTitle: document.querySelector("#playerTitle"),
-  closePlayer: document.querySelector("#closePlayer"),
-  reviewForm: document.querySelector("#reviewForm"),
-  memberName: document.querySelector("#memberName"),
-  memberRating: document.querySelector("#memberRating"),
-  memberComment: document.querySelector("#memberComment"),
-  reviewsList: document.querySelector("#reviewsList"),
-  reviewCount: document.querySelector("#reviewCount"),
-  openAddPanel: document.querySelector("#openAddPanel"),
-  openAdminPanel: document.querySelector("#openAdminPanel"),
-  addPanelTitle: document.querySelector("#addPanelTitle"),
-  addPanel: document.querySelector("#addPanel"),
-  adminGate: document.querySelector("#adminGate"),
-  adminGateForm: document.querySelector("#adminGateForm"),
-  adminPassword: document.querySelector("#adminPassword"),
-  gateError: document.querySelector("#gateError"),
-  adminPanel: document.querySelector("#adminPanel"),
-  adminTotal: document.querySelector("#adminTotal"),
-  adminFavorites: document.querySelector("#adminFavorites"),
-  adminReviews: document.querySelector("#adminReviews"),
-  adminList: document.querySelector("#adminList"),
-  adminJson: document.querySelector("#adminJson"),
-  adminAddNew: document.querySelector("#adminAddNew"),
-  adminExport: document.querySelector("#adminExport"),
-  adminImport: document.querySelector("#adminImport"),
-  adminReset: document.querySelector("#adminReset"),
-  settingSiteName: document.querySelector("#settingSiteName"),
-  settingLogoText: document.querySelector("#settingLogoText"),
-  settingTagline: document.querySelector("#settingTagline"),
-  settingPremiereText: document.querySelector("#settingPremiereText"),
-  settingTopTitle: document.querySelector("#settingTopTitle"),
-  settingCatalogHeading: document.querySelector("#settingCatalogHeading"),
-  settingCustomTitle: document.querySelector("#settingCustomTitle"),
-  settingCustomText: document.querySelector("#settingCustomText"),
-  settingWine: document.querySelector("#settingWine"),
-  settingAccent: document.querySelector("#settingAccent"),
-  settingGold: document.querySelector("#settingGold"),
-  settingGlow: document.querySelector("#settingGlow"),
-  settingDecorStyle: document.querySelector("#settingDecorStyle"),
-  modulePlatforms: document.querySelector("#modulePlatforms"),
-  moduleDiscovery: document.querySelector("#moduleDiscovery"),
-  moduleEditorial: document.querySelector("#moduleEditorial"),
-  modulePremiere: document.querySelector("#modulePremiere"),
-  moduleContinue: document.querySelector("#moduleContinue"),
-  moduleTop: document.querySelector("#moduleTop"),
-  moduleCatalog: document.querySelector("#moduleCatalog"),
-  moduleReviews: document.querySelector("#moduleReviews"),
-  moduleDecor: document.querySelector("#moduleDecor"),
-  moduleCustom: document.querySelector("#moduleCustom"),
-  moduleRequests: document.querySelector("#moduleRequests"),
-  editorialGrid: document.querySelector("#editorialGrid"),
-  requestForm: document.querySelector("#requestForm"),
-  requestTitle: document.querySelector("#requestTitle"),
-  adminRequestsList: document.querySelector("#adminRequestsList"),
-  adminClearRequests: document.querySelector("#adminClearRequests"),
-  portalTitle: document.querySelector("#portalTitle"),
-  portalDescription: document.querySelector("#portalDescription"),
-  portalMeta: document.querySelector("#portalMeta"),
-  portalPoster: document.querySelector("#portalPoster"),
-  portalGenres: document.querySelector("#portalGenres"),
-  portalTrending: document.querySelector("#portalTrending"),
-  portalWatch: document.querySelector("#portalWatch"),
-  portalTrailer: document.querySelector("#portalTrailer"),
-  adminSaveSettings: document.querySelector("#adminSaveSettings"),
-  adminResetSettings: document.querySelector("#adminResetSettings"),
-  adminExportSettings: document.querySelector("#adminExportSettings"),
-  adminImportSettings: document.querySelector("#adminImportSettings"),
-  settingsJson: document.querySelector("#settingsJson"),
-  addForm: document.querySelector("#addContentForm"),
+  brandLogo: $("#brandLogo"),
+  searchInput: $("#searchInput"),
+  favoritesToggle: $("#favoritesToggle"),
+  adminButton: $("#adminButton"),
+  navItems: $$(".nav-item"),
+  heroImage: $("#heroImage"),
+  heroMeta: $("#heroMeta"),
+  heroTitle: $("#heroTitle"),
+  heroText: $("#heroText"),
+  heroTagline: $("#heroTagline"),
+  heroWatch: $("#heroWatch"),
+  heroTrailer: $("#heroTrailer"),
+  heroFavorite: $("#heroFavorite"),
+  statTitles: $("#statTitles"),
+  currentView: $("#currentView"),
+  genreChips: $("#genreChips"),
+  sortSelect: $("#sortSelect"),
+  portalTitle: $("#portalTitle"),
+  portalText: $("#portalText"),
+  portalMeta: $("#portalMeta"),
+  portalWatch: $("#portalWatch"),
+  portalTrailer: $("#portalTrailer"),
+  quickTop: $("#quickTop"),
+  spotlightGrid: $("#spotlightGrid"),
+  requestForm: $("#requestForm"),
+  requestInput: $("#requestInput"),
+  continueSection: $("#continueSection"),
+  continueGrid: $("#continueGrid"),
+  topTitle: $("#topTitle"),
+  countLabel: $("#countLabel"),
+  topRail: $("#topRail"),
+  catalogTitle: $("#catalogTitle"),
+  catalogGrid: $("#catalogGrid"),
+  cardTemplate: $("#cardTemplate"),
+  details: $("#details"),
+  detailBackdrop: $("#detailBackdrop"),
+  detailPoster: $("#detailPoster"),
+  detailMeta: $("#detailMeta"),
+  detailTitle: $("#detailTitle"),
+  detailText: $("#detailText"),
+  detailGenres: $("#detailGenres"),
+  watchButton: $("#watchButton"),
+  trailerButton: $("#trailerButton"),
+  favoriteButton: $("#favoriteButton"),
+  playerBox: $("#playerBox"),
+  playerTitle: $("#playerTitle"),
+  playerFrame: $("#playerFrame"),
+  closePlayer: $("#closePlayer"),
+  reviewForm: $("#reviewForm"),
+  reviewName: $("#reviewName"),
+  reviewRating: $("#reviewRating"),
+  reviewText: $("#reviewText"),
+  reviewCount: $("#reviewCount"),
+  reviewsList: $("#reviewsList"),
+  adminGate: $("#adminGate"),
+  gateForm: $("#gateForm"),
+  adminPassword: $("#adminPassword"),
+  gateError: $("#gateError"),
+  adminPanel: $("#adminPanel"),
+  adminTotal: $("#adminTotal"),
+  adminFavorites: $("#adminFavorites"),
+  adminReviews: $("#adminReviews"),
+  adminRequests: $("#adminRequests"),
+  settingName: $("#settingName"),
+  settingLogo: $("#settingLogo"),
+  settingTagline: $("#settingTagline"),
+  settingTopTitle: $("#settingTopTitle"),
+  settingCatalogTitle: $("#settingCatalogTitle"),
+  settingFloatStyle: $("#settingFloatStyle"),
+  settingWine: $("#settingWine"),
+  settingRed: $("#settingRed"),
+  settingGold: $("#settingGold"),
+  settingGlow: $("#settingGlow"),
+  modulePortal: $("#modulePortal"),
+  modulePlatforms: $("#modulePlatforms"),
+  moduleSpotlight: $("#moduleSpotlight"),
+  moduleRequests: $("#moduleRequests"),
+  moduleContinue: $("#moduleContinue"),
+  moduleTop: $("#moduleTop"),
+  moduleCatalog: $("#moduleCatalog"),
+  moduleReviews: $("#moduleReviews"),
+  moduleDecor: $("#moduleDecor"),
+  saveSettings: $("#saveSettings"),
+  resetSettings: $("#resetSettings"),
+  exportSettings: $("#exportSettings"),
+  importSettings: $("#importSettings"),
+  settingsJson: $("#settingsJson"),
+  newItem: $("#newItem"),
+  contentForm: $("#contentForm"),
+  itemTitle: $("#itemTitle"),
+  itemType: $("#itemType"),
+  itemYear: $("#itemYear"),
+  itemGenres: $("#itemGenres"),
+  itemPoster: $("#itemPoster"),
+  itemPlayer: $("#itemPlayer"),
+  itemTrailer: $("#itemTrailer"),
+  itemFeatured: $("#itemFeatured"),
+  itemDescription: $("#itemDescription"),
+  adminList: $("#adminList"),
+  exportCatalog: $("#exportCatalog"),
+  importCatalog: $("#importCatalog"),
+  resetCatalog: $("#resetCatalog"),
+  catalogJson: $("#catalogJson"),
+  adminRequestList: $("#adminRequestList"),
+  clearRequests: $("#clearRequests"),
 };
 
-function mergeSettings(saved) {
-  const migrated = saved
-    ? {
-        ...saved,
-        settingsVersion: defaultSettings.settingsVersion,
-        siteName: saved.siteName === "Heart-Stream" ? defaultSettings.siteName : saved.siteName,
-        logoText: !saved.logoText || saved.logoText === "H" ? defaultSettings.logoText : saved.logoText,
-      }
-    : null;
+function readJson(key, fallback) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key) || "null");
+    return value ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function mergeSettings(settings) {
   return {
     ...defaultSettings,
-    ...(migrated || {}),
+    ...(settings || {}),
+    siteName:
+      settings?.siteName && settings.siteName !== "Heart-Stream" ? settings.siteName : defaultSettings.siteName,
+    logo: settings?.logo && settings.logo !== "H" ? settings.logo : defaultSettings.logo,
     modules: {
       ...defaultSettings.modules,
-      ...((migrated && migrated.modules) || {}),
+      ...(settings?.modules || {}),
     },
   };
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function lighten(hex, amount) {
+  const clean = String(hex || defaultSettings.gold).replace("#", "");
+  const value = parseInt(clean.length === 3 ? clean.replace(/(.)/g, "$1$1") : clean, 16);
+  const r = Math.min(255, ((value >> 16) & 255) + amount);
+  const g = Math.min(255, ((value >> 8) & 255) + amount);
+  const b = Math.min(255, (value & 255) + amount);
+  return `#${[r, g, b].map((part) => part.toString(16).padStart(2, "0")).join("")}`;
+}
+
+function selectedItem() {
+  return store.catalog.find((item) => item.id === state.selectedId) || store.catalog[0] || starterCatalog[0];
+}
+
+function featuredItem() {
+  return store.catalog.find((item) => item.featured) || store.catalog[0] || starterCatalog[0];
+}
+
+function computedRating(item) {
+  const reviews = store.reviews(item.id);
+  if (!reviews.length) return Number(item.rating || 4).toFixed(1);
+  return (reviews.reduce((total, review) => total + Number(review.rating), 0) / reviews.length).toFixed(1);
 }
 
 function applySettings() {
   const settings = store.settings;
   const root = document.documentElement;
-  const glow = Number(settings.glow) || 0;
-  const logoText = (settings.logoText || "HS").trim().slice(0, 4).toUpperCase();
-
   root.style.setProperty("--wine", settings.wine);
-  root.style.setProperty("--wine-hot", settings.accent);
+  root.style.setProperty("--red", settings.red);
   root.style.setProperty("--gold", settings.gold);
-  root.style.setProperty("--gold-soft", lightenColor(settings.gold, 34));
-  root.style.setProperty("--admin-glow", `${Math.max(0, Math.min(glow, 100)) / 100}`);
+  root.style.setProperty("--gold-soft", lighten(settings.gold, 38));
+  root.style.setProperty("--glow", String(Math.max(0, Math.min(Number(settings.glow) || 0, 100)) / 100));
+  document.body.classList.toggle("decor-off", !settings.modules.decor);
+  document.body.dataset.floatStyle = settings.floatStyle;
   document.title = settings.siteName;
-
-  document.querySelectorAll("[data-site-name]").forEach((node) => {
+  els.brandLogo.textContent = settings.logo.toUpperCase();
+  $$("[data-site-name]").forEach((node) => {
     node.textContent = settings.siteName;
   });
-  document.querySelector("[data-logo-mark]").textContent = logoText;
-  document.querySelector(".billboard-card strong").textContent = settings.tagline || defaultSettings.tagline;
-  document.querySelector("#premiereText").textContent = settings.premiereText || defaultSettings.premiereText;
-  document.querySelector("#topSectionTitle").textContent = settings.topTitle || defaultSettings.topTitle;
-  document.querySelector("#customModuleTitle").textContent = settings.customTitle || defaultSettings.customTitle;
-  document.querySelector("#customModuleText").textContent = settings.customText || defaultSettings.customText;
-
-  Object.entries(settings.modules).forEach(([module, enabled]) => {
-    document.querySelectorAll(`[data-module="${module}"]`).forEach((node) => {
-      node.hidden = !enabled;
-    });
+  els.heroTagline.textContent = settings.tagline;
+  els.topTitle.textContent = settings.topTitle;
+  $$(".module").forEach((node) => {
+    const moduleName = node.dataset.module;
+    if (!moduleName) return;
+    node.hidden = settings.modules[moduleName] === false;
   });
-
-  document.body.classList.toggle("decor-off", !settings.modules.decor);
-  document.body.dataset.decorStyle = settings.decorStyle || defaultSettings.decorStyle;
 }
 
 function fillSettingsForm() {
   const settings = store.settings;
-  els.settingSiteName.value = settings.siteName;
-  els.settingLogoText.value = settings.logoText;
+  els.settingName.value = settings.siteName;
+  els.settingLogo.value = settings.logo;
   els.settingTagline.value = settings.tagline;
-  els.settingPremiereText.value = settings.premiereText;
   els.settingTopTitle.value = settings.topTitle;
-  els.settingCatalogHeading.value = settings.catalogHeading;
-  els.settingCustomTitle.value = settings.customTitle;
-  els.settingCustomText.value = settings.customText;
+  els.settingCatalogTitle.value = settings.catalogTitle;
+  els.settingFloatStyle.value = settings.floatStyle;
   els.settingWine.value = settings.wine;
-  els.settingAccent.value = settings.accent;
+  els.settingRed.value = settings.red;
   els.settingGold.value = settings.gold;
   els.settingGlow.value = settings.glow;
-  els.settingDecorStyle.value = settings.decorStyle;
+  els.modulePortal.checked = settings.modules.portal;
   els.modulePlatforms.checked = settings.modules.platforms;
-  els.moduleDiscovery.checked = settings.modules.discovery;
-  els.moduleEditorial.checked = settings.modules.editorial;
-  els.modulePremiere.checked = settings.modules.premiere;
+  els.moduleSpotlight.checked = settings.modules.spotlight;
+  els.moduleRequests.checked = settings.modules.requests;
   els.moduleContinue.checked = settings.modules.continue;
   els.moduleTop.checked = settings.modules.top;
   els.moduleCatalog.checked = settings.modules.catalog;
   els.moduleReviews.checked = settings.modules.reviews;
   els.moduleDecor.checked = settings.modules.decor;
-  els.moduleCustom.checked = settings.modules.custom;
-  els.moduleRequests.checked = settings.modules.requests;
 }
 
 function readSettingsForm() {
   return mergeSettings({
-    siteName: els.settingSiteName.value.trim() || defaultSettings.siteName,
-    logoText: els.settingLogoText.value.trim() || defaultSettings.logoText,
+    siteName: els.settingName.value.trim() || defaultSettings.siteName,
+    logo: els.settingLogo.value.trim() || defaultSettings.logo,
     tagline: els.settingTagline.value.trim() || defaultSettings.tagline,
-    premiereText: els.settingPremiereText.value.trim() || defaultSettings.premiereText,
     topTitle: els.settingTopTitle.value.trim() || defaultSettings.topTitle,
-    catalogHeading: els.settingCatalogHeading.value.trim() || defaultSettings.catalogHeading,
-    customTitle: els.settingCustomTitle.value.trim() || defaultSettings.customTitle,
-    customText: els.settingCustomText.value.trim() || defaultSettings.customText,
+    catalogTitle: els.settingCatalogTitle.value.trim() || defaultSettings.catalogTitle,
+    floatStyle: els.settingFloatStyle.value,
     wine: els.settingWine.value,
-    accent: els.settingAccent.value,
+    red: els.settingRed.value,
     gold: els.settingGold.value,
     glow: Number(els.settingGlow.value),
-    decorStyle: els.settingDecorStyle.value,
     modules: {
+      portal: els.modulePortal.checked,
       platforms: els.modulePlatforms.checked,
-      discovery: els.moduleDiscovery.checked,
-      editorial: els.moduleEditorial.checked,
-      premiere: els.modulePremiere.checked,
+      spotlight: els.moduleSpotlight.checked,
+      requests: els.moduleRequests.checked,
       continue: els.moduleContinue.checked,
       top: els.moduleTop.checked,
       catalog: els.moduleCatalog.checked,
       reviews: els.moduleReviews.checked,
       decor: els.moduleDecor.checked,
-      custom: els.moduleCustom.checked,
-      requests: els.moduleRequests.checked,
     },
   });
 }
@@ -409,277 +415,202 @@ function saveSettings() {
 }
 
 function resetSettings() {
-  if (!confirm("Remettre le design et les modules par defaut ?")) return;
+  if (!confirm("Remettre l'apparence par defaut ?")) return;
   localStorage.removeItem("heartStream.settings");
   fillSettingsForm();
   applySettings();
   render();
 }
 
-function exportSettings() {
-  els.settingsJson.value = JSON.stringify(store.settings, null, 2);
-  els.settingsJson.focus();
-  els.settingsJson.select();
-}
-
-function importSettings() {
-  try {
-    const imported = JSON.parse(els.settingsJson.value);
-    store.settings = imported;
-    fillSettingsForm();
-    applySettings();
-    render();
-  } catch (error) {
-    alert("Import impossible : colle une configuration JSON valide.");
-  }
-}
-
-function lightenColor(hex, amount) {
-  const clean = String(hex || defaultSettings.gold).replace("#", "");
-  const number = parseInt(clean.length === 3 ? clean.replace(/(.)/g, "$1$1") : clean, 16);
-  const r = Math.min(255, ((number >> 16) & 255) + amount);
-  const g = Math.min(255, ((number >> 8) & 255) + amount);
-  const b = Math.min(255, (number & 255) + amount);
-  return `#${[r, g, b].map((value) => value.toString(16).padStart(2, "0")).join("")}`;
-}
-
-function selectedItem() {
-  return store.catalog.find((item) => item.id === state.selectedId) || store.catalog[0];
-}
-
-function heroItem() {
-  return store.catalog.find((item) => item.featured) || store.catalog[0];
-}
-
-function setHero(item = heroItem()) {
-  state.selectedId = item.id;
-  els.heroImage.src = item.poster || fallbackPoster;
-  els.heroImage.alt = "";
-  els.heroType.textContent = item.type;
-  els.heroYear.textContent = item.year;
-  els.heroRating.textContent = `${computedRating(item)}/5`;
-  els.heroTitle.textContent = item.title;
-  els.heroDescription.textContent = item.description;
-  els.heroFavorite.textContent = store.favorites.includes(item.id) ? "Retirer favori" : "Ajouter favori";
-}
-
 function allGenres() {
   const genres = new Set(["Tous"]);
-  store.catalog.forEach((item) => item.genres.forEach((genre) => genres.add(genre)));
+  store.catalog.forEach((item) => (item.genres || []).forEach((genre) => genres.add(genre)));
   return [...genres];
-}
-
-function renderGenreFilters() {
-  els.genres.innerHTML = "";
-  allGenres().forEach((genre) => {
-    const button = document.createElement("button");
-    button.className = `tab ${state.genre === genre ? "is-active" : ""}`;
-    button.textContent = genre;
-    button.addEventListener("click", () => {
-      state.genre = genre;
-      render();
-    });
-    els.genres.appendChild(button);
-  });
 }
 
 function filteredCatalog() {
   let items = [...store.catalog];
-  const favorites = store.favorites;
-  if (state.filter !== "Tous") items = items.filter((item) => item.type === state.filter);
-  if (state.genre !== "Tous") items = items.filter((item) => item.genres.includes(state.genre));
-  if (state.query) {
-    const query = state.query.toLowerCase();
+  const query = state.query.toLowerCase().trim();
+  if (state.type !== "Tous") items = items.filter((item) => item.type === state.type);
+  if (state.genre !== "Tous") items = items.filter((item) => (item.genres || []).includes(state.genre));
+  if (query) {
     items = items.filter((item) =>
-      [item.title, item.type, item.year, item.description, ...item.genres]
+      [item.title, item.type, item.year, item.description, ...(item.genres || [])]
         .join(" ")
         .toLowerCase()
         .includes(query)
     );
   }
-  if (state.favoritesOnly) items = items.filter((item) => favorites.includes(item.id));
-
-  const sortMode = els.sort.value;
-  if (sortMode === "rating") items.sort((a, b) => Number(computedRating(b)) - Number(computedRating(a)));
-  if (sortMode === "recent") items.sort((a, b) => b.year - a.year);
-  if (sortMode === "title") items.sort((a, b) => a.title.localeCompare(b.title));
-  if (sortMode === "featured") items.sort((a, b) => Number(b.featured) - Number(a.featured));
+  if (state.favoritesOnly) items = items.filter((item) => store.favorites.includes(item.id));
+  const sort = els.sortSelect.value;
+  if (sort === "featured") items.sort((a, b) => Number(b.featured) - Number(a.featured));
+  if (sort === "rating") items.sort((a, b) => Number(computedRating(b)) - Number(computedRating(a)));
+  if (sort === "recent") items.sort((a, b) => Number(b.year) - Number(a.year));
+  if (sort === "title") items.sort((a, b) => a.title.localeCompare(b.title));
   return items;
 }
 
-function makeCard(item, compact = false) {
-  const card = els.template.content.firstElementChild.cloneNode(true);
-  const posterButton = card.querySelector(".poster-button");
-  const img = card.querySelector(".poster");
-  const type = card.querySelector(".type");
-  const heart = card.querySelector(".heart");
-  const title = card.querySelector("h3");
-  const description = card.querySelector("p");
-  const score = card.querySelector(".score");
-  const favorites = store.favorites;
+function renderHero(item = selectedItem()) {
+  els.heroImage.src = item.poster || fallbackPoster;
+  els.heroTitle.textContent = item.title;
+  els.heroText.textContent = item.description;
+  els.heroMeta.innerHTML = [item.type, item.year, `${computedRating(item)}/5`, ...(item.genres || []).slice(0, 2)]
+    .map((value) => `<span>${escapeHtml(value)}</span>`)
+    .join("");
+  els.heroFavorite.textContent = store.favorites.includes(item.id) ? "Retirer favori" : "Ajouter favori";
+}
 
+function renderGenreChips() {
+  els.genreChips.innerHTML = allGenres()
+    .map((genre) => `<button class="chip ${state.genre === genre ? "is-active" : ""}" data-genre="${escapeHtml(genre)}">${escapeHtml(genre)}</button>`)
+    .join("");
+}
+
+function makeCard(item) {
+  const card = els.cardTemplate.content.firstElementChild.cloneNode(true);
+  const posterButton = card.querySelector(".poster-button");
+  const img = card.querySelector(".poster-img");
+  const play = card.querySelector(".poster-play");
+  const score = card.querySelector(".poster-score");
+  const type = card.querySelector(".poster-type");
+  const title = card.querySelector("h3");
+  const heart = card.querySelector(".heart-button");
   img.src = item.poster || fallbackPoster;
   img.alt = `Affiche ${item.title}`;
-  type.textContent = `${item.type} • ${item.year}`;
+  play.textContent = "Regarder";
   score.textContent = computedRating(item);
+  type.textContent = `${item.type} • ${item.year}`;
   title.textContent = item.title;
-  description.textContent = compact ? item.type : item.genres.join(", ");
-  heart.classList.toggle("is-on", favorites.includes(item.id));
-  heart.textContent = favorites.includes(item.id) ? "♥" : "♡";
-
-  posterButton.addEventListener("click", () => openDetail(item.id));
-  heart.addEventListener("click", (event) => {
-    event.stopPropagation();
-    toggleFavorite(item.id);
-  });
+  heart.textContent = store.favorites.includes(item.id) ? "♥" : "+";
+  heart.classList.toggle("is-on", store.favorites.includes(item.id));
+  posterButton.addEventListener("click", () => openDetails(item.id));
+  heart.addEventListener("click", () => toggleFavorite(item.id));
   return card;
+}
+
+function renderPortal() {
+  const item = selectedItem();
+  els.portalTitle.textContent = item.title;
+  els.portalText.textContent = item.description;
+  els.portalMeta.innerHTML = [item.type, item.year, `${computedRating(item)}/5`, ...(item.genres || []).slice(0, 3)]
+    .map((value) => `<span>${escapeHtml(value)}</span>`)
+    .join("");
+  els.quickTop.innerHTML = [...store.catalog]
+    .sort((a, b) => Number(computedRating(b)) - Number(computedRating(a)))
+    .slice(0, 5)
+    .map(
+      (item, index) => `
+        <button class="quick-item" data-open="${item.id}" type="button">
+          <strong>${index + 1}</strong>
+          <span>${escapeHtml(item.title)}</span>
+          <em>${computedRating(item)}</em>
+        </button>
+      `
+    )
+    .join("");
+}
+
+function renderSpotlight() {
+  els.spotlightGrid.innerHTML = [...store.catalog]
+    .sort((a, b) => Number(b.featured) - Number(a.featured) || Number(b.year) - Number(a.year))
+    .slice(0, 5)
+    .map(
+      (item) => `
+        <button class="spotlight-card" data-open="${item.id}" type="button">
+          <img src="${item.poster || fallbackPoster}" alt="">
+          <div>
+            <span>${escapeHtml(item.type)} • ${item.year}</span>
+            <strong>${escapeHtml(item.title)}</strong>
+          </div>
+        </button>
+      `
+    )
+    .join("");
 }
 
 function renderRails(items) {
   els.topRail.innerHTML = "";
   [...store.catalog]
     .sort((a, b) => Number(computedRating(b)) - Number(computedRating(a)))
-    .slice(0, 8)
-    .forEach((item) => els.topRail.appendChild(makeCard(item, true)));
+    .slice(0, 10)
+    .forEach((item) => els.topRail.appendChild(makeCard(item)));
 
-  const historyIds = store.history;
-  const historyItems = historyIds
-    .map((id) => store.catalog.find((item) => item.id === id))
-    .filter(Boolean);
-  const fallback = store.catalog.filter((item) => item.progress > 0).slice(0, 3);
+  const historyItems = store.history.map((id) => store.catalog.find((item) => item.id === id)).filter(Boolean);
+  const fallback = store.catalog.filter((item) => item.progress > 0).slice(0, 4);
   const rows = historyItems.length ? historyItems : fallback;
-  els.continueSection.style.display = rows.length ? "" : "none";
-  els.continueGrid.innerHTML = "";
-  rows.forEach((item) => els.continueGrid.appendChild(makeContinueCard(item)));
-
-  els.count.textContent = `${items.length} titre${items.length > 1 ? "s" : ""}`;
-}
-
-function renderDiscovery(items) {
-  const item = selectedItem() || heroItem();
-  els.portalTitle.textContent = item.title;
-  els.portalDescription.textContent = item.description;
-  els.portalPoster.src = item.poster || fallbackPoster;
-  els.portalPoster.alt = `Affiche ${item.title}`;
-  els.portalMeta.innerHTML = `
-    <span>${escapeHtml(item.type)}</span>
-    <span>${item.year}</span>
-    <span>${computedRating(item)}/5</span>
-    <span>${escapeHtml(item.genres.slice(0, 2).join(" / "))}</span>
-  `;
-
-  els.portalGenres.innerHTML = allGenres()
-    .slice(0, 12)
-    .map((genre) => `<button class="portal-tag" data-portal-genre="${escapeHtml(genre)}">${escapeHtml(genre)}</button>`)
-    .join("");
-
-  els.portalTrending.innerHTML = [...store.catalog]
-    .sort((a, b) => Number(computedRating(b)) - Number(computedRating(a)))
-    .slice(0, 5)
+  els.continueSection.hidden = !rows.length || store.settings.modules.continue === false;
+  els.continueGrid.innerHTML = rows
     .map(
-      (entry, index) => `
-        <button class="portal-mini" data-portal-id="${entry.id}">
-          <strong>${index + 1}</strong>
-          <span>${escapeHtml(entry.title)}</span>
-          <em>${computedRating(entry)}</em>
-        </button>
-      `
-    )
-    .join("");
-}
-
-function renderEditorial() {
-  els.editorialGrid.innerHTML = [...store.catalog]
-    .sort((a, b) => Number(b.featured) - Number(a.featured) || b.year - a.year)
-    .slice(0, 5)
-    .map(
-      (item, index) => `
-        <button class="editorial-card ${index === 0 ? "is-large" : ""}" data-editorial-id="${item.id}">
+      (item) => `
+        <button class="continue-card" data-open="${item.id}" type="button">
           <img src="${item.poster || fallbackPoster}" alt="">
-          <span>${escapeHtml(item.type)} • ${item.year}</span>
-          <strong>${escapeHtml(item.title)}</strong>
-          <em>${escapeHtml(item.genres.slice(0, 2).join(" / "))}</em>
+          <div>
+            <h3>${escapeHtml(item.title)}</h3>
+            <p>${escapeHtml(item.type)} • ${escapeHtml((item.genres || []).join(", "))}</p>
+            <div class="progress"><span style="width:${Number(item.progress) || 18}%"></span></div>
+          </div>
         </button>
       `
     )
     .join("");
-}
 
-function makeContinueCard(item) {
-  const card = document.createElement("button");
-  card.className = "continue-card";
-  card.innerHTML = `
-    <img src="${item.poster || fallbackPoster}" alt="">
-    <div>
-      <h3>${escapeHtml(item.title)}</h3>
-      <p>${escapeHtml(item.type)} • ${escapeHtml(item.genres.join(", "))}</p>
-      <div class="progress"><span style="width:${item.progress || 18}%"></span></div>
-    </div>
-  `;
-  card.addEventListener("click", () => openDetail(item.id));
-  return card;
+  els.countLabel.textContent = `${items.length} titre${items.length > 1 ? "s" : ""}`;
 }
 
 function renderCatalog(items) {
-  els.grid.innerHTML = "";
-  items.forEach((item) => els.grid.appendChild(makeCard(item)));
+  els.catalogGrid.innerHTML = "";
+  items.forEach((item) => els.catalogGrid.appendChild(makeCard(item)));
 }
 
 function render() {
   const settings = store.settings;
-  renderGenreFilters();
+  applySettings();
+  renderGenreChips();
   const items = filteredCatalog();
-  els.title.textContent = state.favoritesOnly ? "Mes favoris" : state.filter === "Tous" ? "A decouvrir" : state.filter;
-  els.gridHeading.textContent = state.query ? "Resultats de recherche" : settings.catalogHeading;
+  els.currentView.textContent = state.favoritesOnly ? "Mes favoris" : state.type === "Tous" ? "A decouvrir" : state.type;
+  els.catalogTitle.textContent = state.query ? "Resultats de recherche" : settings.catalogTitle;
   els.statTitles.textContent = store.catalog.length;
-  els.statFavorites.textContent = store.favorites.length;
+  renderHero(selectedItem());
+  renderPortal();
+  renderSpotlight();
   renderRails(items);
-  renderDiscovery(items);
-  renderEditorial();
   renderCatalog(items);
-  setHero(selectedItem() || heroItem());
 }
 
-function openDetail(id) {
+function openDetails(id) {
   state.selectedId = id;
   const item = selectedItem();
-  const favorites = store.favorites;
-  const nextHistory = [id, ...store.history.filter((itemId) => itemId !== id)];
-  store.history = nextHistory;
-
+  store.history = [id, ...store.history.filter((entry) => entry !== id)];
   els.detailBackdrop.src = item.poster || fallbackPoster;
-  els.poster.src = item.poster || fallbackPoster;
-  els.poster.alt = `Affiche ${item.title}`;
-  els.detailMeta.textContent = `${item.type} • ${item.year} • ${item.rating}/5`;
+  els.detailPoster.src = item.poster || fallbackPoster;
+  els.detailPoster.alt = `Affiche ${item.title}`;
+  els.detailMeta.textContent = `${item.type} • ${item.year} • ${computedRating(item)}/5`;
   els.detailTitle.textContent = item.title;
-  els.detailDescription.textContent = item.description;
-  els.detailRating.textContent = `Note moyenne: ${computedRating(item)}/5`;
-  els.detailGenres.innerHTML = item.genres.map((genre) => `<span class="chip">${escapeHtml(genre)}</span>`).join("");
-  els.favoriteBtn.textContent = favorites.includes(item.id) ? "Retirer des favoris" : "Ajouter aux favoris";
+  els.detailText.textContent = item.description;
+  els.detailGenres.innerHTML = (item.genres || []).map((genre) => `<span>${escapeHtml(genre)}</span>`).join("");
+  els.favoriteButton.textContent = store.favorites.includes(id) ? "Retirer favori" : "Ajouter favori";
   closePlayer();
   renderReviews();
-  els.drawer.classList.add("is-open");
-  els.drawer.setAttribute("aria-hidden", "false");
+  openDrawer(els.details);
   render();
 }
 
-function closeDetail() {
-  els.drawer.classList.remove("is-open");
-  els.drawer.setAttribute("aria-hidden", "true");
+function closeDetails() {
+  closeDrawer(els.details);
   closePlayer();
 }
 
 function toggleFavorite(id) {
-  const favorites = store.favorites;
-  store.favorites = favorites.includes(id) ? favorites.filter((itemId) => itemId !== id) : [...favorites, id];
-  if (els.drawer.classList.contains("is-open")) {
-    const item = selectedItem();
-    els.favoriteBtn.textContent = store.favorites.includes(item.id) ? "Retirer des favoris" : "Ajouter aux favoris";
-  }
+  store.favorites = store.favorites.includes(id)
+    ? store.favorites.filter((itemId) => itemId !== id)
+    : [...store.favorites, id];
   render();
+  if (els.details.classList.contains("is-open")) {
+    els.favoriteButton.textContent = store.favorites.includes(state.selectedId) ? "Retirer favori" : "Ajouter favori";
+  }
 }
 
-function embedUrl(url) {
+function normalizeEmbed(url) {
   if (!url) return "";
   if (url.includes("youtube.com/watch?v=")) return url.replace("watch?v=", "embed/");
   if (url.includes("youtu.be/")) return `https://www.youtube.com/embed/${url.split("youtu.be/")[1].split("?")[0]}`;
@@ -688,174 +619,136 @@ function embedUrl(url) {
 
 function openPlayer(mode) {
   const item = selectedItem();
-  const url = mode === "trailer" ? item.trailerUrl : item.playerUrl;
-  els.playerCard.classList.add("is-open");
+  const url = normalizeEmbed(mode === "trailer" ? item.trailerUrl : item.playerUrl);
+  els.playerBox.classList.add("is-open");
   els.playerTitle.textContent = mode === "trailer" ? "Bande-annonce" : "Lecteur Abyss";
-
   if (!url) {
-    els.playerFrame.innerHTML =
-      "<p>Ajoute un lien Abyss ou une bande-annonce dans le panneau Ajouter.</p>";
-    return;
-  }
-
-  const normalized = embedUrl(url);
-  if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(normalized)) {
-    els.playerFrame.innerHTML = `<video src="${normalized}" controls playsinline></video>`;
+    els.playerFrame.textContent = "Ajoute un lien Abyss ou une bande-annonce dans le panel admin.";
+  } else if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(url)) {
+    els.playerFrame.innerHTML = `<video src="${escapeHtml(url)}" controls playsinline></video>`;
   } else {
-    els.playerFrame.innerHTML = `<iframe src="${normalized}" allowfullscreen allow="autoplay; fullscreen; picture-in-picture"></iframe>`;
+    els.playerFrame.innerHTML = `<iframe src="${escapeHtml(url)}" allowfullscreen allow="autoplay; fullscreen; picture-in-picture"></iframe>`;
   }
-  els.playerCard.scrollIntoView({ behavior: "smooth", block: "center" });
+  els.playerBox.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
 function closePlayer() {
-  els.playerCard.classList.remove("is-open");
-  els.playerFrame.innerHTML = "<p>Le lecteur apparait ici.</p>";
-}
-
-function computedRating(item) {
-  const reviews = store.reviewsFor(item.id);
-  if (!reviews.length) return Number(item.rating).toFixed(1);
-  const total = reviews.reduce((sum, review) => sum + Number(review.rating), 0);
-  return (total / reviews.length).toFixed(1);
+  els.playerBox.classList.remove("is-open");
+  els.playerFrame.textContent = "Le lecteur apparait ici.";
 }
 
 function renderReviews() {
   const item = selectedItem();
-  const reviews = store.reviewsFor(item.id);
+  const reviews = store.reviews(item.id);
   els.reviewCount.textContent = `${reviews.length} avis`;
   els.reviewsList.innerHTML = reviews.length
     ? reviews
         .map(
           (review) => `
-            <article class="review">
+            <article class="review-item">
               <strong>${escapeHtml(review.name)} • ${review.rating}/5</strong>
-              <p>${escapeHtml(review.comment)}</p>
+              <p>${escapeHtml(review.text)}</p>
             </article>
           `
         )
         .join("")
-    : `<article class="review"><strong>Aucun avis pour le moment</strong><p>Sois le premier membre a donner ton avis.</p></article>`;
+    : `<article class="review-item"><strong>Aucun avis</strong><p>Sois le premier a donner ton avis.</p></article>`;
 }
 
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+function openDrawer(drawer) {
+  drawer.classList.add("is-open");
+  drawer.setAttribute("aria-hidden", "false");
 }
 
-function addContent(event) {
-  event.preventDefault();
-  const title = document.querySelector("#newTitle").value.trim();
-  const genres = document
-    .querySelector("#newGenres")
-    .value.split(",")
-    .map((genre) => genre.trim())
-    .filter(Boolean);
-
-  const current = state.editingId ? store.catalog.find((item) => item.id === state.editingId) : null;
-  const item = {
-    id: current ? current.id : `${Date.now()}-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
-    title,
-    type: document.querySelector("#newType").value,
-    year: current ? current.year : new Date().getFullYear(),
-    genres: genres.length ? genres : ["Nouveau"],
-    rating: current ? current.rating : 4.0,
-    progress: current ? current.progress : 0,
-    poster: document.querySelector("#newPoster").value.trim() || fallbackPoster,
-    description: document.querySelector("#newDescription").value.trim(),
-    playerUrl: document.querySelector("#newPlayer").value.trim(),
-    trailerUrl: document.querySelector("#newTrailer").value.trim(),
-    featured: current ? current.featured : false,
-  };
-
-  store.catalog = current
-    ? store.catalog.map((entry) => (entry.id === current.id ? item : entry))
-    : [item, ...store.catalog];
-  state.editingId = null;
-  els.addPanelTitle.textContent = "Ajouter un contenu";
-  els.addForm.reset();
-  closeAddPanel();
-  render();
-  renderAdminPanel();
-  openDetail(item.id);
+function closeDrawer(drawer) {
+  drawer.classList.remove("is-open");
+  drawer.setAttribute("aria-hidden", "true");
 }
 
-function openAddPanel() {
-  if (!state.editingId) {
-    els.addPanelTitle.textContent = "Ajouter un contenu";
-  }
-  els.addPanel.classList.add("is-open");
-  els.addPanel.setAttribute("aria-hidden", "false");
-}
-
-function closeAddPanel() {
-  state.editingId = null;
-  els.addPanelTitle.textContent = "Ajouter un contenu";
-  els.addPanel.classList.remove("is-open");
-  els.addPanel.setAttribute("aria-hidden", "true");
-}
-
-function openAdminPanel() {
+function openAdmin() {
   if (!state.adminUnlocked) {
-    openAdminGate();
+    els.gateError.textContent = "";
+    els.adminPassword.value = "";
+    openDrawer(els.adminGate);
+    setTimeout(() => els.adminPassword.focus(), 50);
     return;
   }
-  renderAdminPanel();
-  els.adminPanel.classList.add("is-open");
-  els.adminPanel.setAttribute("aria-hidden", "false");
-}
-
-function closeAdminPanel() {
-  els.adminPanel.classList.remove("is-open");
-  els.adminPanel.setAttribute("aria-hidden", "true");
-}
-
-function openAdminGate() {
-  els.gateError.textContent = "";
-  els.adminPassword.value = "";
-  els.adminGate.classList.add("is-open");
-  els.adminGate.setAttribute("aria-hidden", "false");
-  setTimeout(() => els.adminPassword.focus(), 60);
-}
-
-function closeAdminGate() {
-  els.adminGate.classList.remove("is-open");
-  els.adminGate.setAttribute("aria-hidden", "true");
+  renderAdmin();
+  openDrawer(els.adminPanel);
 }
 
 function unlockAdmin(event) {
   event.preventDefault();
-  if (els.adminPassword.value === adminCode) {
-    state.adminUnlocked = true;
-    closeAdminGate();
-    openAdminPanel();
+  if (els.adminPassword.value !== adminCode) {
+    els.gateError.textContent = "Code incorrect.";
     return;
   }
-  els.gateError.textContent = "Code incorrect.";
+  state.adminUnlocked = true;
+  closeDrawer(els.adminGate);
+  openAdmin();
 }
 
-function renderAdminPanel() {
+function clearContentForm() {
+  state.editingId = null;
+  els.contentForm.reset();
+  els.itemYear.value = new Date().getFullYear();
+}
+
+function fillContentForm(id) {
+  const item = store.catalog.find((entry) => entry.id === id);
+  if (!item) return;
+  state.editingId = id;
+  els.itemTitle.value = item.title;
+  els.itemType.value = item.type;
+  els.itemYear.value = item.year;
+  els.itemGenres.value = (item.genres || []).join(", ");
+  els.itemPoster.value = item.poster || "";
+  els.itemPlayer.value = item.playerUrl || "";
+  els.itemTrailer.value = item.trailerUrl || "";
+  els.itemFeatured.checked = Boolean(item.featured);
+  els.itemDescription.value = item.description || "";
+  els.contentForm.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function saveContent(event) {
+  event.preventDefault();
+  const title = els.itemTitle.value.trim();
+  const current = state.editingId ? store.catalog.find((item) => item.id === state.editingId) : null;
+  const item = {
+    id: current?.id || `${Date.now()}-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+    title,
+    type: els.itemType.value,
+    year: Number(els.itemYear.value) || new Date().getFullYear(),
+    genres: els.itemGenres.value.split(",").map((genre) => genre.trim()).filter(Boolean),
+    rating: current?.rating || 4,
+    progress: current?.progress || 0,
+    poster: els.itemPoster.value.trim() || fallbackPoster,
+    playerUrl: els.itemPlayer.value.trim(),
+    trailerUrl: els.itemTrailer.value.trim(),
+    description: els.itemDescription.value.trim(),
+    featured: els.itemFeatured.checked,
+  };
+  if (!item.genres.length) item.genres = ["Nouveau"];
+  store.catalog = current
+    ? store.catalog.map((entry) => (entry.id === current.id ? item : entry))
+    : [item, ...store.catalog];
+  if (item.featured) {
+    store.catalog = store.catalog.map((entry) => ({ ...entry, featured: entry.id === item.id }));
+  }
+  state.selectedId = item.id;
+  clearContentForm();
+  render();
+  renderAdmin();
+}
+
+function renderAdmin() {
   const catalog = store.catalog;
   const requests = store.requests;
   fillSettingsForm();
   els.adminTotal.textContent = catalog.length;
   els.adminFavorites.textContent = store.favorites.length;
-  els.adminReviews.textContent = catalog.reduce((total, item) => total + store.reviewsFor(item.id).length, 0);
-  els.adminRequestsList.innerHTML = requests.length
-    ? requests
-        .map(
-          (request) => `
-            <article class="request-row">
-              <strong>${escapeHtml(request.title)}</strong>
-              <span>${escapeHtml(request.date)}</span>
-            </article>
-          `
-        )
-        .join("")
-    : `<article class="request-row"><strong>Aucune demande pour le moment</strong><span>Les demandes des membres apparaitront ici.</span></article>`;
+  els.adminReviews.textContent = catalog.reduce((total, item) => total + store.reviews(item.id).length, 0);
+  els.adminRequests.textContent = requests.length;
   els.adminList.innerHTML = catalog
     .map(
       (item) => `
@@ -863,265 +756,222 @@ function renderAdminPanel() {
           <img src="${item.poster || fallbackPoster}" alt="">
           <div>
             <h3>${escapeHtml(item.title)} ${item.featured ? "• En avant" : ""}</h3>
-            <p>${escapeHtml(item.type)} • ${item.year} • ${escapeHtml(item.genres.join(", "))}</p>
+            <p>${escapeHtml(item.type)} • ${item.year} • ${escapeHtml((item.genres || []).join(", "))}</p>
           </div>
           <div class="admin-actions">
-            <button class="glass-button" data-admin-view="${item.id}">Voir</button>
-            <button class="glass-button" data-admin-edit="${item.id}">Modifier</button>
-            <button class="glass-button" data-admin-feature="${item.id}">Mettre en avant</button>
-            <button class="danger-button" data-admin-delete="${item.id}">Supprimer</button>
+            <button class="ghost-button" data-view="${item.id}" type="button">Voir</button>
+            <button class="ghost-button" data-edit="${item.id}" type="button">Modifier</button>
+            <button class="ghost-button" data-feature="${item.id}" type="button">Avant</button>
+            <button class="danger-button" data-delete="${item.id}" type="button">Supprimer</button>
           </div>
         </article>
       `
     )
     .join("");
-}
-
-function editItem(id) {
-  const item = store.catalog.find((entry) => entry.id === id);
-  if (!item) return;
-  state.editingId = id;
-  document.querySelector("#newTitle").value = item.title;
-  document.querySelector("#newType").value = item.type;
-  document.querySelector("#newGenres").value = item.genres.join(", ");
-  document.querySelector("#newPoster").value = item.poster || "";
-  document.querySelector("#newPlayer").value = item.playerUrl || "";
-  document.querySelector("#newTrailer").value = item.trailerUrl || "";
-  document.querySelector("#newDescription").value = item.description || "";
-  els.addPanelTitle.textContent = `Modifier ${item.title}`;
-  closeAdminPanel();
-  openAddPanel();
+  els.adminRequestList.innerHTML = requests.length
+    ? requests
+        .map((request) => `<article class="request-row"><strong>${escapeHtml(request.title)}</strong><span>${escapeHtml(request.date)}</span></article>`)
+        .join("")
+    : `<article class="request-row"><strong>Aucune demande</strong><span>Les demandes apparaitront ici.</span></article>`;
 }
 
 function deleteItem(id) {
   const item = store.catalog.find((entry) => entry.id === id);
-  if (!item) return;
-  if (!confirm(`Supprimer "${item.title}" du catalogue ?`)) return;
+  if (!item || !confirm(`Supprimer "${item.title}" ?`)) return;
   store.catalog = store.catalog.filter((entry) => entry.id !== id);
   store.favorites = store.favorites.filter((entryId) => entryId !== id);
   store.history = store.history.filter((entryId) => entryId !== id);
-  if (state.selectedId === id) state.selectedId = store.catalog[0]?.id || starterCatalog[0].id;
+  state.selectedId = store.catalog[0]?.id || starterCatalog[0].id;
   render();
-  renderAdminPanel();
+  renderAdmin();
 }
 
 function setFeatured(id) {
   store.catalog = store.catalog.map((item) => ({ ...item, featured: item.id === id }));
   state.selectedId = id;
   render();
-  renderAdminPanel();
+  renderAdmin();
+}
+
+function exportSettings() {
+  els.settingsJson.value = JSON.stringify(store.settings, null, 2);
+  els.settingsJson.select();
+}
+
+function importSettings() {
+  try {
+    store.settings = JSON.parse(els.settingsJson.value);
+    fillSettingsForm();
+    render();
+  } catch {
+    alert("Configuration JSON invalide.");
+  }
 }
 
 function exportCatalog() {
-  els.adminJson.value = JSON.stringify(store.catalog, null, 2);
-  els.adminJson.focus();
-  els.adminJson.select();
+  els.catalogJson.value = JSON.stringify(store.catalog, null, 2);
+  els.catalogJson.select();
 }
 
 function importCatalog() {
   try {
-    const next = JSON.parse(els.adminJson.value);
-    if (!Array.isArray(next)) throw new Error("Format invalide");
-    store.catalog = next.map((item, index) => ({
-      id: item.id || `${Date.now()}-${index}`,
-      title: item.title || "Sans titre",
-      type: item.type || "Film",
-      year: Number(item.year) || new Date().getFullYear(),
-      genres: Array.isArray(item.genres) && item.genres.length ? item.genres : ["Nouveau"],
-      rating: Number(item.rating) || 4,
-      progress: Number(item.progress) || 0,
-      poster: item.poster || fallbackPoster,
-      description: item.description || "",
-      playerUrl: item.playerUrl || "",
-      trailerUrl: item.trailerUrl || "",
-      featured: Boolean(item.featured),
-    }));
+    const next = JSON.parse(els.catalogJson.value);
+    if (!Array.isArray(next)) throw new Error("Invalid");
+    store.catalog = next;
     state.selectedId = store.catalog[0]?.id || starterCatalog[0].id;
     render();
-    renderAdminPanel();
-  } catch (error) {
-    alert("Import impossible : colle un JSON de catalogue valide.");
+    renderAdmin();
+  } catch {
+    alert("Catalogue JSON invalide.");
   }
 }
 
 function resetCatalog() {
-  if (!confirm("Remettre le catalogue de demo et effacer tes titres ajoutes ?")) return;
+  if (!confirm("Remettre le catalogue de demo ?")) return;
   localStorage.removeItem("heartStream.catalog");
-  localStorage.removeItem("heartStream.favorites");
-  localStorage.removeItem("heartStream.history");
   state.selectedId = starterCatalog[0].id;
   render();
-  renderAdminPanel();
+  renderAdmin();
 }
 
-els.tabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    els.tabs.forEach((item) => item.classList.remove("is-active"));
-    tab.classList.add("is-active");
-    state.filter = tab.dataset.filter;
+function goHome() {
+  state.type = "Tous";
+  state.genre = "Tous";
+  state.query = "";
+  state.favoritesOnly = false;
+  state.selectedId = featuredItem().id;
+  els.searchInput.value = "";
+  els.navItems.forEach((item) => item.classList.toggle("is-active", item.dataset.type === "Tous"));
+  render();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+$("#homeButton").addEventListener("click", goHome);
+els.navItems.forEach((button) => {
+  button.addEventListener("click", () => {
+    els.navItems.forEach((item) => item.classList.remove("is-active"));
+    button.classList.add("is-active");
+    state.type = button.dataset.type;
     render();
   });
 });
-
-document.querySelectorAll("[data-home]").forEach((button) => button.addEventListener("click", () => {
-  state.filter = "Tous";
-  state.genre = "Tous";
-  state.query = "";
-  els.search.value = "";
-  els.tabs.forEach((item) => item.classList.toggle("is-active", item.dataset.filter === "Tous"));
-  render();
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}));
-
-els.search.addEventListener("input", (event) => {
+els.searchInput.addEventListener("input", (event) => {
   state.query = event.target.value;
   render();
 });
-
-els.favoritesOnly.addEventListener("click", () => {
+els.favoritesToggle.addEventListener("click", () => {
   state.favoritesOnly = !state.favoritesOnly;
-  els.favoritesOnly.classList.toggle("gold-button", state.favoritesOnly);
+  els.favoritesToggle.classList.toggle("gold-button", state.favoritesOnly);
   render();
 });
-
-els.sort.addEventListener("change", render);
-els.favoriteBtn.addEventListener("click", () => toggleFavorite(state.selectedId));
-els.watchBtn.addEventListener("click", () => openPlayer("watch"));
-els.trailerBtn.addEventListener("click", () => openPlayer("trailer"));
-els.heroWatch.addEventListener("click", () => openDetail(state.selectedId));
+els.sortSelect.addEventListener("change", render);
+els.genreChips.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-genre]");
+  if (!button) return;
+  state.genre = button.dataset.genre;
+  render();
+});
+document.addEventListener("click", (event) => {
+  const openId = event.target.closest("[data-open]")?.dataset.open;
+  if (openId) openDetails(openId);
+});
+els.heroWatch.addEventListener("click", () => openDetails(state.selectedId));
 els.heroTrailer.addEventListener("click", () => {
-  openDetail(state.selectedId);
+  openDetails(state.selectedId);
   openPlayer("trailer");
 });
 els.heroFavorite.addEventListener("click", () => toggleFavorite(state.selectedId));
-els.portalWatch.addEventListener("click", () => openDetail(state.selectedId));
+els.portalWatch.addEventListener("click", () => openDetails(state.selectedId));
 els.portalTrailer.addEventListener("click", () => {
-  openDetail(state.selectedId);
+  openDetails(state.selectedId);
   openPlayer("trailer");
 });
+els.watchButton.addEventListener("click", () => openPlayer("watch"));
+els.trailerButton.addEventListener("click", () => openPlayer("trailer"));
+els.favoriteButton.addEventListener("click", () => toggleFavorite(state.selectedId));
 els.closePlayer.addEventListener("click", closePlayer);
-els.openAdminPanel.addEventListener("click", openAdminPanel);
-els.adminGateForm.addEventListener("submit", unlockAdmin);
-els.adminAddNew.addEventListener("click", () => {
-  state.editingId = null;
-  closeAdminPanel();
-  openAddPanel();
+els.reviewForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const item = selectedItem();
+  const reviews = store.reviews(item.id);
+  reviews.unshift({
+    name: els.reviewName.value.trim(),
+    rating: els.reviewRating.value,
+    text: els.reviewText.value.trim(),
+  });
+  store.saveReviews(item.id, reviews);
+  els.reviewForm.reset();
+  renderReviews();
+  render();
 });
-els.adminExport.addEventListener("click", exportCatalog);
-els.adminImport.addEventListener("click", importCatalog);
-els.adminReset.addEventListener("click", resetCatalog);
-els.adminSaveSettings.addEventListener("click", saveSettings);
-els.adminResetSettings.addEventListener("click", resetSettings);
-els.adminExportSettings.addEventListener("click", exportSettings);
-els.adminImportSettings.addEventListener("click", importSettings);
+els.requestForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  store.requests = [
+    { title: els.requestInput.value.trim(), date: new Date().toLocaleDateString("fr-FR") },
+    ...store.requests,
+  ];
+  els.requestForm.reset();
+  alert("Demande envoyee.");
+});
+els.adminButton.addEventListener("click", openAdmin);
+els.gateForm.addEventListener("submit", unlockAdmin);
+$$("[data-close]").forEach((button) => button.addEventListener("click", closeDetails));
+$$("[data-gate-close]").forEach((button) => button.addEventListener("click", () => closeDrawer(els.adminGate)));
+$$("[data-admin-close]").forEach((button) => button.addEventListener("click", () => closeDrawer(els.adminPanel)));
 [
-  els.settingSiteName,
-  els.settingLogoText,
+  els.settingName,
+  els.settingLogo,
   els.settingTagline,
-  els.settingPremiereText,
   els.settingTopTitle,
-  els.settingCatalogHeading,
-  els.settingCustomTitle,
-  els.settingCustomText,
+  els.settingCatalogTitle,
+  els.settingFloatStyle,
   els.settingWine,
-  els.settingAccent,
+  els.settingRed,
   els.settingGold,
   els.settingGlow,
-  els.settingDecorStyle,
+  els.modulePortal,
   els.modulePlatforms,
-  els.moduleDiscovery,
-  els.moduleEditorial,
-  els.modulePremiere,
+  els.moduleSpotlight,
+  els.moduleRequests,
   els.moduleContinue,
   els.moduleTop,
   els.moduleCatalog,
   els.moduleReviews,
   els.moduleDecor,
-  els.moduleCustom,
-  els.moduleRequests,
 ].forEach((control) => control.addEventListener("input", saveSettings));
-els.portalGenres.addEventListener("click", (event) => {
-  const genre = event.target.dataset.portalGenre;
-  if (!genre) return;
-  state.genre = genre;
-  render();
-});
-els.portalTrending.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-portal-id]");
-  if (!button) return;
-  openDetail(button.dataset.portalId);
-});
-els.editorialGrid.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-editorial-id]");
-  if (!button) return;
-  openDetail(button.dataset.editorialId);
-});
-els.requestForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const title = els.requestTitle.value.trim();
-  if (!title) return;
-  store.requests = [
-    {
-      title,
-      date: new Date().toLocaleDateString("fr-FR"),
-    },
-    ...store.requests,
-  ];
-  els.requestForm.reset();
-  renderAdminPanel();
-  alert("Demande envoyee.");
-});
-els.adminClearRequests.addEventListener("click", () => {
-  if (!confirm("Vider toutes les demandes membres ?")) return;
-  store.requests = [];
-  renderAdminPanel();
-});
+els.saveSettings.addEventListener("click", saveSettings);
+els.resetSettings.addEventListener("click", resetSettings);
+els.exportSettings.addEventListener("click", exportSettings);
+els.importSettings.addEventListener("click", importSettings);
+els.newItem.addEventListener("click", clearContentForm);
+els.contentForm.addEventListener("submit", saveContent);
 els.adminList.addEventListener("click", (event) => {
-  const viewId = event.target.dataset.adminView;
-  const editId = event.target.dataset.adminEdit;
-  const featureId = event.target.dataset.adminFeature;
-  const deleteId = event.target.dataset.adminDelete;
-  if (viewId) {
-    closeAdminPanel();
-    openDetail(viewId);
+  const button = event.target.closest("button");
+  if (!button) return;
+  if (button.dataset.view) {
+    closeDrawer(els.adminPanel);
+    openDetails(button.dataset.view);
   }
-  if (editId) editItem(editId);
-  if (featureId) setFeatured(featureId);
-  if (deleteId) deleteItem(deleteId);
+  if (button.dataset.edit) fillContentForm(button.dataset.edit);
+  if (button.dataset.feature) setFeatured(button.dataset.feature);
+  if (button.dataset.delete) deleteItem(button.dataset.delete);
 });
-els.addForm.addEventListener("submit", addContent);
-
-els.reviewForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const item = selectedItem();
-  const reviews = store.reviewsFor(item.id);
-  reviews.unshift({
-    name: els.memberName.value.trim(),
-    rating: els.memberRating.value,
-    comment: els.memberComment.value.trim(),
-  });
-  store.saveReviews(item.id, reviews);
-  els.reviewForm.reset();
-  renderReviews();
-  els.detailRating.textContent = `Note moyenne: ${computedRating(item)}/5`;
-  render();
+els.exportCatalog.addEventListener("click", exportCatalog);
+els.importCatalog.addEventListener("click", importCatalog);
+els.resetCatalog.addEventListener("click", resetCatalog);
+els.clearRequests.addEventListener("click", () => {
+  if (!confirm("Vider les demandes ?")) return;
+  store.requests = [];
+  renderAdmin();
 });
-
-document.querySelectorAll("[data-close]").forEach((button) => button.addEventListener("click", closeDetail));
-document.querySelectorAll("[data-add-close]").forEach((button) => button.addEventListener("click", closeAddPanel));
-document.querySelectorAll("[data-admin-close]").forEach((button) => button.addEventListener("click", closeAdminPanel));
-document.querySelectorAll("[data-gate-close]").forEach((button) => button.addEventListener("click", closeAdminGate));
-
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    closeDetail();
-    closeAddPanel();
-    closeAdminPanel();
-    closeAdminGate();
-  }
+  if (event.key !== "Escape") return;
+  closeDetails();
+  closeDrawer(els.adminGate);
+  closeDrawer(els.adminPanel);
 });
 
 applySettings();
 fillSettingsForm();
-setHero();
+state.selectedId = featuredItem().id;
 render();
