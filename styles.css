@@ -48,6 +48,115 @@ body::before {
   mask-image: linear-gradient(to bottom, #000, transparent 80%);
 }
 
+.square-background {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.034) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.026) 1px, transparent 1px),
+    #020202;
+  background-size: 96px 96px;
+  opacity: 1;
+}
+
+.square-background::before,
+.square-background::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(circle at var(--x, 22%) var(--y, 28%), color-mix(in srgb, var(--red) 32%, transparent), transparent 17rem),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.88) 70%);
+  animation: squareScan 13s ease-in-out infinite;
+}
+
+.square-background::after {
+  --x: 70%;
+  --y: 76%;
+  opacity: 0.5;
+  animation-duration: 19s;
+  animation-delay: -7s;
+}
+
+.square-glow {
+  position: absolute;
+  width: 360px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--red) 18%, transparent);
+  filter: blur(34px);
+  animation: squareGlowMove 12s ease-in-out infinite;
+}
+
+.square-glow-a {
+  left: -80px;
+  top: 12%;
+}
+
+.square-glow-b {
+  right: -130px;
+  bottom: 8%;
+  background: color-mix(in srgb, var(--gold) 10%, transparent);
+  animation-delay: -5s;
+}
+
+.square-cluster {
+  position: absolute;
+  width: 196px;
+  height: 196px;
+  opacity: 0.78;
+  filter: drop-shadow(0 0 24px color-mix(in srgb, var(--red) 42%, transparent));
+  animation: squareClusterFloat 10s ease-in-out infinite;
+}
+
+.cluster-a {
+  left: 9%;
+  top: 12%;
+}
+
+.cluster-b {
+  left: 4%;
+  bottom: 20%;
+  animation-delay: -3.5s;
+}
+
+.cluster-c {
+  right: 10%;
+  top: 28%;
+  animation-delay: -7s;
+}
+
+.square-cluster i {
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  border: 1px solid color-mix(in srgb, var(--red) 62%, transparent);
+  background: color-mix(in srgb, var(--red) 8%, transparent);
+}
+
+.square-cluster i:nth-child(1) {
+  left: 0;
+  top: 72px;
+}
+
+.square-cluster i:nth-child(2) {
+  left: 72px;
+  top: 72px;
+}
+
+.square-cluster i:nth-child(3) {
+  left: 72px;
+  top: 0;
+}
+
+.square-cluster i:nth-child(4) {
+  left: 144px;
+  top: 72px;
+}
+
 button,
 input,
 select,
@@ -83,6 +192,21 @@ img {
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
+}
+
+body[data-decor="squares"] .scene-card,
+body[data-decor="squares"] .scene-line,
+body[data-decor="squares"] .scene-dot,
+body[data-decor="squares"] .scene-glow {
+  display: none;
+}
+
+body[data-decor]:not([data-decor="squares"]) .square-cluster {
+  opacity: 0.22;
+}
+
+body[data-decor="minimal"] .square-background {
+  opacity: 0.24;
 }
 
 .scene-glow,
@@ -1327,6 +1451,39 @@ main {
   to {
     transform: translateY(-96vh);
     opacity: 0;
+  }
+}
+
+@keyframes squareScan {
+  0%,
+  100% {
+    transform: translate3d(-5%, -4%, 0);
+  }
+  50% {
+    transform: translate3d(7%, 6%, 0);
+  }
+}
+
+@keyframes squareGlowMove {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(120px, 86px, 0) scale(1.15);
+  }
+}
+
+@keyframes squareClusterFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  45% {
+    transform: translate3d(62px, 72px, 0);
+  }
+  70% {
+    transform: translate3d(-20px, 118px, 0);
   }
 }
 

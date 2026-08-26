@@ -8,9 +8,16 @@
       name="description"
       content="Heart-Stream HS, catalogue streaming prive avec lecteur integre, favoris, recherche, commentaires et panel admin."
     />
-    <link rel="stylesheet" href="styles.css?v=movix-reset-1" />
+    <link rel="stylesheet" href="styles.css?v=squares-1" />
   </head>
   <body>
+    <div class="square-background" aria-hidden="true">
+      <span class="square-glow square-glow-a"></span>
+      <span class="square-glow square-glow-b"></span>
+      <span class="square-cluster cluster-a"><i></i><i></i><i></i><i></i></span>
+      <span class="square-cluster cluster-b"><i></i><i></i><i></i><i></i></span>
+      <span class="square-cluster cluster-c"><i></i><i></i><i></i><i></i></span>
+    </div>
     <div class="scene" aria-hidden="true">
       <span class="scene-glow scene-glow-a"></span>
       <span class="scene-glow scene-glow-b"></span>
@@ -234,6 +241,7 @@
             <label>Dore <input id="settingGold" type="color" /></label>
             <label>Decor flottant
               <select id="settingDecor">
+                <option value="squares">Carres Movix</option>
                 <option value="cinema">Cinema</option>
                 <option value="neon">Neon</option>
                 <option value="gold">Or</option>
@@ -312,6 +320,6 @@
       <span>Interface inspiree de MovixOpenSource, adaptee en version statique non commerciale.</span>
     </footer>
 
-    <script src="app.js?v=movix-reset-1"></script>
+    <script src="app.js?v=squares-1"></script>
   </body>
 </html>

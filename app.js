@@ -103,7 +103,7 @@ const defaultSettings = {
   wine: "#5d0618",
   red: "#ff1738",
   gold: "#e1b447",
-  decor: "cinema",
+  decor: "squares",
   modules: {
     platforms: true,
     top10: true,
