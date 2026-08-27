@@ -3,323 +3,166 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Heart-Stream HS</title>
-    <meta
-      name="description"
-      content="Heart-Stream HS, catalogue streaming prive avec lecteur integre, favoris, recherche, commentaires et panel admin."
-    />
-    <link rel="stylesheet" href="styles.css?v=squares-1" />
+    <title>Heart-Stream</title>
+    <meta name="description" content="Heart-Stream, portail streaming prive avec catalogue, favoris, demandes et panel admin." />
+    <link rel="stylesheet" href="styles.css?v=xsclone-1" />
   </head>
   <body>
-    <div class="square-background" aria-hidden="true">
-      <span class="square-glow square-glow-a"></span>
-      <span class="square-glow square-glow-b"></span>
-      <span class="square-cluster cluster-a"><i></i><i></i><i></i><i></i></span>
-      <span class="square-cluster cluster-b"><i></i><i></i><i></i><i></i></span>
-      <span class="square-cluster cluster-c"><i></i><i></i><i></i><i></i></span>
-    </div>
-    <div class="scene" aria-hidden="true">
-      <span class="scene-glow scene-glow-a"></span>
-      <span class="scene-glow scene-glow-b"></span>
-      <span class="scene-card scene-card-a">HS</span>
-      <span class="scene-card scene-card-b">4K</span>
-      <span class="scene-card scene-card-c">PLAY</span>
-      <span class="scene-line scene-line-a"></span>
-      <span class="scene-line scene-line-b"></span>
-      <span class="scene-dot scene-dot-a"></span>
-      <span class="scene-dot scene-dot-b"></span>
-      <span class="scene-dot scene-dot-c"></span>
-    </div>
+    <section class="login-screen" id="loginScreen">
+      <div class="cinema-wall" aria-hidden="true">
+        <span style="--img:url('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=900&q=80')"></span>
+        <span style="--img:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80')"></span>
+        <span style="--img:url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=900&q=80')"></span>
+        <span style="--img:url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=900&q=80')"></span>
+        <span style="--img:url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=900&q=80')"></span>
+        <span style="--img:url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=900&q=80')"></span>
+      </div>
 
-    <header class="app-header">
-      <a class="logo" href="#home" aria-label="Heart-Stream accueil">
-        <span id="logoMark">HS</span>
-        <strong data-site-name>Heart-Stream HS</strong>
-      </a>
-
-      <nav class="nav" aria-label="Navigation principale">
-        <a class="nav-link is-active" href="#home" data-filter="all">Accueil</a>
-        <a class="nav-link" href="#catalog" data-filter="Film">Films</a>
-        <a class="nav-link" href="#catalog" data-filter="Serie">Series</a>
-        <a class="nav-link" href="#catalog" data-filter="Anime">Animes</a>
-        <button class="nav-link nav-button" id="exploreButton" type="button">Explorer</button>
-      </nav>
-
-      <form class="header-search" id="searchForm">
-        <input id="searchInput" type="search" placeholder="Rechercher un titre..." autocomplete="off" />
-        <button type="submit">Chercher</button>
+      <form class="auth-card" id="authForm">
+        <a class="admin-preview" href="#admin">Acces administrateur et apercu du site -></a>
+        <div class="auth-logo">
+          <strong>HS</strong>
+          <span>STREAM</span>
+        </div>
+        <div class="auth-tabs">
+          <button class="active" type="button" data-auth-tab="login">Connexion</button>
+          <button type="button" data-auth-tab="signup">Inscription</button>
+        </div>
+        <h1 id="authTitle">Bienvenue</h1>
+        <p id="authSubtitle">Connecte-toi pour continuer sur Heart-Stream.</p>
+        <label>Pseudo <input id="pseudoInput" placeholder="Ton pseudo" autocomplete="username" /></label>
+        <label>Mot de passe <input id="passwordInput" type="password" placeholder="Ton mot de passe" autocomplete="current-password" /></label>
+        <label class="remember"><input type="checkbox" checked /> Se souvenir de moi</label>
+        <button class="main-cta" id="loginButton" type="submit">Se connecter</button>
+        <p class="switch-copy">Pas encore de compte ? <button type="button" id="switchAuth">S'inscrire</button></p>
       </form>
+    </section>
 
-      <div class="header-actions">
-        <button class="icon-button" id="favoriteButtonTop" type="button">Favoris</button>
-        <button class="gold-button" id="adminOpen" type="button">Admin</button>
-      </div>
-    </header>
+    <section class="app-screen hidden" id="appScreen">
+      <header class="topbar">
+        <button class="brand" id="homeButton" type="button">
+          <span>HS</span>
+          <strong>Heart-Stream</strong>
+        </button>
+        <nav class="nav">
+          <button class="active" data-filter="all" type="button">Accueil</button>
+          <button data-filter="Film" type="button">Films</button>
+          <button data-filter="Serie" type="button">Series</button>
+          <button data-filter="Anime" type="button">Animes</button>
+          <button data-filter="Cartoon" type="button">Cartoons</button>
+          <button data-filter="Emission" type="button">Emissions TV</button>
+          <button id="listButton" type="button">Ma liste</button>
+        </nav>
+        <input id="searchInput" type="search" placeholder="Titre, genre..." />
+        <button class="profile-button" id="profileButton" type="button">XS</button>
+      </header>
 
-    <aside class="mega-menu" id="megaMenu" aria-hidden="true">
-      <div>
-        <p class="eyebrow">Explorer Heart-Stream</p>
-        <h2>Collections rapides</h2>
-      </div>
-      <div class="mega-grid" id="megaGrid"></div>
-    </aside>
+      <aside class="profile-menu" id="profileMenu">
+        <button class="close-profile" id="closeProfile" type="button">x</button>
+        <p class="online">Compte connecte</p>
+        <h2>Membre HS <span>En ligne</span></h2>
+        <button data-profile="account" type="button">Mon compte <span>Profil et informations</span></button>
+        <button data-profile="favorites" type="button">Mes favoris <span id="favoriteCountMenu">0</span></button>
+        <button data-profile="history" type="button">Continuer a regarder <span id="historyCountMenu">0</span></button>
+        <button data-profile="requests" type="button">Mes demandes <span>Proposer un contenu</span></button>
+        <button data-profile="admin" type="button">Administration HS <span>Gestion complete du site</span></button>
+        <button data-profile="logout" type="button">Se deconnecter</button>
+      </aside>
 
-    <main id="home">
-      <section class="hero-shell">
-        <div class="hero-viewport" id="heroViewport">
-          <img id="heroImage" alt="" />
-          <div class="hero-layer"></div>
-          <article class="hero-content">
-            <div class="hero-badges" id="heroBadges"></div>
-            <h1 id="heroTitle">Heart-Stream HS</h1>
-            <p id="heroDescription"></p>
-            <div class="actions">
-              <button class="primary-button" id="heroWatch" type="button">Regarder</button>
-              <button class="glass-button" id="heroInfo" type="button">Plus d'infos</button>
-              <button class="glass-button" id="heroFav" type="button">Favori</button>
-            </div>
+      <main>
+        <section class="status-strip">
+          <article>
+            <span>Bientot sur HS</span>
+            <strong>Communaute HS</strong>
+            <p>Decouvrir les membres HS</p>
           </article>
-          <div class="hero-controls">
-            <button id="heroPrev" type="button" aria-label="Precedent">‹</button>
-            <div class="hero-progress" id="heroProgress"></div>
-            <button id="heroNext" type="button" aria-label="Suivant">›</button>
-          </div>
-        </div>
-      </section>
-
-      <section class="quick-panel">
-        <div>
-          <p class="eyebrow">Portail</p>
-          <h2 id="tagline">Cinema prive premium</h2>
-        </div>
-        <div class="quick-stats">
-          <span><strong id="statTitles">0</strong> titres</span>
-          <span><strong id="statFavorites">0</strong> favoris</span>
-          <span><strong id="statReviews">0</strong> avis</span>
-        </div>
-      </section>
-
-      <section class="module" data-module="platforms">
-        <div class="section-title">
-          <p class="eyebrow">Plateformes</p>
-          <h2>Ambiance Netflix, HBO, Canal+</h2>
-        </div>
-        <div class="platform-grid" id="platformGrid"></div>
-      </section>
-
-      <section class="module" data-module="top10">
-        <div class="section-title">
-          <p class="eyebrow">Classement</p>
-          <h2>Top 10</h2>
-        </div>
-        <div class="top-ten" id="topTen"></div>
-      </section>
-
-      <section class="module" data-module="continue">
-        <div class="section-title">
-          <p class="eyebrow">Reprendre</p>
-          <h2>Continuer a regarder</h2>
-        </div>
-        <div class="wide-row" id="continueRow"></div>
-      </section>
-
-      <section class="module" data-module="genres">
-        <div class="section-title">
-          <p class="eyebrow">Genres</p>
-          <h2>Choisir une ambiance</h2>
-        </div>
-        <div class="genre-wall" id="genreWall"></div>
-      </section>
-
-      <section class="catalog-section module" id="catalog" data-module="catalog">
-        <div class="catalog-head">
-          <div>
-            <p class="eyebrow">Catalogue</p>
-            <h2 id="catalogTitle">Tous les titres</h2>
-          </div>
-          <div class="catalog-tools">
-            <select id="genreSelect" aria-label="Filtrer par genre"></select>
-            <select id="sortSelect" aria-label="Trier">
-              <option value="featured">Mis en avant</option>
-              <option value="rating">Mieux notes</option>
-              <option value="recent">Plus recents</option>
-              <option value="az">A-Z</option>
-            </select>
-          </div>
-        </div>
-        <div class="poster-grid" id="posterGrid"></div>
-      </section>
-    </main>
-
-    <aside class="detail-drawer" id="detailDrawer" aria-hidden="true">
-      <button class="drawer-backdrop" data-close-detail type="button" aria-label="Fermer"></button>
-      <article class="detail-card">
-        <button class="close" data-close-detail type="button">x</button>
-        <div class="detail-banner">
-          <img id="detailImage" alt="" />
-          <div></div>
-        </div>
-        <div class="detail-body">
-          <img class="detail-poster" id="detailPoster" alt="" />
-          <div>
-            <p class="eyebrow" id="detailMeta"></p>
-            <h2 id="detailTitle"></h2>
-            <p id="detailDescription"></p>
-            <div class="tag-row" id="detailTags"></div>
-            <div class="actions">
-              <button class="primary-button" id="watchNow" type="button">Regarder</button>
-              <button class="glass-button" id="watchTrailer" type="button">Bande-annonce</button>
-              <button class="glass-button" id="toggleFavorite" type="button">Favori</button>
-            </div>
-          </div>
-        </div>
-        <section class="player-box" id="playerBox">
-          <header>
-            <strong id="playerTitle">Lecteur</strong>
-            <button class="glass-button" id="closePlayer" type="button">Fermer</button>
-          </header>
-          <div id="playerFrame" class="player-frame">Ajoute un lien Abyss dans le panel admin.</div>
+          <article>
+            <span>Nouveautes</span>
+            <strong>Notifications</strong>
+            <p>Bientot disponible</p>
+          </article>
         </section>
-        <section class="comments module" data-module="reviews">
-          <div class="section-title">
-            <p class="eyebrow">Communaute</p>
-            <h2>Avis membres</h2>
+
+        <section class="filters" id="genreFilters"></section>
+
+        <section class="catalog">
+          <p class="section-kicker">Catalogue HS</p>
+          <h1 id="catalogTitle">A decouvrir</h1>
+          <div class="grid" id="catalogGrid"></div>
+          <div class="empty hidden" id="emptyState">
+            <strong>Aucun resultat</strong>
+            <p>Essaie un autre titre ou un autre filtre.</p>
           </div>
-          <form id="reviewForm" class="review-form">
-            <input id="reviewName" placeholder="Pseudo" required maxlength="32" />
-            <select id="reviewRating">
-              <option value="5">5/5</option>
-              <option value="4">4/5</option>
-              <option value="3">3/5</option>
-              <option value="2">2/5</option>
-              <option value="1">1/5</option>
-            </select>
-            <textarea id="reviewText" placeholder="Ton avis..." required></textarea>
-            <button class="primary-button" type="submit">Publier</button>
-          </form>
-          <div id="reviewList" class="review-list"></div>
         </section>
+      </main>
+    </section>
+
+    <aside class="modal hidden" id="detailModal">
+      <button class="modal-bg" data-close-modal type="button"></button>
+      <article class="modal-card">
+        <button class="modal-close" data-close-modal type="button">x</button>
+        <img id="detailImage" alt="" />
+        <div class="modal-content">
+          <p id="detailMeta"></p>
+          <h2 id="detailTitle"></h2>
+          <p id="detailText"></p>
+          <div class="modal-actions">
+            <button class="main-cta" id="watchButton" type="button">Regarder</button>
+            <button id="trailerButton" type="button">Bande-annonce</button>
+            <button id="favoriteButton" type="button">Favori</button>
+          </div>
+          <div class="player hidden" id="playerBox"></div>
+        </div>
       </article>
     </aside>
 
-    <aside class="admin-gate" id="adminGate" aria-hidden="true">
-      <button class="drawer-backdrop" data-close-admin-gate type="button" aria-label="Fermer"></button>
-      <form class="gate-card" id="gateForm">
-        <button class="close" data-close-admin-gate type="button">x</button>
-        <p class="eyebrow">Acces prive</p>
-        <h2>Panel admin HS</h2>
-        <input id="adminCode" type="password" placeholder="Code admin" />
-        <p id="gateError" class="error"></p>
-        <button class="primary-button" type="submit">Entrer</button>
-      </form>
-    </aside>
-
-    <aside class="admin-panel" id="adminPanel" aria-hidden="true">
-      <button class="drawer-backdrop" data-close-admin type="button" aria-label="Fermer"></button>
-      <article class="admin-shell">
-        <button class="close" data-close-admin type="button">x</button>
-        <header class="admin-top">
-          <p class="eyebrow">Console globale</p>
-          <h2>Administration <span data-site-name>Heart-Stream HS</span></h2>
-          <p>Gestion du design, des modules, du catalogue, des liens Abyss, des bandes-annonces et des demandes.</p>
-        </header>
-        <nav class="admin-tabs" id="adminTabs">
-          <button class="is-active" data-tab="site" type="button">Site complet</button>
-          <button data-tab="catalog" type="button">Catalogue</button>
-          <button data-tab="requests" type="button">Demandes</button>
-          <button data-tab="data" type="button">Sauvegarde</button>
-        </nav>
-
-        <section class="admin-section is-active" data-section="site">
-          <div class="form-grid">
-            <label>Nom du serveur <input id="settingName" maxlength="40" /></label>
-            <label>Logo court <input id="settingLogo" maxlength="4" /></label>
-            <label>Slogan <input id="settingTagline" maxlength="90" /></label>
-            <label>Plateformes <input id="settingPlatforms" maxlength="140" /></label>
-            <label>Rouge fonce <input id="settingWine" type="color" /></label>
-            <label>Rouge fluo <input id="settingRed" type="color" /></label>
-            <label>Dore <input id="settingGold" type="color" /></label>
-            <label>Decor flottant
-              <select id="settingDecor">
-                <option value="squares">Carres Movix</option>
-                <option value="cinema">Cinema</option>
-                <option value="neon">Neon</option>
-                <option value="gold">Or</option>
-                <option value="space">Espace</option>
-                <option value="premiere">Avant-premiere</option>
-                <option value="embers">Braises</option>
-                <option value="minimal">Minimal</option>
-              </select>
-            </label>
-          </div>
-          <div class="module-grid" id="moduleGrid"></div>
-          <div class="actions">
-            <button class="primary-button" id="saveSettings" type="button">Sauvegarder</button>
-            <button class="glass-button" id="resetSettings" type="button">Reset design</button>
-          </div>
-        </section>
-
-        <section class="admin-section" data-section="catalog">
-          <form class="content-editor" id="contentForm">
+    <aside class="modal hidden" id="adminModal">
+      <button class="modal-bg" data-close-admin type="button"></button>
+      <article class="admin-card">
+        <button class="modal-close" data-close-admin type="button">x</button>
+        <p class="section-kicker">Administration HS</p>
+        <h2>Gestion complete du site</h2>
+        <div class="admin-tabs">
+          <button class="active" data-admin-tab="catalog" type="button">Catalogue</button>
+          <button data-admin-tab="requests" type="button">Demandes</button>
+          <button data-admin-tab="design" type="button">Design</button>
+        </div>
+        <section class="admin-section active" data-admin-section="catalog">
+          <form class="admin-form" id="contentForm">
             <input id="itemTitle" placeholder="Titre" required />
-            <select id="itemType">
-              <option>Film</option>
-              <option>Serie</option>
-              <option>Anime</option>
-              <option>Doc</option>
-            </select>
-            <input id="itemYear" type="number" min="1900" max="2100" placeholder="Annee" />
-            <input id="itemGenres" placeholder="Genres: Action, Thriller" />
-            <input id="itemPoster" type="url" placeholder="Image / affiche" />
+            <select id="itemType"><option>Film</option><option>Serie</option><option>Anime</option><option>Cartoon</option><option>Emission</option></select>
+            <input id="itemGenres" placeholder="Genres separes par virgules" />
+            <input id="itemImage" type="url" placeholder="Image" />
             <input id="itemPlayer" type="url" placeholder="Lien Abyss embed" />
-            <input id="itemTrailer" type="url" placeholder="Lien bande-annonce" />
-            <label class="check"><input id="itemFeatured" type="checkbox" /> Mettre en hero</label>
-            <textarea id="itemDescription" placeholder="Description" required></textarea>
-            <button class="primary-button" type="submit">Enregistrer</button>
-            <button class="glass-button" id="newItem" type="button">Nouveau</button>
+            <input id="itemTrailer" type="url" placeholder="Bande-annonce" />
+            <textarea id="itemText" placeholder="Description"></textarea>
+            <button class="main-cta" type="submit">Enregistrer</button>
+            <button id="newItem" type="button">Nouveau</button>
           </form>
           <div class="admin-list" id="adminList"></div>
         </section>
-
-        <section class="admin-section" data-section="requests">
-          <form class="request-form" id="requestForm">
-            <input id="requestInput" placeholder="Ajouter une demande membre..." required maxlength="80" />
-            <button class="primary-button" type="submit">Ajouter</button>
-          </form>
-          <div class="request-list" id="requestList"></div>
+        <section class="admin-section" data-admin-section="requests">
+          <form class="admin-form request-form" id="requestForm"><input id="requestInput" placeholder="Nom du contenu demande" /><button class="main-cta" type="submit">Ajouter</button></form>
+          <div class="admin-list" id="requestList"></div>
         </section>
-
-        <section class="admin-section" data-section="data">
-          <div class="actions">
-            <button class="primary-button" id="exportAll" type="button">Exporter JSON</button>
-            <button class="glass-button" id="importAll" type="button">Importer JSON</button>
-            <button class="danger-button" id="resetCatalog" type="button">Reset catalogue</button>
+        <section class="admin-section" data-admin-section="design">
+          <div class="admin-form">
+            <input id="siteNameInput" placeholder="Nom du site" />
+            <input id="accentInput" type="color" value="#ff1d6b" />
+            <button class="main-cta" id="saveDesign" type="button">Appliquer</button>
+            <button id="resetAll" type="button">Reset demo</button>
           </div>
-          <textarea id="jsonBox" class="json-box" placeholder="Sauvegarde globale JSON"></textarea>
         </section>
       </article>
     </aside>
 
-    <button class="floating-request" id="floatingRequest" type="button">+ Suggestion</button>
-
-    <template id="posterTemplate">
-      <article class="poster-card">
-        <button class="poster-open" type="button">
-          <img alt="" />
-          <span>Regarder</span>
-        </button>
-        <div class="poster-info">
-          <p></p>
-          <h3></h3>
-        </div>
+    <button class="request-fab" id="requestFab" type="button">+ Demande</button>
+    <template id="cardTemplate">
+      <article class="content-card">
+        <button type="button"><img alt="" /><span>Regarder</span></button>
+        <div><p></p><h3></h3></div>
       </article>
     </template>
-
-    <footer class="footer">
-      <span>Heart-Stream HS</span>
-      <span>Interface inspiree de MovixOpenSource, adaptee en version statique non commerciale.</span>
-    </footer>
-
-    <script src="app.js?v=squares-1"></script>
+    <script src="app.js?v=xsclone-1"></script>
   </body>
 </html>
