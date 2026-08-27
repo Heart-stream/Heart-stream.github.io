@@ -168,9 +168,16 @@ function fillForm(id) {
   $("#itemType").value = x.type;
   $("#itemGenres").value = x.genres.join(", ");
   $("#itemImage").value = x.image || "";
+  updateImagePreview(x.image || "");
   $("#itemPlayer").value = x.player || "";
   $("#itemTrailer").value = x.trailer || "";
   $("#itemText").value = x.text || "";
+}
+
+function updateImagePreview(src = $("#itemImage").value) {
+  const preview = $("#imagePreview");
+  preview.src = src || "";
+  preview.classList.toggle("visible", Boolean(src));
 }
 
 function showLibraryStep(step) {
@@ -289,9 +296,26 @@ $("#contentForm").addEventListener("submit", (e) => {
   store.items = state.edit ? store.items.map((x) => x.id === state.edit ? next : x) : [next, ...store.items];
   state.edit = null;
   $("#contentForm").reset();
+  updateImagePreview("");
   render();
 });
-$("#newItem").addEventListener("click", () => { state.edit = null; $("#contentForm").reset(); });
+$("#newItem").addEventListener("click", () => { state.edit = null; $("#contentForm").reset(); updateImagePreview(""); });
+$("#itemImage").addEventListener("input", () => updateImagePreview());
+$("#imageFile").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (!file.type.startsWith("image/")) {
+    alert("Choisis une image en JPG, PNG, WEBP ou GIF.");
+    e.target.value = "";
+    return;
+  }
+  const reader = new FileReader();
+  reader.addEventListener("load", () => {
+    $("#itemImage").value = reader.result;
+    updateImagePreview(reader.result);
+  });
+  reader.readAsDataURL(file);
+});
 $("#adminList").addEventListener("click", (e) => {
   const edit = e.target.closest("[data-edit]")?.dataset.edit;
   const del = e.target.closest("[data-delete]")?.dataset.delete;

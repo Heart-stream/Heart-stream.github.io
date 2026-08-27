@@ -459,6 +459,44 @@ button { cursor: pointer; }
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
 }
+.image-import {
+  display: grid;
+  grid-template-columns: 1fr auto 76px;
+  gap: 10px;
+  align-items: center;
+  grid-column: 1 / -1;
+}
+.image-picker {
+  display: grid;
+  place-items: center;
+  min-height: 58px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 14px;
+  padding: 0 16px;
+  font-weight: 950;
+  white-space: nowrap;
+  box-shadow: 0 0 24px rgba(224,0,53,.28);
+}
+.image-picker input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+#imagePreview {
+  display: none;
+  width: 76px;
+  height: 58px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #050005;
+}
+#imagePreview.visible {
+  display: block;
+}
 .admin-form textarea { grid-column: 1 / -1; min-height: 100px; resize: vertical; }
 .admin-list { display: grid; gap: 10px; margin-top: 18px; }
 .admin-row {
@@ -686,9 +724,13 @@ body:not(.logged-in) .request-fab {
   to { transform: translateY(18px); }
 }
 @media (max-width: 1000px) {
-  .topbar, .status-strip, .admin-form, .admin-row { grid-template-columns: 1fr; }
+  .topbar, .status-strip, .admin-form, .admin-row, .image-import { grid-template-columns: 1fr; }
   .cinema-wall { grid-template-columns: 1fr; opacity: .36; }
   .cinema-wall span { grid-column: auto !important; }
+  #imagePreview {
+    width: 120px;
+    height: 84px;
+  }
 }
 @media (max-width: 640px) {
   .auth-card { padding: 28px 22px; }
