@@ -1,12 +1,13 @@
 :root {
-  --bg: #050108;
-  --panel: rgba(12, 10, 18, 0.9);
-  --panel-2: rgba(255, 255, 255, 0.055);
+  --bg: #070009;
+  --panel: rgba(18, 5, 22, 0.92);
+  --panel-2: rgba(160, 30, 96, 0.11);
   --text: #fff;
-  --muted: #a8a0ad;
-  --accent: #ff1d6b;
-  --accent-2: #b72cff;
-  --line: rgba(255, 255, 255, 0.1);
+  --muted: #c8aeca;
+  --accent: #e00035;
+  --accent-2: #7b18ff;
+  --gold: #d8a72c;
+  --line: rgba(255, 82, 156, 0.16);
 }
 
 * { box-sizing: border-box; }
@@ -14,7 +15,10 @@ body {
   min-height: 100vh;
   margin: 0;
   color: var(--text);
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 16% 6%, rgba(224,0,53,.22), transparent 34rem),
+    radial-gradient(circle at 86% 4%, rgba(123,24,255,.22), transparent 36rem),
+    linear-gradient(180deg, #070009 0%, #120016 42%, #070009 100%);
   font-family: "Segoe UI", Arial, sans-serif;
 }
 button, input, select, textarea { font: inherit; }
@@ -43,9 +47,9 @@ button { cursor: pointer; }
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 50%, transparent 0 20rem, rgba(0,0,0,.72) 38rem),
-    linear-gradient(90deg, #050108 0%, transparent 28%, transparent 72%, #050108 100%),
-    linear-gradient(0deg, #050108 0%, transparent 25%, transparent 72%, #050108 100%);
+    radial-gradient(circle at 50% 50%, transparent 0 20rem, rgba(7,0,9,.74) 38rem),
+    linear-gradient(90deg, #070009 0%, transparent 28%, transparent 72%, #070009 100%),
+    linear-gradient(0deg, #070009 0%, transparent 25%, transparent 72%, #070009 100%);
 }
 .cinema-wall span {
   min-height: 28vh;
@@ -186,9 +190,21 @@ button { cursor: pointer; }
   width: 42px;
   height: 42px;
   border-radius: 12px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  box-shadow: 0 0 28px color-mix(in srgb, var(--accent) 40%, transparent);
+  color: #fff;
+  background:
+    linear-gradient(135deg, rgba(224,0,53,.95), rgba(123,24,255,.92)),
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,.32), transparent 42%);
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow:
+    0 0 24px rgba(224,0,53,.5),
+    0 0 42px rgba(123,24,255,.28);
   font-weight: 950;
+  text-shadow: 0 0 14px rgba(255,255,255,.36);
+}
+.brand strong {
+  text-shadow:
+    0 0 16px rgba(224,0,53,.65),
+    0 0 28px rgba(123,24,255,.42);
 }
 .nav { overflow-x: auto; scrollbar-width: none; }
 .nav button, .profile-button, .modal-actions button, .admin-tabs button, .admin-form button {
@@ -202,7 +218,8 @@ button { cursor: pointer; }
 }
 .nav button.active, .profile-button:hover, .admin-tabs button.active {
   color: #fff;
-  background: var(--accent);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 24px rgba(224,0,53,.28);
 }
 
 .app-screen main {
