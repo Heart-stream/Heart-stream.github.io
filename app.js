@@ -21,8 +21,11 @@ const store = {
   set history(v) { localStorage.setItem("hs_xs_history", JSON.stringify(v.slice(0, 12))); },
   get requests() { return JSON.parse(localStorage.getItem("hs_xs_requests") || "[]"); },
   set requests(v) { localStorage.setItem("hs_xs_requests", JSON.stringify(v)); },
+  get libraries() { return JSON.parse(localStorage.getItem("hs_xs_libraries") || "[]"); },
+  set libraries(v) { localStorage.setItem("hs_xs_libraries", JSON.stringify(v)); },
 };
-const state = { filter: "all", query: "", genre: "Tout", selected: demo[0].id, edit: null };
+const sessionFiles = new Map();
+const state = { filter: "all", query: "", genre: "Tout", selected: demo[0].id, edit: null, libraryStep: "type", libraryType: "Film", libraryFiles: [] };
 
 function item(id = state.selected) { return store.items.find((x) => x.id === id) || store.items[0] || demo[0]; }
 function esc(v) { return String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c])); }
@@ -66,6 +69,10 @@ function renderAdmin() {
       </div>
     </article>`).join("");
   $("#requestList").innerHTML = store.requests.length ? store.requests.map((x) => `<article class="admin-row"><div><h3>${esc(x)}</h3><p>Demande membre</p></div></article>`).join("") : "<p>Aucune demande.</p>";
+  $("#libraryList").innerHTML = store.libraries.length ? store.libraries.map((x) => `
+    <article class="admin-row">
+      <div><h3>${esc(x.name)}</h3><p>${esc(x.type)} • ${x.count} fichier(s) • ${esc(x.date)}</p></div>
+    </article>`).join("") : "<p>Aucune bibliotheque ajoutee.</p>";
 }
 function render() { renderFilters(); renderCards(); renderAdmin(); }
 
@@ -84,10 +91,69 @@ function openDetails(id) {
 }
 function openPlayer(url) {
   const box = $("#playerBox");
+  const source = sessionFiles.get(url) || url;
   box.classList.remove("hidden");
-  if (!url) box.textContent = "Ajoute un lien Abyss dans le panel admin.";
-  else if (url.match(/\.(mp4|webm|ogg)(\?.*)?$/i)) box.innerHTML = `<video src="${esc(url)}" controls></video>`;
+  if (!url) box.textContent = "Ajoute un lien MP4/Abyss dans le panel admin.";
+  else if (sessionFiles.has(url) || String(url).match(/\.(mp4|m4v|webm|ogg)(\?.*)?$/i)) {
+    box.innerHTML = `
+      <div class="hs-player">
+        <video class="hs-video" src="${esc(source)}" playsinline preload="metadata"></video>
+        <button class="hs-big-play" type="button">▶</button>
+        <div class="hs-controls">
+          <input class="hs-seek" type="range" min="0" max="1000" value="0" aria-label="Avancement" />
+          <div class="hs-row">
+            <button class="hs-play" type="button">▶</button>
+            <button class="hs-back" type="button">-10s</button>
+            <button class="hs-forward" type="button">+10s</button>
+            <span class="hs-time">00:00 / 00:00</span>
+            <button class="hs-mute" type="button">🔊</button>
+            <input class="hs-volume" type="range" min="0" max="1" step="0.01" value="1" aria-label="Volume" />
+            <button class="hs-full" type="button">Plein ecran</button>
+          </div>
+        </div>
+      </div>`;
+    setupHsPlayer(box);
+  }
   else box.innerHTML = `<iframe src="${esc(url)}" allowfullscreen allow="autoplay; fullscreen; picture-in-picture"></iframe>`;
+}
+
+function setupHsPlayer(box) {
+  const video = box.querySelector(".hs-video");
+  const player = box.querySelector(".hs-player");
+  const play = box.querySelector(".hs-play");
+  const big = box.querySelector(".hs-big-play");
+  const seek = box.querySelector(".hs-seek");
+  const time = box.querySelector(".hs-time");
+  const mute = box.querySelector(".hs-mute");
+  const volume = box.querySelector(".hs-volume");
+  const format = (seconds) => {
+    if (!Number.isFinite(seconds)) return "00:00";
+    const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+    const s = String(Math.floor(seconds % 60)).padStart(2, "0");
+    return `${m}:${s}`;
+  };
+  const refresh = () => {
+    seek.value = video.duration ? String((video.currentTime / video.duration) * 1000) : "0";
+    time.textContent = `${format(video.currentTime)} / ${format(video.duration)}`;
+    play.textContent = video.paused ? "▶" : "❚❚";
+    big.textContent = video.paused ? "▶" : "❚❚";
+    mute.textContent = video.muted || video.volume === 0 ? "🔇" : "🔊";
+  };
+  const toggle = () => (video.paused ? video.play() : video.pause());
+  play.addEventListener("click", toggle);
+  big.addEventListener("click", toggle);
+  video.addEventListener("click", toggle);
+  video.addEventListener("timeupdate", refresh);
+  video.addEventListener("loadedmetadata", refresh);
+  video.addEventListener("play", refresh);
+  video.addEventListener("pause", refresh);
+  seek.addEventListener("input", () => { if (video.duration) video.currentTime = (Number(seek.value) / 1000) * video.duration; });
+  box.querySelector(".hs-back").addEventListener("click", () => { video.currentTime = Math.max(0, video.currentTime - 10); });
+  box.querySelector(".hs-forward").addEventListener("click", () => { video.currentTime = Math.min(video.duration || 0, video.currentTime + 10); });
+  mute.addEventListener("click", () => { video.muted = !video.muted; refresh(); });
+  volume.addEventListener("input", () => { video.volume = Number(volume.value); video.muted = video.volume === 0; refresh(); });
+  box.querySelector(".hs-full").addEventListener("click", () => { if (player.requestFullscreen) player.requestFullscreen(); });
+  refresh();
 }
 function toggleFav() {
   const id = state.selected;
@@ -105,6 +171,56 @@ function fillForm(id) {
   $("#itemPlayer").value = x.player || "";
   $("#itemTrailer").value = x.trailer || "";
   $("#itemText").value = x.text || "";
+}
+
+function showLibraryStep(step) {
+  state.libraryStep = step;
+  $$(".library-steps button").forEach((button) => button.classList.toggle("active", button.dataset.libraryStep === step));
+  $$(".library-panel").forEach((panel) => panel.classList.toggle("active", panel.dataset.libraryPanel === step));
+  $("#libraryPrev").disabled = step === "type";
+  $("#libraryNext").classList.toggle("hidden", step === "advanced");
+  $("#libraryAdd").classList.toggle("hidden", step !== "advanced");
+}
+
+function openLibraryModal() {
+  $("#libraryModal").classList.remove("hidden");
+  $$(".library-types button").forEach((button) => button.classList.toggle("selected", button.dataset.libraryType === state.libraryType));
+  showLibraryStep("type");
+}
+
+function refreshSelectedFiles() {
+  const files = state.libraryFiles;
+  $("#selectedFiles").innerHTML = files.length
+    ? files.slice(0, 8).map((file) => `<span>${esc(file.webkitRelativePath || file.name)}</span>`).join("")
+    : "Aucun fichier choisi.";
+}
+
+function addLibrary() {
+  const files = state.libraryFiles.filter((file) => file.type.startsWith("video/") || file.name.toLowerCase().endsWith(".mp4"));
+  const name = $("#libraryName").value.trim() || `${state.libraryType} Heart-Stream`;
+  store.libraries = [{ name, type: state.libraryType, count: files.length, date: new Date().toLocaleDateString("fr-FR") }, ...store.libraries];
+  if ($("#libraryAutoAdd").checked && files.length) {
+    const additions = files.map((file) => {
+      const id = `local-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      sessionFiles.set(id, URL.createObjectURL(file));
+      return {
+        id,
+        title: file.name.replace(/\.[^.]+$/, "").replaceAll(".", " "),
+        type: state.libraryType === "Autres videos" ? "Film" : state.libraryType,
+        genres: ["Bibliotheque locale"],
+        text: `Fichier local: ${file.name}. Lecture conseillee en MP4 H.264 + AAC.`,
+        image: fallback,
+        rating: "4.5",
+        player: id,
+        trailer: "",
+      };
+    });
+    store.items = [...additions, ...store.items];
+  }
+  $("#libraryModal").classList.add("hidden");
+  state.libraryFiles = [];
+  refreshSelectedFiles();
+  render();
 }
 
 $("#authForm").addEventListener("submit", (e) => {
@@ -138,6 +254,7 @@ $("#genreFilters").addEventListener("click", (e) => {
   render();
 });
 $("#listButton").addEventListener("click", () => alert(store.favs.length ? `Favoris: ${store.favs.join(", ")}` : "Aucun favori."));
+$("#libraryButton").addEventListener("click", openLibraryModal);
 $("#watchButton").addEventListener("click", () => openPlayer(item().player));
 $("#trailerButton").addEventListener("click", () => openPlayer(item().trailer));
 $("#favoriteButton").addEventListener("click", toggleFav);
@@ -148,6 +265,7 @@ $("#requestFab").addEventListener("click", () => {
 });
 $("#adminButtonFromMenu");
 $("[data-profile='admin']").addEventListener("click", () => { $("#profileMenu").classList.remove("open"); $("#adminModal").classList.remove("hidden"); renderAdmin(); });
+$("[data-profile='library']").addEventListener("click", () => { $("#profileMenu").classList.remove("open"); openLibraryModal(); });
 $("[data-profile='logout']").addEventListener("click", () => { $("#appScreen").classList.add("hidden"); $("#loginScreen").classList.remove("hidden"); });
 $$("[data-close-admin]").forEach((b) => b.addEventListener("click", () => $("#adminModal").classList.add("hidden")));
 $(".admin-preview").addEventListener("click", (e) => {
@@ -181,10 +299,30 @@ $("#adminList").addEventListener("click", (e) => {
   if (del && confirm("Supprimer ce titre ?")) { store.items = store.items.filter((x) => x.id !== del); render(); }
 });
 $("#requestForm").addEventListener("submit", (e) => { e.preventDefault(); if ($("#requestInput").value) store.requests = [$("#requestInput").value, ...store.requests]; $("#requestInput").value = ""; renderAdmin(); });
+$("#openLibraryFromAdmin").addEventListener("click", openLibraryModal);
+$$("[data-close-library]").forEach((b) => b.addEventListener("click", () => $("#libraryModal").classList.add("hidden")));
+$(".library-steps").addEventListener("click", (e) => {
+  const step = e.target.closest("[data-library-step]")?.dataset.libraryStep;
+  if (step) showLibraryStep(step);
+});
+$(".library-types").addEventListener("click", (e) => {
+  const type = e.target.closest("[data-library-type]")?.dataset.libraryType;
+  if (!type) return;
+  state.libraryType = type;
+  $$(".library-types button").forEach((button) => button.classList.toggle("selected", button.dataset.libraryType === type));
+  showLibraryStep("folders");
+});
+$("#folderInput").addEventListener("change", (e) => {
+  state.libraryFiles = [...e.target.files];
+  refreshSelectedFiles();
+});
+$("#libraryPrev").addEventListener("click", () => showLibraryStep(state.libraryStep === "advanced" ? "folders" : "type"));
+$("#libraryNext").addEventListener("click", () => showLibraryStep(state.libraryStep === "type" ? "folders" : "advanced"));
+$("#libraryAdd").addEventListener("click", addLibrary);
 $("#saveDesign").addEventListener("click", () => {
   document.documentElement.style.setProperty("--accent", $("#accentInput").value);
   $(".brand strong").textContent = $("#siteNameInput").value || "Heart-Stream";
 });
-$("#resetAll").addEventListener("click", () => { localStorage.removeItem("hs_xs_items"); localStorage.removeItem("hs_xs_favs"); localStorage.removeItem("hs_xs_history"); localStorage.removeItem("hs_xs_requests"); location.reload(); });
+$("#resetAll").addEventListener("click", () => { localStorage.removeItem("hs_xs_items"); localStorage.removeItem("hs_xs_favs"); localStorage.removeItem("hs_xs_history"); localStorage.removeItem("hs_xs_requests"); localStorage.removeItem("hs_xs_libraries"); location.reload(); });
 
 render();

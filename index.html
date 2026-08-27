@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Heart-Stream</title>
     <meta name="description" content="Heart-Stream, portail streaming prive avec catalogue, favoris, demandes et panel admin." />
-    <link rel="stylesheet" href="styles.css?v=xsclone-1" />
+    <link rel="stylesheet" href="styles.css?v=library-player-1" />
   </head>
   <body>
     <section class="login-screen" id="loginScreen">
@@ -51,6 +51,7 @@
           <button data-filter="Anime" type="button">Animes</button>
           <button data-filter="Cartoon" type="button">Cartoons</button>
           <button data-filter="Emission" type="button">Emissions TV</button>
+          <button id="libraryButton" type="button">Bibliotheque</button>
           <button id="listButton" type="button">Ma liste</button>
         </nav>
         <input id="searchInput" type="search" placeholder="Titre, genre..." />
@@ -65,6 +66,7 @@
         <button data-profile="favorites" type="button">Mes favoris <span id="favoriteCountMenu">0</span></button>
         <button data-profile="history" type="button">Continuer a regarder <span id="historyCountMenu">0</span></button>
         <button data-profile="requests" type="button">Mes demandes <span>Proposer un contenu</span></button>
+        <button data-profile="library" type="button">Ajouter une bibliotheque <span>Films, series, videos locales</span></button>
         <button data-profile="admin" type="button">Administration HS <span>Gestion complete du site</span></button>
         <button data-profile="logout" type="button">Se deconnecter</button>
       </aside>
@@ -124,6 +126,7 @@
         <h2>Gestion complete du site</h2>
         <div class="admin-tabs">
           <button class="active" data-admin-tab="catalog" type="button">Catalogue</button>
+          <button data-admin-tab="libraries" type="button">Bibliotheques</button>
           <button data-admin-tab="requests" type="button">Demandes</button>
           <button data-admin-tab="design" type="button">Design</button>
         </div>
@@ -141,6 +144,10 @@
           </form>
           <div class="admin-list" id="adminList"></div>
         </section>
+        <section class="admin-section" data-admin-section="libraries">
+          <button class="main-cta" id="openLibraryFromAdmin" type="button">+ Ajouter une bibliotheque</button>
+          <div class="admin-list" id="libraryList"></div>
+        </section>
         <section class="admin-section" data-admin-section="requests">
           <form class="admin-form request-form" id="requestForm"><input id="requestInput" placeholder="Nom du contenu demande" /><button class="main-cta" type="submit">Ajouter</button></form>
           <div class="admin-list" id="requestList"></div>
@@ -156,6 +163,53 @@
       </article>
     </aside>
 
+    <aside class="modal hidden" id="libraryModal">
+      <button class="modal-bg" data-close-library type="button"></button>
+      <article class="library-card">
+        <header class="library-head">
+          <h2><span>+</span> Ajouter une bibliotheque</h2>
+          <button class="modal-close" data-close-library type="button">x</button>
+        </header>
+        <div class="library-body">
+          <nav class="library-steps">
+            <button class="active" data-library-step="type" type="button"><b>☰</b> Selectionner un type</button>
+            <button data-library-step="folders" type="button"><b>▰</b> Ajouter des dossiers</button>
+            <button data-library-step="advanced" type="button"><b>⚙</b> Avance</button>
+          </nav>
+          <section class="library-panel active" data-library-panel="type">
+            <p>Selectionner le type de votre bibliotheque</p>
+            <div class="library-types">
+              <button data-library-type="Film" type="button"><b>▥</b><span>Films</span></button>
+              <button data-library-type="Serie" type="button"><b>▭</b><span>Series TV</span></button>
+              <button data-library-type="Musique" type="button"><b>♫</b><span>Musique</span></button>
+              <button data-library-type="Photos" type="button"><b>▣</b><span>Photos</span></button>
+              <button data-library-type="Autres videos" type="button"><b>▻</b><span>Autres videos</span></button>
+            </div>
+          </section>
+          <section class="library-panel" data-library-panel="folders">
+            <p>Ajouter des dossiers a votre bibliotheque</p>
+            <label class="folder-picker">
+              <input id="folderInput" type="file" accept="video/mp4,video/*" multiple webkitdirectory />
+              <span>▰ Parcourir et choisir un dossier multimedia</span>
+            </label>
+            <p class="library-help">Formats conseilles pour le lecteur maison: MP4 video H.264 + audio AAC.</p>
+            <div class="selected-files" id="selectedFiles">Aucun fichier choisi.</div>
+          </section>
+          <section class="library-panel" data-library-panel="advanced">
+            <p>Options avancees</p>
+            <label>Nom de la bibliotheque <input id="libraryName" placeholder="Films Heart-Stream" /></label>
+            <label class="remember"><input id="libraryAutoAdd" type="checkbox" checked /> Ajouter les videos au catalogue</label>
+          </section>
+        </div>
+        <footer class="library-footer">
+          <button data-close-library type="button">Annuler</button>
+          <button id="libraryPrev" type="button">Retour</button>
+          <button class="main-cta" id="libraryNext" type="button">Suivant</button>
+          <button class="main-cta" id="libraryAdd" type="button">Ajouter une bibliotheque</button>
+        </footer>
+      </article>
+    </aside>
+
     <button class="request-fab" id="requestFab" type="button">+ Demande</button>
     <template id="cardTemplate">
       <article class="content-card">
@@ -163,6 +217,6 @@
         <div><p></p><h3></h3></div>
       </article>
     </template>
-    <script src="app.js?v=xsclone-1"></script>
+    <script src="app.js?v=library-player-1"></script>
   </body>
 </html>
