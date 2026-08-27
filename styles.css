@@ -381,6 +381,36 @@ button { cursor: pointer; }
 .modal-content p { max-width: 780px; color: var(--muted); line-height: 1.55; }
 .player { margin-top: 16px; min-height: 420px; background: #000; border-radius: 16px; overflow: hidden; }
 .player iframe, .player video { width: 100%; height: 520px; border: 0; }
+.player-notice {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 14px;
+  min-height: 420px;
+  padding: 28px;
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(224,0,53,.22), transparent 28rem),
+    linear-gradient(135deg, rgba(20,2,18,.98), rgba(5,0,8,.98));
+}
+.player-notice strong {
+  font-size: clamp(24px, 4vw, 42px);
+}
+.player-notice p {
+  max-width: 680px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.player-notice button {
+  min-height: 46px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border: 0;
+  border-radius: 12px;
+  padding: 0 18px;
+  font-weight: 950;
+}
 
 .hs-player {
   position: relative;

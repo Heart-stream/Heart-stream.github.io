@@ -94,6 +94,15 @@ function openPlayer(url) {
   const source = sessionFiles.get(url) || url;
   box.classList.remove("hidden");
   if (!url) box.textContent = "Ajoute un lien MP4/Abyss dans le panel admin.";
+  else if (String(url).startsWith("local-") && !sessionFiles.has(url)) {
+    box.innerHTML = `
+      <div class="player-notice">
+        <strong>Fichier local indisponible</strong>
+        <p>GitHub Pages ne peut pas relire automatiquement une video stockee sur ton PC apres actualisation. Reimporte le dossier via Bibliotheque, ou ajoute un lien MP4 public dans le panel admin.</p>
+        <button id="reopenLibrary" type="button">Reimporter une bibliotheque</button>
+      </div>`;
+    $("#reopenLibrary").addEventListener("click", openLibraryModal);
+  }
   else if (sessionFiles.has(url) || String(url).match(/\.(mp4|m4v|webm|ogg)(\?.*)?$/i)) {
     box.innerHTML = `
       <div class="hs-player">
@@ -212,7 +221,7 @@ function addLibrary() {
       sessionFiles.set(id, URL.createObjectURL(file));
       return {
         id,
-        title: file.name.replace(/\.[^.]+$/, "").replaceAll(".", " "),
+        title: cleanTitle(file.name),
         type: state.libraryType === "Autres videos" ? "Film" : state.libraryType,
         genres: ["Bibliotheque locale"],
         text: `Fichier local: ${file.name}. Lecture conseillee en MP4 H.264 + AAC.`,
@@ -228,6 +237,14 @@ function addLibrary() {
   state.libraryFiles = [];
   refreshSelectedFiles();
   render();
+}
+
+function cleanTitle(name) {
+  return name
+    .replace(/\.[^.]+$/, "")
+    .replace(/[_-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 $("#authForm").addEventListener("submit", (e) => {
